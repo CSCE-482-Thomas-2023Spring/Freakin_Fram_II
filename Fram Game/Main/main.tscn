@@ -1,0 +1,88 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Editor/Editor.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Main/Editor_Hide.gd" type="Script" id=2]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="EditorR" parent="." instance=ExtResource( 1 )]
+anchor_left = 0.52832
+anchor_top = 0.22
+anchor_right = 0.975586
+anchor_bottom = 0.878333
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": true
+}
+
+[node name="Input" parent="EditorR/VBoxContainer" index="0"]
+margin_right = 458.0
+margin_bottom = 246.0
+text = "# Python Editor
+print(\"Right\")"
+
+[node name="Output" parent="EditorR/VBoxContainer" index="1"]
+margin_top = 246.0
+margin_right = 458.0
+margin_bottom = 394.0
+
+[node name="ButtonR" type="Button" parent="."]
+anchor_left = 0.541992
+anchor_top = 0.0633333
+anchor_right = 0.660156
+anchor_bottom = 0.163333
+rect_pivot_offset = Vector2( -956, 55 )
+text = "EditorR"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="EditorL" parent="." instance=ExtResource( 1 )]
+anchor_left = 0.0458984
+anchor_top = 0.22
+anchor_right = 0.484375
+anchor_bottom = 0.878333
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": true
+}
+
+[node name="Input" parent="EditorL/VBoxContainer" index="0"]
+margin_right = 449.0
+margin_bottom = 246.0
+text = "# Python Editor
+print(\"Left\")"
+
+[node name="Output" parent="EditorL/VBoxContainer" index="1"]
+margin_top = 246.0
+margin_right = 449.0
+margin_bottom = 394.0
+
+[node name="ButtonL" type="Button" parent="."]
+anchor_left = 0.363281
+anchor_top = 0.0633333
+anchor_right = 0.481445
+anchor_bottom = 0.163333
+rect_pivot_offset = Vector2( -908, 64 )
+text = "EditorL"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="pressed" from="ButtonR" to="EditorR" method="_on_ButtonR_pressed"]
+[connection signal="pressed" from="ButtonL" to="EditorL" method="_on_ButtonL_pressed"]
+
+[editable path="EditorR"]
+[editable path="EditorL"]

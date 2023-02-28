@@ -1,7 +1,7 @@
 extends ColorRect
 
 export var dialogPath = ""
-export(float) var textSpeed = 0.05
+export(float) var textSpeed = .05
 
 var dialog
 
@@ -15,6 +15,7 @@ func _ready():
 	nextPhrase()
 
 func _process(_delta):
+	$Indicator.visible = finished
 	if Input.is_action_just_pressed("ui_accept"):
 		if finished:
 			nextPhrase()
@@ -35,6 +36,7 @@ func getDialog() -> Array:
 
 func nextPhrase() -> void:
 	if phraseNum >= len(dialog):
+		print(phraseNum)
 		queue_free()
 		return
 	

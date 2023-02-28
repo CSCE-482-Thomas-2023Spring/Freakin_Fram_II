@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Dialogue/DialogueBox.gd" type="Script" id=1]
+[ext_resource path="res://DialogueBox/DialogueBox.gd" type="Script" id=1]
 
 [node name="Node2D" type="Node2D"]
 
@@ -10,26 +10,34 @@ margin_top = 424.0
 margin_right = 791.0
 margin_bottom = 589.0
 script = ExtResource( 1 )
+dialogPath = "res://GameDialogue/TestDialogue/Dialogue0.json"
 
 [node name="Nametag" type="RichTextLabel" parent="DialogueBox"]
-margin_left = 38.0
-margin_top = 9.0
-margin_right = 209.0
-margin_bottom = 39.0
+anchor_left = 0.0216561
+anchor_top = 0.0545455
+anchor_right = 0.700637
+anchor_bottom = 0.236364
+margin_right = 1.52588e-05
 bbcode_enabled = true
-bbcode_text = "[color=black]Jimmy"
-text = "Jimmy"
+bbcode_text = "[color=black]Name"
+text = "Name"
 scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="DialogueText" type="RichTextLabel" parent="DialogueBox"]
-margin_left = 16.0
-margin_top = 42.0
-margin_right = 767.0
-margin_bottom = 150.0
+anchor_left = 0.0216561
+anchor_top = 0.254545
+anchor_right = 0.978344
+anchor_bottom = 0.909091
 bbcode_enabled = true
-bbcode_text = "[color=black]Hi! I sure am some person named Jimmy, talking to you right now inside this dialogue box!"
-text = "Hi! I sure am some person named Jimmy, talking to you right now inside this dialogue box!"
+bbcode_text = "[color=black]Example text."
+text = "Example text."
 scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Indicator" type="Polygon2D" parent="DialogueBox"]
 position = Vector2( -254.312, -49.3814 )
@@ -43,3 +51,4 @@ root_node = NodePath("")
 [node name="Sprite" type="Sprite" parent="DialogueBox"]
 
 [node name="Timer" type="Timer" parent="DialogueBox"]
+one_shot = true

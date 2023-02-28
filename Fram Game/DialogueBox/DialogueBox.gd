@@ -10,6 +10,7 @@ var finished = false
 
 func _ready():
 	$Timer.wait_time = textSpeed
+	$Indicator/AnimationPlayer.play("DialogueIndicatorBounce")
 	dialog = getDialog()
 	assert(dialog, "Dialog not found")
 	nextPhrase()

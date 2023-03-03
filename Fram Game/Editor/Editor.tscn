@@ -44,6 +44,9 @@ syntax_highlighting = true
 show_line_numbers = true
 draw_tabs = true
 draw_spaces = true
+bookmark_gutter = true
+context_menu_enabled = false
+virtual_keyboard_enabled = false
 wrap_enabled = true
 script = ExtResource( 1 )
 

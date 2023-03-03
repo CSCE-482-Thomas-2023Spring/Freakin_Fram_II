@@ -1,8 +1,11 @@
 {
+    "data": {
+        "functionName": "test"
+    },
     "cases" : [
         {
-            "input": "asdf",
-            "output": ""
+            "input": ["ad", 2, 1.1],
+            "output": "do"
         }
     ]
 }

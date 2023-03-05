@@ -108,7 +108,7 @@ func is_error(code_message):
 		
 	return [errored, type]
 
-func _on_Button_pressed():
+func executeUserCode():
 	var code_text = get_text()
 	var python_dir = "./python_files/python.exe"
 	if (OS.get_name() == "OSX" || OS.get_name() == "X11"):
@@ -132,3 +132,6 @@ func _on_Button_pressed():
 	
 	# Change output box to the result of Python code
 	output.text = code_output
+
+func _on_Button_pressed():
+	executeUserCode()

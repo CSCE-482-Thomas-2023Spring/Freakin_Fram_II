@@ -4,9 +4,11 @@ import code
 import sys
 import subprocess
 
-python_dir = "python3"
-file_dir = "./userCode.py"
+
+
 test_dir = sys.argv[1]
+python_dir = sys.argv[2]
+file_dir = sys.argv[3]
 
 text = ''
 with open(test_dir, 'r') as file:

@@ -1,0 +1,14 @@
+{
+    "data": {
+        "usestdout": true,
+        "useFunction": false,
+        "functionName": "foo"
+    },
+    "cases" : [
+        {
+            "input": ["ad", 2, 1.1],
+            "returns": 2,
+            "stdout": "0\n1\n2\n3\n"
+        }
+    ]
+}

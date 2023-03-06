@@ -35,6 +35,7 @@ tracks/0/keys = {
 }
 
 [node name="Node2D" type="Node2D"]
+pause_mode = 2
 
 [node name="DialogueBox" type="ColorRect" parent="."]
 margin_left = 6.0
@@ -42,7 +43,6 @@ margin_top = 424.0
 margin_right = 791.0
 margin_bottom = 589.0
 script = ExtResource( 1 )
-dialogPath = "res://GameDialogue/TestDialogue/Dialogue0.json"
 
 [node name="Nametag" type="RichTextLabel" parent="DialogueBox"]
 anchor_left = 0.0216561

@@ -1,11 +1,24 @@
 extends Node2D
 
-export var json_test_case_file = ""
+# Path variables
+export var json_test_case_file = "" setget _set_path, _get_path
 var python_dir = "./python_files/python.exe" # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
 var godot_user_path_g = ProjectSettings.globalize_path("user://")
 onready var test_puzzle_path = ProjectSettings.globalize_path(json_test_case_file)
+
+# Setter/Getter for puzzle path
+func _set_path(new_val: String) -> void:
+	json_test_case_file = new_val
+func _get_path() -> String:
+	return json_test_case_file
+
+# Variable declarations for internal use
+var successes = 0
+var caseCount = 0
+var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
+var pause = false
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,9 +32,25 @@ func _ready():
 	userTestCode.open(test_code_file, File.WRITE)
 	userTestCode.store_string(testCode)
 	userTestCode.close()
+	
+	# Display initial puzzle-introduction dialogue
+	var dialog = dialogueBox.instance() # Path: "Level" + [level #] + "/Puzzle" + [puzzle #] + "-Introduction.json"
+	dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Introduction.json")
+	add_child(dialog)
+	pause_editor(dialog)
+
+func pause_editor(instance):
+	# Pause all editor functionality while dialogue is present
+	pause = true
+	$Editor.get_tree().paused = true
+	while (is_instance_valid(instance)):
+		yield(get_tree().create_timer(.2), "timeout")
+	$Editor.get_tree().paused = false
+	pause = false
 
 func process_test_results_function(cases):
-	var successes = 0
+	successes = 0
+	caseCount = len(cases)
 	var failureInput = null
 	var successCountString = ""
 	var failureString = ""
@@ -44,7 +73,8 @@ func process_test_results_function(cases):
 	return [successCountString, failureString]
 
 func process_test_results_stdout(cases):
-	var successes = 0
+	successes = 0
+	caseCount = len(cases)
 	var failureInput = null
 	var successCountString = ""
 	var failureString = ""
@@ -83,6 +113,21 @@ func on_button_pressed():
 	elif testData.data.usestdout:
 		successCountString = process_test_results_stdout(results.testResults)
 		print(successCountString)
+	
+	# Set dialogue for end-of-puzzle success & close terminal as needed
+	if (successes == caseCount): # Path: "Level" + [level #] + "/Puzzle" + [puzzle #] + "-Success.json"
+		var dialog = dialogueBox.instance()
+		dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Success.json")
+		add_child(dialog)
+		pause_editor(dialog)
+		while (pause):
+			yield(get_tree().create_timer(.2), "timeout")
+		queue_free()
+	#else: # Path: n/a, but will display in-editor dialogue in the future
+	#	var dialog = dialogueBox.instance()
+	#	dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Success.json")
+	#	add_child(dialog)
+	#	pause_editor(dialog)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -10,6 +10,7 @@ onready var test_puzzle_path = ProjectSettings.globalize_path(json_test_case_fil
 var successes = 0
 var caseCount = 0
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
+var pause = false
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -32,10 +33,12 @@ func _ready():
 
 func pause_editor(instance):
 	# Pause all editor functionality while dialogue is present
+	pause = true
 	$Editor.get_tree().paused = true
 	while (is_instance_valid(instance)):
-		yield(get_tree().create_timer(1), "timeout")
+		yield(get_tree().create_timer(.2), "timeout")
 	$Editor.get_tree().paused = false
+	pause = false
 
 func process_test_results_function(cases):
 	successes = 0
@@ -103,12 +106,15 @@ func on_button_pressed():
 		successCountString = process_test_results_stdout(results.testResults)
 		print(successCountString)
 	
-	# Set dialogue for end-of-puzzle success
+	# Set dialogue for end-of-puzzle success & close terminal as needed
 	if (successes == caseCount): # Path: "Level" + [level #] + "/Puzzle" + [puzzle #] + "-Success.json"
 		var dialog = dialogueBox.instance()
 		dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Success.json")
 		add_child(dialog)
 		pause_editor(dialog)
+		while (pause):
+			yield(get_tree().create_timer(.2), "timeout")
+		queue_free()
 	#else: # Path: n/a, but will display in-editor dialogue in the future
 	#	var dialog = dialogueBox.instance()
 	#	dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Success.json")

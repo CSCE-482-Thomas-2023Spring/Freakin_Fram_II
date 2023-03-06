@@ -2,7 +2,7 @@ extends ColorRect
 
 # Export variables
 export var dialogPath = "TestDialogue.json" setget _set_path, _get_path
-export(float) var textSpeed = .05
+export(float) var textSpeed = .025
 
 # Set/Get functions for dialogPath for access by instances in scripts
 func _set_path(new_val: String) -> void:

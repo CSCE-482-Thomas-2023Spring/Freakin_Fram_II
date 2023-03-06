@@ -42,7 +42,18 @@ func process_test_results_function(cases):
 		failureString = "Suggestion: try testing your function with inputs " + paramString + "."
 	
 	return [successCountString, failureString]
-	
+
+func process_test_results_stdout(cases):
+	var successes = 0
+	var failureInput = null
+	var successCountString = ""
+	var failureString = ""
+	for result in cases:
+		if result.passed:
+			successes += 1
+			
+	successCountString = "{0}/{1} test cases passed".format([successes, len(cases)])
+	return successCountString
 
 func on_button_pressed():
 	$Editor/VBoxContainer/Input.executeUserCode()
@@ -59,16 +70,20 @@ func on_button_pressed():
 	var results = JSON.parse(file.get_as_text()).result # this is the parsed test results json
 	file.close()
 	
+	
+	# EXAMPLE FOR EMILY
 	var successCountString = ""
 	var failureString = ""
 	if testData.data.useFunction:
 		var data = process_test_results_function(results.testResults)
 		successCountString = data[0]
 		failureString = data[1]
+		print(successCountString)
+		print(failureString)
+	elif testData.data.usestdout:
+		successCountString = process_test_results_stdout(results.testResults)
+		print(successCountString)
 	
-	# EXAMPLE FOR EMILY
-	print(successCountString)
-	print(failureString)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

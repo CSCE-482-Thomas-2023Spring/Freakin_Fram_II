@@ -1,12 +1,20 @@
 extends Node2D
 
-export var json_test_case_file = ""
+# Path variables
+export var json_test_case_file = "" setget _set_path, _get_path
 var python_dir = "./python_files/python.exe" # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
 var godot_user_path_g = ProjectSettings.globalize_path("user://")
 onready var test_puzzle_path = ProjectSettings.globalize_path(json_test_case_file)
 
+# Setter/Getter for puzzle path
+func _set_path(new_val: String) -> void:
+	json_test_case_file = new_val
+func _get_path() -> String:
+	return json_test_case_file
+
+# Variable declarations for internal use
 var successes = 0
 var caseCount = 0
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")

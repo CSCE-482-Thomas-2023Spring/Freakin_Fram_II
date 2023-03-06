@@ -1,14 +1,17 @@
 import json
 from types import SimpleNamespace
-import code
 import sys
 import subprocess
 
-
-
 test_dir = sys.argv[1]
 python_dir = sys.argv[2]
-file_dir = sys.argv[3]
+user_dir = sys.argv[3]
+
+player_code = user_dir + "userCode.py"
+
+sys.path.append(user_dir)
+
+import userCode
 
 text = ''
 with open(test_dir, 'r') as file:
@@ -25,14 +28,14 @@ for case in testCases:
     returned, stdout = None, None
     returnPassed, stdoutPassed = True, True
     if testData.data.useFunction:
-        userSolution = getattr(code, testData.data.functionName)
+        userSolution = getattr(userCode, testData.data.functionName)
         returned = userSolution(*case.input)
         returnPassed = (not testData.data.useFunction) or (returned == case.returns)
         returnResults.append((returnPassed, returned))
     else:
         returnResults.append((True, None))
 
-    programOutput = subprocess.run([python_dir, file_dir], capture_output=True)
+    programOutput = subprocess.run([python_dir, player_code], capture_output=True)
     stdout = programOutput.stdout.decode('utf-8')
     stderr = programOutput.stderr.decode('utf-8')
     stdoutPassed = (not testData.data.usestdout) or (stdout == case.stdout)

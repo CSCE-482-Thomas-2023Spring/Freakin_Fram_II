@@ -113,7 +113,7 @@ func executeUserCode():
 	var python_dir = "./python_files/python.exe"
 	if (OS.get_name() == "OSX" || OS.get_name() == "X11"):
 		python_dir = "python3"
-	var code_path = ProjectSettings.globalize_path("user://code.py")
+	var code_path = ProjectSettings.globalize_path("user://userCode.py")
 	var stdout = []
 	
 	# Open and write to code.py to pass to python.exe

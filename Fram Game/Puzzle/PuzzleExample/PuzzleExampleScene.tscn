@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Puzzle/puzzleTerminal.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Puzzle/PuzzleExample/PuzzleExampleScene.gd" type="Script" id=2]
+
+[node name="PuzzleExample" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="PuzzleTerminal" parent="." instance=ExtResource( 1 )]
+json_test_case_file = "res://Puzzle/TestCases/PuzzleExample.json"
+
+[node name="Editor" parent="PuzzleTerminal" index="0"]
+margin_left = 36.0
+margin_top = 21.0
+margin_right = 726.0
+margin_bottom = 587.0
+
+[node name="Input" parent="PuzzleTerminal/Editor/VBoxContainer" index="0"]
+text = "# change the value of the \"locked\" variable
+locked = True
+print(locked)
+"
+read_only_lines = [ 0, 2 ]
+
+[editable path="PuzzleTerminal"]
+[editable path="PuzzleTerminal/Editor"]

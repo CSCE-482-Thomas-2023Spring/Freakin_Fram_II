@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Puzzle/puzzleTerminal.gd" type="Script" id=1]
+[ext_resource path="res://Editor/Editor.tscn" type="PackedScene" id=2]
+
+[node name="PuzzleTerminal" type="Node2D"]
+script = ExtResource( 1 )
+json_test_case_file = "res://Puzzle/TestCases/testPuzzle2.json"
+
+[node name="Editor" parent="." instance=ExtResource( 2 )]
+margin_left = 30.0
+margin_top = 24.0
+margin_right = 720.0
+margin_bottom = 590.0
+
+[node name="Input" parent="Editor/VBoxContainer" index="0"]
+margin_right = 690.0
+margin_bottom = 353.0
+text = "# Python Editor
+def foo(a,b,c):
+	return b"
+
+[node name="Output" parent="Editor/VBoxContainer" index="1"]
+margin_top = 353.0
+margin_right = 690.0
+margin_bottom = 566.0
+
+[connection signal="pressed" from="Editor/VBoxContainer/Output/Button" to="." method="on_button_pressed"]
+
+[editable path="Editor"]

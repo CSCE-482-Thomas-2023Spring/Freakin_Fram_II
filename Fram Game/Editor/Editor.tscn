@@ -10,6 +10,7 @@ default_font = ExtResource( 2 )
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 
 [node name="Editor" type="Control"]
+pause_mode = 1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -44,6 +45,9 @@ syntax_highlighting = true
 show_line_numbers = true
 draw_tabs = true
 draw_spaces = true
+bookmark_gutter = true
+context_menu_enabled = false
+virtual_keyboard_enabled = false
 wrap_enabled = true
 script = ExtResource( 1 )
 

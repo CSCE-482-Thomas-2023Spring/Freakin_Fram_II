@@ -1,0 +1,24 @@
+{
+    "data": {
+        "usestdout": false,
+        "useFunction": true,
+        "functionName": "foo"
+    },
+    "cases" : [
+        {
+            "input": ["ad", 2, 1.1],
+            "returns": 2,
+            "stdout": ""
+        },
+        {
+            "input": ["ad", 6, 1.1],
+            "returns": 6,
+            "stdout": ""
+        },
+        {
+            "input": ["ad", 7, 1.1],
+            "returns": 5,
+            "stdout": ""
+        }
+    ]
+}

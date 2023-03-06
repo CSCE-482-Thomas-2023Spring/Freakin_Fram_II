@@ -1,0 +1,87 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://DialogueBox/DialogueBox.gd" type="Script" id=1]
+
+[sub_resource type="Animation" id=1]
+resource_name = "DialogueIndicatorBounce"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -255, -50 ), Vector2( -255, -55 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -255, -50 ) ]
+}
+
+[node name="Node2D" type="Node2D"]
+pause_mode = 2
+
+[node name="DialogueBox" type="ColorRect" parent="."]
+margin_left = 6.0
+margin_top = 424.0
+margin_right = 791.0
+margin_bottom = 589.0
+script = ExtResource( 1 )
+
+[node name="Nametag" type="RichTextLabel" parent="DialogueBox"]
+anchor_left = 0.0216561
+anchor_top = 0.0545455
+anchor_right = 0.700637
+anchor_bottom = 0.236364
+margin_right = 1.52588e-05
+bbcode_enabled = true
+bbcode_text = "[color=black]Name"
+text = "Name"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="DialogueText" type="RichTextLabel" parent="DialogueBox"]
+anchor_left = 0.0216561
+anchor_top = 0.254545
+anchor_right = 0.926115
+anchor_bottom = 0.909091
+bbcode_enabled = true
+bbcode_text = "[color=black]Example text."
+text = "Example text."
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Indicator" type="Polygon2D" parent="DialogueBox"]
+position = Vector2( -255, -50 )
+scale = Vector2( 1.32972, 1.36377 )
+color = Color( 1, 0.360784, 0.313726, 1 )
+polygon = PoolVector2Array( 751, 133, 759, 147, 767, 133 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DialogueBox/Indicator"]
+anims/DialogueIndicatorBounce = SubResource( 1 )
+anims/RESET = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="DialogueBox"]
+
+[node name="Timer" type="Timer" parent="DialogueBox"]
+one_shot = true

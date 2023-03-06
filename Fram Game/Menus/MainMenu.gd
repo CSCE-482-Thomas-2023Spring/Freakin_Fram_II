@@ -17,7 +17,7 @@ func _ready():
 
 
 func _on_StartButton_pressed():
-	get_tree().change_scene("res://Puzzle/puzzleTerminal.tscn")
+	get_tree().change_scene("res://Puzzle/PuzzleExample/PuzzleExampleScene.tscn")
 
 
 func _on_OptionsButton_pressed():

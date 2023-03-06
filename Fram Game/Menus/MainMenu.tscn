@@ -1,11 +1,23 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Menus/MainMenu.gd" type="Script" id=1]
+[ext_resource path="res://Art/Fram_v1.png" type="Texture" id=2]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+show_behind_parent = true
+anchor_left = -0.109375
+anchor_top = -0.133333
+anchor_right = 1.06641
+anchor_bottom = 1.37167
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_top = 1.0
@@ -32,6 +44,13 @@ margin_right = 200.0
 margin_bottom = 98.0
 focus_neighbour_bottom = NodePath("../StartButton")
 text = "Quit"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 176.0
+margin_top = 424.0
+margin_right = 240.0
+margin_bottom = 456.0
+text = "FRAM"
 
 [connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/OptionsButton" to="." method="_on_OptionsButton_pressed"]

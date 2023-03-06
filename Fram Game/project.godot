@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="Fram Game"
-run/main_scene="res://Main/main.tscn"
+run/main_scene="res://Menus/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [display]

@@ -36,3 +36,9 @@ func _ready():
 	while (is_instance_valid(intro_dialog)):
 		yield(get_tree().create_timer(.2), "timeout")
 	$PuzzleTerminal.get_tree().paused = false
+	
+	# Demonstration over; end game
+	while (is_instance_valid($PuzzleTerminal)):
+		yield(get_tree().create_timer(.2), "timeout")
+	yield(get_tree().create_timer(2), "timeout")
+	get_tree().quit()

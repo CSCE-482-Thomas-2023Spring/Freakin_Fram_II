@@ -28,6 +28,14 @@ func _ready():
 	var dialog = dialogueBox.instance() # Path: "Level" + [level #] + "/Puzzle" + [puzzle #] + "-Introduction.json"
 	dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Introduction.json")
 	add_child(dialog)
+	pause_editor(dialog)
+
+func pause_editor(instance):
+	# Pause all editor functionality while dialogue is present
+	$Editor.get_tree().paused = true
+	while (is_instance_valid(instance)):
+		yield(get_tree().create_timer(1), "timeout")
+	$Editor.get_tree().paused = false
 
 func process_test_results_function(cases):
 	successes = 0
@@ -100,10 +108,12 @@ func on_button_pressed():
 		var dialog = dialogueBox.instance()
 		dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Success.json")
 		add_child(dialog)
+		pause_editor(dialog)
 	#else: # Path: n/a, but will display in-editor dialogue in the future
 	#	var dialog = dialogueBox.instance()
 	#	dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Success.json")
 	#	add_child(dialog)
+	#	pause_editor(dialog)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

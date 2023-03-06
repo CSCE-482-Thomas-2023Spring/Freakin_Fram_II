@@ -35,6 +35,7 @@ tracks/0/keys = {
 }
 
 [node name="Node2D" type="Node2D"]
+pause_mode = 2
 
 [node name="DialogueBox" type="ColorRect" parent="."]
 margin_left = 6.0

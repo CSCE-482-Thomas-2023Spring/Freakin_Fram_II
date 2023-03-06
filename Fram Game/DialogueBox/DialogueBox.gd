@@ -46,7 +46,7 @@ func getDialog() -> Array:
 func nextPhrase() -> void:
 	if phraseNum >= len(dialog):
 		print(phraseNum)
-		queue_free()
+		get_parent().queue_free()
 		return
 	
 	finished = false;

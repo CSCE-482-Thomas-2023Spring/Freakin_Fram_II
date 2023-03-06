@@ -20,6 +20,7 @@ text = "# change the value of the \"locked\" variable
 locked = True
 print(locked)
 "
+read_only_lines = [ 0, 2 ]
 
 [editable path="PuzzleTerminal"]
 [editable path="PuzzleTerminal/Editor"]

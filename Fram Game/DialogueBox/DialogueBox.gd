@@ -1,14 +1,16 @@
 extends ColorRect
 
-export var dialogPath = ""
+export var dialogPath = "TestDialogue.json"
 export(float) var textSpeed = .05
 
 var dialog
+var dialogPathFull
 
 var phraseNum = 0
 var finished = false
 
 func _ready():
+	dialogPathFull = "res://GameDialogue/" + dialogPath
 	$Timer.wait_time = textSpeed
 	$Indicator/AnimationPlayer.play("DialogueIndicatorBounce")
 	dialog = getDialog()
@@ -23,9 +25,9 @@ func _process(_delta):
 
 func getDialog() -> Array:
 	var f = File.new()
-	assert(f.file_exists(dialogPath), "File path does not exist")
+	assert(f.file_exists(dialogPathFull), "File path " + dialogPathFull + " does not exist")
 	
-	f.open(dialogPath, File.READ)
+	f.open(dialogPathFull, File.READ)
 	var json = f.get_as_text()
 	
 	var output = parse_json(json)

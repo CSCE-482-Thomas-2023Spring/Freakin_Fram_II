@@ -42,7 +42,6 @@ margin_top = 424.0
 margin_right = 791.0
 margin_bottom = 589.0
 script = ExtResource( 1 )
-dialogPath = "res://GameDialogue/TestDialogue/Dialogue0.json"
 
 [node name="Nametag" type="RichTextLabel" parent="DialogueBox"]
 anchor_left = 0.0216561

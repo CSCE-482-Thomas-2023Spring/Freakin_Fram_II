@@ -63,6 +63,21 @@ func _input(event):
 			self.accept_event()
 			
 		return
+	
+	# Prevent a writiable line from collapsing onto a read only line
+	if (event.is_action("Backspace")):
+		var current_line = self.cursor_get_line()
+		var column = self.cursor_get_column()
+		
+		# Let backspace through if at the first line
+		if (current_line == 0):
+			return
+			
+		# Check if line above is read only
+		if (self.is_line_set_as_bookmark(current_line - 1)):
+			# Check if cursor is at the beginning of the line
+			if (column == 0):
+				self.accept_event()
 
 func _unhandled_input(event):
 	if event.is_action("Delete"):

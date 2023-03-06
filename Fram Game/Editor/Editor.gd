@@ -108,12 +108,12 @@ func is_error(code_message):
 		
 	return [errored, type]
 
-func _on_Button_pressed():
+func executeUserCode():
 	var code_text = get_text()
 	var python_dir = "./python_files/python.exe"
 	if (OS.get_name() == "OSX" || OS.get_name() == "X11"):
 		python_dir = "python3"
-	var code_path = ProjectSettings.globalize_path("user://code.py")
+	var code_path = ProjectSettings.globalize_path("user://userCode.py")
 	var stdout = []
 	
 	# Open and write to code.py to pass to python.exe
@@ -132,3 +132,6 @@ func _on_Button_pressed():
 	
 	# Change output box to the result of Python code
 	output.text = code_output
+
+func _on_Button_pressed():
+	executeUserCode()

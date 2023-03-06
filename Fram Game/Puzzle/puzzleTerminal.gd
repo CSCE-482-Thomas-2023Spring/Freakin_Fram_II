@@ -6,6 +6,10 @@ var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
 var godot_user_path_g = ProjectSettings.globalize_path("user://")
 onready var test_puzzle_path = ProjectSettings.globalize_path(json_test_case_file)
+
+var successes = 0
+var caseCount = 0
+var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,9 +23,15 @@ func _ready():
 	userTestCode.open(test_code_file, File.WRITE)
 	userTestCode.store_string(testCode)
 	userTestCode.close()
+	
+	# Display initial puzzle-introduction dialogue
+	var dialog = dialogueBox.instance() # Path: "Level" + [level #] + "/Puzzle" + [puzzle #] + "-Introduction.json"
+	dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Introduction.json")
+	add_child(dialog)
 
 func process_test_results_function(cases):
-	var successes = 0
+	successes = 0
+	caseCount = len(cases)
 	var failureInput = null
 	var successCountString = ""
 	var failureString = ""
@@ -44,7 +54,8 @@ func process_test_results_function(cases):
 	return [successCountString, failureString]
 
 func process_test_results_stdout(cases):
-	var successes = 0
+	successes = 0
+	caseCount = len(cases)
 	var failureInput = null
 	var successCountString = ""
 	var failureString = ""
@@ -83,6 +94,16 @@ func on_button_pressed():
 	elif testData.data.usestdout:
 		successCountString = process_test_results_stdout(results.testResults)
 		print(successCountString)
+	
+	# Set dialogue for end-of-puzzle success
+	if (successes == caseCount): # Path: "Level" + [level #] + "/Puzzle" + [puzzle #] + "-Success.json"
+		var dialog = dialogueBox.instance()
+		dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Success.json")
+		add_child(dialog)
+	#else: # Path: n/a, but will display in-editor dialogue in the future
+	#	var dialog = dialogueBox.instance()
+	#	dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Success.json")
+	#	add_child(dialog)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

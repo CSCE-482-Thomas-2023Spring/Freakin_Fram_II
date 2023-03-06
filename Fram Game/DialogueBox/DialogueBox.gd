@@ -1,7 +1,13 @@
 extends ColorRect
 
-export var dialogPath = "TestDialogue.json"
+export var dialogPath = "TestDialogue.json" setget _set_path, _get_path
 export(float) var textSpeed = .05
+
+func _set_path(new_val: String) -> void:
+	dialogPath = new_val
+
+func _get_path() -> String:
+	return dialogPath
 
 var dialog
 var dialogPathFull

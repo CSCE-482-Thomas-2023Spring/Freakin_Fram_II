@@ -1,18 +1,19 @@
 extends Node2D
 
 # Path variables
-export var json_test_case_file = "" setget _set_path, _get_path
+# Source Path: "res://SourceFiles/Level" + [level #] + "/Puzzle" + [puzzle #] + "/" + [specific file]
+export var source_path = "Level0/Puzzle1/" setget _set_path, _get_path
 var python_dir = "./python_files/python.exe" # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
 var godot_user_path_g = ProjectSettings.globalize_path("user://")
-onready var test_puzzle_path = ProjectSettings.globalize_path(json_test_case_file)
+onready var test_puzzle_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "PuzzleData.json")
 
 # Setter/Getter for puzzle path
 func _set_path(new_val: String) -> void:
-	json_test_case_file = new_val
+	source_path = new_val
 func _get_path() -> String:
-	return json_test_case_file
+	return source_path
 
 # Variable declarations for internal use
 var successes = 0
@@ -22,6 +23,18 @@ var pause = false
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# display initial source code as read from corresponding file in path
+	var sourceCode = File.new()
+	sourceCode.open("res://SourceFiles/" + source_path + "StarterCode.py", File.READ)
+	$Editor.get_node("VBoxContainer").get_node("Input").text = sourceCode.get_as_text()
+	sourceCode.close()
+	
+	# insert readonly lines as read from source data json
+	var sourceData = File.new()
+	sourceData.open("res://SourceFiles/" + source_path + "PuzzleData.json", File.READ)
+	var readOnlyLines = JSON.parse(sourceData.get_as_text()).result["readOnly"]
+	$Editor.get_node("VBoxContainer").get_node("Input").readonly_set(readOnlyLines)
+	
 	# _ready copies the test script from PythonScripts to user://
 	var file = File.new()
 	file.open("res://PythonScripts/testCode.py", File.READ)
@@ -34,8 +47,8 @@ func _ready():
 	userTestCode.close()
 	
 	# Display initial puzzle-introduction dialogue
-	var dialog = dialogueBox.instance() # Path: "Level" + [level #] + "/Puzzle" + [puzzle #] + "-Introduction.json"
-	dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Introduction.json")
+	var dialog = dialogueBox.instance()
+	dialog.get_node("DialogueBox")._set_path(source_path + "Introduction.json")
 	add_child(dialog)
 	pause_editor(dialog)
 
@@ -88,8 +101,9 @@ func process_test_results_stdout(cases):
 func on_button_pressed():
 	$Editor/VBoxContainer/Input.executeUserCode()
 	
+	# Parse information from 
 	var jsonTestFile = File.new()
-	jsonTestFile.open(json_test_case_file, File.READ)
+	jsonTestFile.open("res://SourceFiles/" + source_path + "PuzzleData.json", File.READ)
 	var testData = JSON.parse(jsonTestFile.get_as_text()).result # this is the parsed test json
 	jsonTestFile.close()
 	var stdout = []
@@ -115,9 +129,9 @@ func on_button_pressed():
 		print(successCountString)
 	
 	# Set dialogue for end-of-puzzle success & close terminal as needed
-	if (successes == caseCount): # Path: "Level" + [level #] + "/Puzzle" + [puzzle #] + "-Success.json"
+	if (successes == caseCount):
 		var dialog = dialogueBox.instance()
-		dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Success.json")
+		dialog.get_node("DialogueBox")._set_path(source_path + "Success.json")
 		add_child(dialog)
 		pause_editor(dialog)
 		while (pause):

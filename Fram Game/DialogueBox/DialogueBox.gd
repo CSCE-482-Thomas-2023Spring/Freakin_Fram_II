@@ -18,7 +18,7 @@ var finished = false
 
 # Initializes variables & begins display w/ first phrase
 func _ready():
-	dialogPathFull = "res://GameDialogue/" + dialogPath
+	dialogPathFull = "res://SourceFiles/" + dialogPath
 	$Timer.wait_time = textSpeed
 	$Indicator/AnimationPlayer.play("DialogueIndicatorBounce")
 	dialog = getDialog()

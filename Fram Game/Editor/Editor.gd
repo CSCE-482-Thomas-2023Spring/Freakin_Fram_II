@@ -6,7 +6,14 @@ onready var output = $"../Output/Output Text"
 
 # Change this variable to make lines read only (bookmarked)
 # Eg : [ 0, 2 ] will set lines 1 and 3 to read only
-export var read_only_lines = []
+export var read_only_lines = [] setget readonly_set, readonly_get
+
+# Setter & getter for read only lines
+func readonly_set(var new_lines):
+	read_only_lines = new_lines
+	set_read_only_lines()
+func readonly_get():
+	return read_only_lines
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -14,6 +14,10 @@ config/name="Fram Game"
 run/main_scene="res://Menus/MainMenu.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+GLOBAL="*res://MiscScripts/global.gd"
+
 [display]
 
 window/stretch/aspect="expand"

@@ -3,6 +3,9 @@ from types import SimpleNamespace
 import sys
 import subprocess
 
+# [/home/ethan/.local/share/godot/app_userdata/Fram Game/testCode.py, /home/ethan/Documents/repos/Freakin_Fram_II/Fram Game/Puzzle/TestCases/testPuzzle2.json, python3, /home/ethan/.local/share/godot/app_userdata/Fram Game/]
+
+
 test_dir = sys.argv[1]
 python_dir = sys.argv[2]
 user_dir = sys.argv[3]
@@ -28,10 +31,17 @@ for case in testCases:
     returned, stdout = None, None
     returnPassed, stdoutPassed = True, True
     if testData.data.useFunction:
-        userSolution = getattr(userCode, testData.data.functionName)
-        returned = userSolution(*case.input)
-        returnPassed = (not testData.data.useFunction) or (returned == case.returns)
-        returnResults.append((returnPassed, returned))
+        userSolution = None
+        try:
+            userSolution = getattr(userCode, testData.data.functionName)
+            returned = userSolution(*case.input)
+            returnPassed = (not testData.data.useFunction) or (returned == case.returns)
+            returnResults.append((returnPassed, returned))
+        except AttributeError:
+            userSolution = None
+        if userSolution is None:
+            results["error"] = 'No function "' + testData.data.functionName + '"'
+            break
     else:
         returnResults.append((True, None))
 
@@ -54,6 +64,6 @@ for case in testCases:
 
 resultJSON = json.dumps(results, indent=4)
 
-with open('./results.json', 'w') as file:
+with open(user_dir + 'results.json', 'w+') as file:
     file.write(resultJSON)
 

@@ -2,7 +2,7 @@ extends Node2D
 
 # Path variables
 export var json_test_case_file = "" setget _set_path, _get_path
-var python_dir = "./python_files/python.exe" # python executable
+#var python_dir = "./python_files/python.exe" # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
 var godot_user_path_g = ProjectSettings.globalize_path("user://")
@@ -93,13 +93,17 @@ func on_button_pressed():
 	var testData = JSON.parse(jsonTestFile.get_as_text()).result # this is the parsed test json
 	jsonTestFile.close()
 	var stdout = []
-	var exit_code = OS.execute(python_dir, [test_code_file_g, test_puzzle_path, python_dir, godot_user_path_g], true, stdout, true)	
-	print(stdout)
+	var exit_code = OS.execute(GLOBAL.python_dir, [test_code_file_g, test_puzzle_path, GLOBAL.python_dir, godot_user_path_g], true, stdout, true)	
+	print("stdout: ", [test_code_file_g, test_puzzle_path, GLOBAL.python_dir, godot_user_path_g])
 	var file = File.new()
-	file.open("res://results.json", File.READ)
+	file.open("user://results.json", File.READ)
 	var results = JSON.parse(file.get_as_text()).result # this is the parsed test results json
 	file.close()
 	
+	#TODO: check for incorrect syntax in player code
+	if results.has("error"):
+		print("there was error: " + results.error)
+		return
 	
 	# EXAMPLE FOR EMILY
 	var successCountString = ""
@@ -129,8 +133,18 @@ func on_button_pressed():
 	#	add_child(dialog)
 	#	pause_editor(dialog)
 	
+	file = File.new()
+	file.open("user://results.json", File.WRITE)
+	file.store_string("{}")
+	file.close()
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
 
+func test_pressed():
+	var stdout = []
+	var exit_code = OS.execute(GLOBAL.python_dir, [test_code_file_g, test_puzzle_path, GLOBAL.python_dir, godot_user_path_g], true, stdout, true)
+	print(stdout)
+	

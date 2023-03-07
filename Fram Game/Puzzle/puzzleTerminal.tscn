@@ -5,7 +5,6 @@
 
 [node name="PuzzleTerminal" type="Node2D"]
 script = ExtResource( 1 )
-json_test_case_file = "res://Puzzle/TestCases/testPuzzle2.json"
 
 [node name="Editor" parent="." instance=ExtResource( 2 )]
 margin_left = 30.0

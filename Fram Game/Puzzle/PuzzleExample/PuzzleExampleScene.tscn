@@ -7,13 +7,12 @@
 script = ExtResource( 2 )
 
 [node name="PuzzleTerminal" parent="." instance=ExtResource( 1 )]
-json_test_case_file = "res://Puzzle/TestCases/PuzzleExample.json"
 
 [node name="Editor" parent="PuzzleTerminal" index="0"]
-margin_left = 36.0
-margin_top = 21.0
-margin_right = 726.0
-margin_bottom = 587.0
+margin_left = -23.0
+margin_top = 25.0
+margin_right = 667.0
+margin_bottom = 591.0
 
 [node name="Input" parent="PuzzleTerminal/Editor/VBoxContainer" index="0"]
 text = "# change the value of the \"locked\" variable

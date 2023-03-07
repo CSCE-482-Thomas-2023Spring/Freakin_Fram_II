@@ -29,6 +29,12 @@ func _ready():
 	$Editor.get_node("VBoxContainer").get_node("Input").text = sourceCode.get_as_text()
 	sourceCode.close()
 	
+	# insert readonly lines as read from source data json
+	var sourceData = File.new()
+	sourceData.open("res://SourceFiles/" + source_path + "PuzzleData.json", File.READ)
+	var readOnlyLines = JSON.parse(sourceData.get_as_text()).result["readOnly"]
+	$Editor.get_node("VBoxContainer").get_node("Input").readonly_set(readOnlyLines)
+	
 	# _ready copies the test script from PythonScripts to user://
 	var file = File.new()
 	file.open("res://PythonScripts/testCode.py", File.READ)
@@ -95,6 +101,7 @@ func process_test_results_stdout(cases):
 func on_button_pressed():
 	$Editor/VBoxContainer/Input.executeUserCode()
 	
+	# Parse information from 
 	var jsonTestFile = File.new()
 	jsonTestFile.open("res://SourceFiles/" + source_path + "PuzzleData.json", File.READ)
 	var testData = JSON.parse(jsonTestFile.get_as_text()).result # this is the parsed test json

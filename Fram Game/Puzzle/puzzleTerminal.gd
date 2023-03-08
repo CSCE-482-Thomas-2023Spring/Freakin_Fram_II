@@ -1,15 +1,15 @@
 extends Node2D
 
 # Path variables
-# Source Path: "res://SourceFiles/Level" + [level #] + "/Puzzle" + [puzzle #] + "/" + [specific file]
-export var source_path = "Level0/Puzzle1/" setget _set_path, _get_path
+# Source Path: "res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/" + [specific file]
+export var source_path = "Level0/Task1/" setget _set_path, _get_path
 var python_dir = "./python_files/python.exe" # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
 var godot_user_path_g = ProjectSettings.globalize_path("user://")
-onready var test_puzzle_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "PuzzleData.json")
+onready var test_task_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "TaskData.json")
 
-# Setter/Getter for puzzle path
+# Setter/Getter for task path
 func _set_path(new_val: String) -> void:
 	source_path = new_val
 func _get_path() -> String:
@@ -31,7 +31,7 @@ func _ready():
 	
 	# insert readonly lines as read from source data json
 	var sourceData = File.new()
-	sourceData.open("res://SourceFiles/" + source_path + "PuzzleData.json", File.READ)
+	sourceData.open("res://SourceFiles/" + source_path + "TaskData.json", File.READ)
 	var readOnlyLines = JSON.parse(sourceData.get_as_text()).result["readOnly"]
 	$Editor.get_node("VBoxContainer").get_node("Input").readonly_set(readOnlyLines)
 	
@@ -46,7 +46,7 @@ func _ready():
 	userTestCode.store_string(testCode)
 	userTestCode.close()
 	
-	# Display initial puzzle-introduction dialogue
+	# Display initial task-introduction dialogue
 	var dialog = dialogueBox.instance()
 	dialog.get_node("DialogueBox")._set_path(source_path + "Introduction.json")
 	add_child(dialog)
@@ -103,11 +103,11 @@ func on_button_pressed():
 	
 	# Parse information from 
 	var jsonTestFile = File.new()
-	jsonTestFile.open("res://SourceFiles/" + source_path + "PuzzleData.json", File.READ)
+	jsonTestFile.open("res://SourceFiles/" + source_path + "TaskData.json", File.READ)
 	var testData = JSON.parse(jsonTestFile.get_as_text()).result # this is the parsed test json
 	jsonTestFile.close()
 	var stdout = []
-	var exit_code = OS.execute(python_dir, [test_code_file_g, test_puzzle_path, python_dir, godot_user_path_g], true, stdout, true)	
+	var exit_code = OS.execute(python_dir, [test_code_file_g, test_task_path, python_dir, godot_user_path_g], true, stdout, true)	
 	print(stdout)
 	var file = File.new()
 	file.open("res://results.json", File.READ)
@@ -128,7 +128,7 @@ func on_button_pressed():
 		successCountString = process_test_results_stdout(results.testResults)
 		print(successCountString)
 	
-	# Set dialogue for end-of-puzzle success & close terminal as needed
+	# Set dialogue for end-of-task success & close terminal as needed
 	if (successes == caseCount):
 		var dialog = dialogueBox.instance()
 		dialog.get_node("DialogueBox")._set_path(source_path + "Success.json")
@@ -139,7 +139,7 @@ func on_button_pressed():
 		queue_free()
 	#else: # Path: n/a, but will display in-editor dialogue in the future
 	#	var dialog = dialogueBox.instance()
-	#	dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Success.json")
+	#	dialog.get_node("DialogueBox")._set_path(source_path + "Success.json")
 	#	add_child(dialog)
 	#	pause_editor(dialog)
 	

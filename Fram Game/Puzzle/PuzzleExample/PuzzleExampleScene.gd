@@ -4,7 +4,7 @@ extends Node2D
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var terminal = preload("res://Puzzle/puzzleTerminal.tscn")
 
-# Call the two room-based dialogues, then open the terminal for puzzle 1
+# Call the two room-based dialogues, then open the terminal for task 1
 func _ready():
 	# Call initial dialogue
 	var spawn_dialog = dialogueBox.instance()
@@ -21,13 +21,13 @@ func _ready():
 	while (is_instance_valid(interact_dialog)):
 		yield(get_tree().create_timer(.2), "timeout")
 	
-	# Call the terminal for this puzzle - temporarily disabled until I figure out how puzzles are being input
-	var puzzle1 = terminal.instance()
-	puzzle1._set_path("Level0/Puzzle1/")
-	add_child(puzzle1)
+	# Call the terminal for this task - temporarily disabled until I figure out how tasks are being input
+	var task1 = terminal.instance()
+	task1._set_path("Level0/Task1/")
+	add_child(task1)
 	
 	# Demonstration over; end game
-	while (is_instance_valid(puzzle1)):
+	while (is_instance_valid(task1)):
 		yield(get_tree().create_timer(.2), "timeout")
 	yield(get_tree().create_timer(2), "timeout")
 	get_tree().quit()

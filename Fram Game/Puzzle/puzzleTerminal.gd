@@ -20,7 +20,7 @@ var successes = 0
 var caseCount = 0
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var pause = false
-	
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# display initial source code as read from corresponding file in path
@@ -47,26 +47,19 @@ func _ready():
 	userTestCode.close()
 	
 	# Display initial task-introduction dialogue
+	yield(create_box("Introduction.json"), "completed")
+	
+func create_box(json_path):
 	var dialog = dialogueBox.instance()
-	dialog.get_node("DialogueBox")._set_path(source_path + "Introduction.json")
+	dialog.get_node("DialogueBox")._set_path(source_path + json_path)
 	add_child(dialog)
-	pause_editor(dialog)
+	yield(pause_editor(dialog), "completed")
 
 func pause_editor(instance):
-	# Pause all editor functionality while dialogue is present
-	
-#	pause = true
-#	$Editor.get_tree().paused = true
-#	while (is_instance_valid(instance)):
-#		yield(get_tree().create_timer(.2), "timeout")
-#	$Editor.get_tree().paused = false
-#	pause = false
-
+	# Pause all editor functionality while dialogue is present	
 	$Editor/VBoxContainer/Input.disabled = true
-	print("paused")
 	yield(instance, "tree_exited")
 	$Editor/VBoxContainer/Input.disabled = false
-	print("unpaused")
 
 func process_test_results_function(cases):
 	successes = 0
@@ -106,6 +99,10 @@ func process_test_results_stdout(cases):
 	return successCountString
 
 func on_button_pressed():
+	
+	# Prevent execution of editor is disabled
+	if ($Editor/VBoxContainer/Input.disabled):
+		return
 	$Editor/VBoxContainer/Input.executeUserCode()
 	
 	# Parse information from 
@@ -137,19 +134,16 @@ func on_button_pressed():
 	
 	# Set dialogue for end-of-task success & close terminal as needed
 	if (successes == caseCount):
-		var dialog = dialogueBox.instance()
-		dialog.get_node("DialogueBox")._set_path(source_path + "Success.json")
-		add_child(dialog)
-		pause_editor(dialog)
-#		while (pause):
-#			yield(get_tree().create_timer(.2), "timeout")
-		print("deleting terminal")
+		yield(create_box("Success.json"), "completed")
+		
+		# Delete self
 		queue_free()
+		
 	#else: # Path: n/a, but will display in-editor dialogue in the future
 	#	var dialog = dialogueBox.instance()
 	#	dialog.get_node("DialogueBox")._set_path(source_path + "Success.json")
 	#	add_child(dialog)
-	#	pause_editor(dialog)
+	#	yield(pause_editor(dialog), "completed")
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

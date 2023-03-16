@@ -5,8 +5,8 @@
             "returns": "",
             "stdout": "False\r\n",
             "userReturned": null,
-            "userstdout": "False\r\n",
-            "passed": true,
+            "userstdout": "True\r\n",
+            "passed": false,
             "error": ""
         }
     ]

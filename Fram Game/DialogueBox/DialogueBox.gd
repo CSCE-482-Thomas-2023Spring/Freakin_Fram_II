@@ -51,7 +51,7 @@ func getDialog() -> Array:
 func nextPhrase() -> void:
 	# Ends scene if dialogue is complete
 	if phraseNum >= len(dialog):
-		print(phraseNum)
+#		print(phraseNum)
 		get_parent().queue_free()
 		return
 	

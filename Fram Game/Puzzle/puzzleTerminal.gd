@@ -54,12 +54,19 @@ func _ready():
 
 func pause_editor(instance):
 	# Pause all editor functionality while dialogue is present
-	pause = true
-	$Editor.get_tree().paused = true
-	while (is_instance_valid(instance)):
-		yield(get_tree().create_timer(.2), "timeout")
-	$Editor.get_tree().paused = false
-	pause = false
+	
+#	pause = true
+#	$Editor.get_tree().paused = true
+#	while (is_instance_valid(instance)):
+#		yield(get_tree().create_timer(.2), "timeout")
+#	$Editor.get_tree().paused = false
+#	pause = false
+
+	$Editor/VBoxContainer/Input.disabled = true
+	print("paused")
+	yield(instance, "tree_exited")
+	$Editor/VBoxContainer/Input.disabled = false
+	print("unpaused")
 
 func process_test_results_function(cases):
 	successes = 0
@@ -134,8 +141,9 @@ func on_button_pressed():
 		dialog.get_node("DialogueBox")._set_path(source_path + "Success.json")
 		add_child(dialog)
 		pause_editor(dialog)
-		while (pause):
-			yield(get_tree().create_timer(.2), "timeout")
+#		while (pause):
+#			yield(get_tree().create_timer(.2), "timeout")
+		print("deleting terminal")
 		queue_free()
 	#else: # Path: n/a, but will display in-editor dialogue in the future
 	#	var dialog = dialogueBox.instance()

@@ -4,6 +4,7 @@
 export.cfg
 export_presets.cfg
 Godot*.exe
+python_files/
 
 # Mono-specific ignores
 .mono/

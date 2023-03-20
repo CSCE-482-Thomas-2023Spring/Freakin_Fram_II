@@ -2,7 +2,7 @@ extends Node2D
 
 # Path variables
 # Source Path: "res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/" + [specific file]
-export var source_path = "Level0/Task1/" setget _set_path, _get_path
+export var source_path = "DefaultMessages/TaskTemplate" setget _set_path, _get_path
 var python_dir = "./python_files/python.exe" # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)

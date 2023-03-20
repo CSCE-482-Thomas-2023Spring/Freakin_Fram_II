@@ -17,7 +17,7 @@ func _ready():
 	
 	# Wait 2 seconds, then call the second dialogue
 	yield(get_tree().create_timer(2), "timeout")
-	yield(create_box("Level0/ClosetDoor-Interact.json"), "completed")
+	yield(create_box("Level0/Task1/Interact-TaskStart.json"), "completed")
 	
 	# Call the terminal for this task - temporarily disabled until I figure out how tasks are being input
 	var task1 = terminal.instance()

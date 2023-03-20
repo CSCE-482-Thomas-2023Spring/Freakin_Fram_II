@@ -1,4 +1,3 @@
 [
-	{"Name":"[color=black]Player", "Text":"[color=black]Hmmm... It's locked."},
-	{"Name":"[color=black]Player", "Text":"[color=black]Looks like there's an access panel, though. Let's have a look..."}
+	{"Name":"[color=red]Deprecated", "Text":"[color=red]Replace me with \"Level0/Task1/Interact-TaskStart\" and delete this file."}
 ]

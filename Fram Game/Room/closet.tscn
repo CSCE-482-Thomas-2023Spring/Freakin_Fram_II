@@ -1,49 +1,94 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Wall.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/Robot.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Room/closet.gd" type="Script" id=4]
+[ext_resource path="res://Objects/Interact.gd" type="Script" id=5]
 
-[node name="Node" type="Node"]
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 51.5, 26.5 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 56, 24 )
+
+[node name="Closet" type="Node"]
+script = ExtResource( 4 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 503, 275 )
 
+[node name="Robot" parent="." instance=ExtResource( 3 )]
+position = Vector2( 806, 457 )
+node_path = NodePath("..")
+call_method = "robot_interact"
+
+[node name="PowerBox" type="Area2D" parent="."]
+position = Vector2( 367, 89 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+node_path = NodePath("..")
+call_method = "power_box_interact"
+
+[node name="Interact" type="CollisionShape2D" parent="PowerBox"]
+position = Vector2( 55.5, 40.5 )
+shape = SubResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="PowerBox"]
+margin_right = 112.0
+margin_bottom = 48.0
+color = Color( 0.8, 0.803922, 0.0117647, 1 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="PowerBox"]
+
+[node name="PowerBoxCollision" type="CollisionShape2D" parent="PowerBox/StaticBody2D"]
+position = Vector2( 56, 24 )
+shape = SubResource( 2 )
+
 [node name="Wall_SW" parent="." instance=ExtResource( 2 )]
-position = Vector2( 0, 600 )
+position = Vector2( 216, 600 )
 rotation = -1.57079
 
 [node name="ColorRect" parent="Wall_SW" index="0"]
-margin_right = 200.0
+margin_left = 88.0
+margin_right = 251.0
 
 [node name="Wall_NW" parent="." instance=ExtResource( 2 )]
-position = Vector2( 0, 200 )
+position = Vector2( 216, 200 )
 rotation = -1.57079
 
 [node name="ColorRect" parent="Wall_NW" index="0"]
-margin_right = 200.0
+margin_left = -19.0
+margin_right = 135.0
 
 [node name="Wall_E" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1000, 600 )
+position = Vector2( 840, 600 )
 rotation = -1.57079
 
 [node name="ColorRect" parent="Wall_E" index="0"]
-margin_right = 600.0
+margin_left = 87.0
+margin_right = 535.0
 
 [node name="Wall_N" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 64 )
 
 [node name="ColorRect" parent="Wall_N" index="0"]
-margin_right = 1024.0
+margin_left = 216.0
+margin_right = 864.0
 
 [node name="Wall_S" parent="." instance=ExtResource( 2 )]
-position = Vector2( 0, 576 )
+position = Vector2( 0, 488 )
 
 [node name="ColorRect" parent="Wall_S" index="0"]
-margin_right = 1024.0
+margin_left = 216.0
+margin_right = 864.0
 
-[node name="Robot" parent="." instance=ExtResource( 3 )]
-position = Vector2( 912, 512 )
+[connection signal="body_entered" from="PowerBox" to="PowerBox" method="_on_body_entered"]
+[connection signal="body_exited" from="PowerBox" to="PowerBox" method="_on_body_exited"]
 
+[editable path="Robot"]
 [editable path="Wall_SW"]
 [editable path="Wall_NW"]
 [editable path="Wall_E"]

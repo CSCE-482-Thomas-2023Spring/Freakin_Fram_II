@@ -4,11 +4,19 @@ extends Node2D
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var terminal = preload("res://Puzzle/puzzleTerminal.tscn")
 
+# reusable function for loading a dialogue tree
 func create_box(json_path):
 	var box = dialogueBox.instance()
 	box.get_node("DialogueBox")._set_path(json_path)
 	add_child(box)
 	yield(box, "tree_exited")
+
+# reusable function for loading a Python task
+func create_task(json_path):
+	var task = terminal.instance()
+	task._set_path(json_path)
+	add_child(task)
+	yield(task, "tree_exited")
 
 # Call the two room-based dialogues, then open the terminal for task 1
 func _ready():
@@ -19,11 +27,8 @@ func _ready():
 	yield(get_tree().create_timer(2), "timeout")
 	yield(create_box("Level0/Task1/Interact-TaskStart.json"), "completed")
 	
-	# Call the terminal for this task - temporarily disabled until I figure out how tasks are being input
-	var task1 = terminal.instance()
-	task1._set_path("Level0/Task1/")
-	add_child(task1)
-	yield(task1, "tree_exited")
+	# Call the terminal for this task
+	yield(create_task("Level0/Task1/"), "completed")
 		
 	# Demonstration over; end game
 	yield(get_tree().create_timer(2), "timeout")

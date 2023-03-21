@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Objects/Wall.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/Robot.tscn" type="PackedScene" id=3]
+
+[node name="Node" type="Node"]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 503, 275 )
+
+[node name="Wall_SW" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 600 )
+rotation = -1.57079
+
+[node name="ColorRect" parent="Wall_SW" index="0"]
+margin_right = 200.0
+
+[node name="Wall_NW" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 200 )
+rotation = -1.57079
+
+[node name="ColorRect" parent="Wall_NW" index="0"]
+margin_right = 200.0
+
+[node name="Wall_E" parent="." instance=ExtResource( 2 )]
+position = Vector2( 1000, 600 )
+rotation = -1.57079
+
+[node name="ColorRect" parent="Wall_E" index="0"]
+margin_right = 600.0
+
+[node name="Wall_N" parent="." instance=ExtResource( 2 )]
+
+[node name="ColorRect" parent="Wall_N" index="0"]
+margin_right = 1024.0
+
+[node name="Wall_S" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 576 )
+
+[node name="ColorRect" parent="Wall_S" index="0"]
+margin_right = 1024.0
+
+[node name="Robot" parent="." instance=ExtResource( 3 )]
+position = Vector2( 912, 512 )
+
+[editable path="Wall_SW"]
+[editable path="Wall_NW"]
+[editable path="Wall_E"]
+[editable path="Wall_N"]
+[editable path="Wall_S"]

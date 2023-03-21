@@ -8,12 +8,32 @@
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 503, 275 )
 
-[node name="Wall" parent="." instance=ExtResource( 2 )]
-position = Vector2( 136, 519 )
+[node name="Wall_W" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 600 )
 rotation = -1.57079
 
-[node name="ColorRect" parent="Wall" index="0"]
-margin_right = 485.0
-margin_bottom = 72.0
+[node name="ColorRect" parent="Wall_W" index="0"]
+margin_right = 600.0
 
-[editable path="Wall"]
+[node name="Wall_E" parent="." instance=ExtResource( 2 )]
+position = Vector2( 1000, 600 )
+rotation = -1.57079
+
+[node name="ColorRect" parent="Wall_E" index="0"]
+margin_right = 600.0
+
+[node name="Wall_N" parent="." instance=ExtResource( 2 )]
+
+[node name="ColorRect" parent="Wall_N" index="0"]
+margin_right = 1024.0
+
+[node name="Wall_S" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 576 )
+
+[node name="ColorRect" parent="Wall_S" index="0"]
+margin_right = 1024.0
+
+[editable path="Wall_W"]
+[editable path="Wall_E"]
+[editable path="Wall_N"]
+[editable path="Wall_S"]

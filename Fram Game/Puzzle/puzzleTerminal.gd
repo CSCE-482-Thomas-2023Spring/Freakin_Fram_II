@@ -1,8 +1,8 @@
 extends Node2D
 
 # Path variables
-# Source Path: "res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/" + [specific file]
-export var source_path = "Level0/Task1/" setget _set_path, _get_path
+# Source Path: "res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/"
+export var source_path = "DefaultMessages/TaskTemplate/" setget _set_path, _get_path
 var python_dir = "./python_files/python.exe" # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
@@ -20,6 +20,20 @@ var successes = 0
 var caseCount = 0
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var pause = false
+
+# Call a dialogue tree from input file location
+func create_box(json_path):
+	# if this dialogue box does not exist for this task, use the default
+	var this_path = source_path + json_path
+	var f = File.new()
+	if (not f.file_exists(source_path + json_path)):
+		this_path = "DefaultMessages/TaskTemplate/" + json_path
+	
+	# call a dialogue tree from input file location
+	var dialog = dialogueBox.instance()
+	dialog.get_node("DialogueBox")._set_path(this_path)
+	add_child(dialog)
+	yield(pause_editor(dialog), "completed")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -48,15 +62,9 @@ func _ready():
 	
 	# Display initial task-introduction dialogue
 	yield(create_box("Introduction.json"), "completed")
-	
-func create_box(json_path):
-	var dialog = dialogueBox.instance()
-	dialog.get_node("DialogueBox")._set_path(source_path + json_path)
-	add_child(dialog)
-	yield(pause_editor(dialog), "completed")
 
+# Pause all editor functionality while dialogue is present	
 func pause_editor(instance):
-	# Pause all editor functionality while dialogue is present	
 	$Editor/VBoxContainer/Input.disabled = true
 	yield(instance, "tree_exited")
 	$Editor/VBoxContainer/Input.disabled = false
@@ -100,7 +108,7 @@ func process_test_results_stdout(cases):
 
 func on_button_pressed():
 	
-	# Prevent execution of editor is disabled
+	# Prevent execution of editor if disabled
 	if ($Editor/VBoxContainer/Input.disabled):
 		return
 	$Editor/VBoxContainer/Input.executeUserCode()
@@ -119,7 +127,7 @@ func on_button_pressed():
 	file.close()
 	
 	
-	# EXAMPLE FOR EMILY
+	# EXAMPLE FOR EMILY (use later to print suggestions based on error types)
 	var successCountString = ""
 	var failureString = ""
 	if testData.data.useFunction:

@@ -1,7 +1,7 @@
 extends ColorRect
 
 # Export variables
-export var dialogPath = "TestDialogue.json" setget _set_path, _get_path
+export var dialogPath = "DefaultMessages/TemplateDialogue.json" setget _set_path, _get_path
 export(float) var textSpeed = .001
 
 # Set/Get functions for dialogPath for access by instances in scripts

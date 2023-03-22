@@ -37,11 +37,10 @@ for case in testCases:
             returned = userSolution(*case.input)
             returnPassed = (not testData.data.useFunction) or (returned == case.returns)
             returnResults.append((returnPassed, returned))
-        except AttributeError:
+        except Exception as e:
             userSolution = None
         if userSolution is None:
-            results["error"] = 'No function "' + testData.data.functionName + '"'
-            break
+            results["error"] = e.message #"Something went wrong. Check function and parameters"
     else:
         returnResults.append((True, None))
 

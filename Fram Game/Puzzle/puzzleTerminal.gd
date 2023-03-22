@@ -95,6 +95,7 @@ func on_button_pressed():
 	var stdout = []
 	var exit_code = OS.execute(GLOBAL.python_dir, [test_code_file_g, test_puzzle_path, GLOBAL.python_dir, godot_user_path_g], true, stdout, true)	
 	print("stdout: ", [test_code_file_g, test_puzzle_path, GLOBAL.python_dir, godot_user_path_g])
+	print(stdout)
 	var file = File.new()
 	file.open("user://results.json", File.READ)
 	var results = JSON.parse(file.get_as_text()).result # this is the parsed test results json
@@ -147,4 +148,3 @@ func test_pressed():
 	var stdout = []
 	var exit_code = OS.execute(GLOBAL.python_dir, [test_code_file_g, test_puzzle_path, GLOBAL.python_dir, godot_user_path_g], true, stdout, true)
 	print(stdout)
-	

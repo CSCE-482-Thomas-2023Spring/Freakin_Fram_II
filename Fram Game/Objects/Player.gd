@@ -36,7 +36,7 @@ func _physics_process(delta):
 	velocity = velocity.normalized() * speed
 
 	# Move player
-	var collision = move_and_collide(velocity * delta)
+	move_and_collide(velocity * delta)
 	
 	# Interaction
 	var interactable = get_interactable()
@@ -53,3 +53,13 @@ func get_interactable():
 		# enable E label
 		$InteractLabel.show()
 		return interactables[0]
+		
+func disable():
+	# Disable _process
+	set_physics_process(false)
+	can_move = false
+	
+func enable():
+	# Enable _process
+	set_physics_process(true)
+	can_move = true

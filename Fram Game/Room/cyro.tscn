@@ -1,57 +1,21 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Wall.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Objects/Robot.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Room/closet.gd" type="Script" id=4]
+[ext_resource path="res://Room/cryo.gd" type="Script" id=3]
 [ext_resource path="res://Objects/Interact.gd" type="Script" id=5]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 51.5, 26.5 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 56, 24 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 15.25, 61.5 )
 
-[node name="Closet" type="Node"]
-script = ExtResource( 4 )
+[node name="Cryo" type="Node"]
+script = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 181, 275 )
-
-[node name="Robot" parent="." instance=ExtResource( 3 )]
-position = Vector2( 806, 457 )
-node_path = NodePath("..")
-call_method = "robot_interact"
-
-[node name="PowerBox" type="Area2D" parent="."]
-position = Vector2( 367, 89 )
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_group_": true
-}
-node_path = NodePath("..")
-call_method = "power_box_interact"
-
-[node name="Interact" type="CollisionShape2D" parent="PowerBox"]
-position = Vector2( 55.5, 40.5 )
-shape = SubResource( 1 )
-
-[node name="ColorRect" type="ColorRect" parent="PowerBox"]
-margin_right = 112.0
-margin_bottom = 48.0
-color = Color( 0.8, 0.803922, 0.0117647, 1 )
-
-[node name="StaticBody2D" type="StaticBody2D" parent="PowerBox"]
-
-[node name="PowerBoxCollision" type="CollisionShape2D" parent="PowerBox/StaticBody2D"]
-position = Vector2( 56, 24 )
-shape = SubResource( 2 )
+position = Vector2( 412, 275 )
 
 [node name="Wall_SW" parent="." instance=ExtResource( 2 )]
-position = Vector2( 216, 600 )
+position = Vector2( 772, 600 )
 rotation = -1.57079
 
 [node name="ColorRect" parent="Wall_SW" index="0"]
@@ -59,7 +23,7 @@ margin_left = 88.0
 margin_right = 251.0
 
 [node name="Wall_NW" parent="." instance=ExtResource( 2 )]
-position = Vector2( 216, 200 )
+position = Vector2( 773, 199 )
 rotation = -1.57079
 
 [node name="ColorRect" parent="Wall_NW" index="0"]
@@ -67,21 +31,21 @@ margin_left = -19.0
 margin_right = 135.0
 
 [node name="Wall_W2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 105, 194 )
+position = Vector2( 792, 194 )
 
 [node name="ColorRect" parent="Wall_W2" index="0"]
 margin_left = -19.0
-margin_right = 135.0
+margin_right = 134.0
 
 [node name="Wall_W3" parent="." instance=ExtResource( 2 )]
-position = Vector2( 106, 349 )
+position = Vector2( 791, 349 )
 
 [node name="ColorRect" parent="Wall_W3" index="0"]
 margin_left = -19.0
 margin_right = 135.0
 
 [node name="Wall_W4" parent="." instance=ExtResource( 2 )]
-position = Vector2( 86, 348 )
+position = Vector2( 901, 349 )
 rotation = -1.57079
 
 [node name="ColorRect" parent="Wall_W4" index="0"]
@@ -89,7 +53,7 @@ margin_left = -19.0
 margin_right = 135.0
 
 [node name="Wall_E" parent="." instance=ExtResource( 2 )]
-position = Vector2( 840, 600 )
+position = Vector2( 125, 599 )
 rotation = -1.57079
 
 [node name="ColorRect" parent="Wall_E" index="0"]
@@ -97,20 +61,21 @@ margin_left = 87.0
 margin_right = 535.0
 
 [node name="Wall_N" parent="." instance=ExtResource( 2 )]
-position = Vector2( 0, 64 )
+position = Vector2( -91, 64 )
 
 [node name="ColorRect" parent="Wall_N" index="0"]
 margin_left = 216.0
 margin_right = 864.0
 
 [node name="Wall_S" parent="." instance=ExtResource( 2 )]
-position = Vector2( 0, 488 )
+position = Vector2( -91, 487 )
 
 [node name="ColorRect" parent="Wall_S" index="0"]
 margin_left = 216.0
 margin_right = 864.0
 
 [node name="Exit" type="Area2D" parent="."]
+position = Vector2( 785, 1 )
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_group_": true
@@ -123,12 +88,9 @@ require_interact = false
 position = Vector2( 115.75, 283 )
 shape = SubResource( 3 )
 
-[connection signal="body_entered" from="PowerBox" to="PowerBox" method="_on_body_entered"]
-[connection signal="body_exited" from="PowerBox" to="PowerBox" method="_on_body_exited"]
 [connection signal="body_entered" from="Exit" to="Exit" method="_on_body_entered"]
 [connection signal="body_exited" from="Exit" to="Exit" method="_on_body_exited"]
 
-[editable path="Robot"]
 [editable path="Wall_SW"]
 [editable path="Wall_NW"]
 [editable path="Wall_W2"]

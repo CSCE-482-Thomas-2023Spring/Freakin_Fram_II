@@ -3,7 +3,7 @@
 [ext_resource path="res://Objects/Interact.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 28.5, 23 )
+extents = Vector2( 27.5, 11 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 32, 32 )
@@ -12,7 +12,7 @@ extents = Vector2( 32, 32 )
 script = ExtResource( 2 )
 
 [node name="Interact" type="CollisionShape2D" parent="."]
-position = Vector2( -0.5, -23 )
+position = Vector2( 0.5, -31 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="ColorRect" parent="."]

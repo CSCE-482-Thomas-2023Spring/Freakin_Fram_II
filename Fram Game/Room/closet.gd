@@ -3,8 +3,8 @@ extends Node
 # Preload scene types before instancing them
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var terminal = preload("res://Puzzle/puzzleTerminal.tscn")
-
 var source_path = "DefaultMessages/TaskTemplate/"
+
 func create_box(json_path):
 	var box = dialogueBox.instance()
 	box.get_node("DialogueBox")._set_path(json_path)
@@ -20,10 +20,15 @@ func robot_interact():
 func power_box_interact():
 	print("Power box interacted")
 	$Player.disable()
-	yield(create_box(source_path + "Interact-Blocked.json"), "completed")
+#	yield(create_box(source_path + "Interact-Blocked.json"), "completed")
+	var task1 = terminal.instance()
+	task1._set_path("Level0/Task1/")
+	add_child(task1)
+	yield(task1, "tree_exited")
+	
 	$Player.enable()
 	
 func leave_room():
 	print("Leaving closet")
-	get_tree().change_scene("res://Menus/MainMenu.tscn")
+	get_tree().change_scene("res://Room/cyro.tscn")
 	pass

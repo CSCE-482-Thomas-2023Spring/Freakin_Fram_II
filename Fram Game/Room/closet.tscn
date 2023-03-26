@@ -81,6 +81,7 @@ margin_left = -19.0
 margin_right = 135.0
 
 [node name="Wall_W4" parent="." instance=ExtResource( 2 )]
+visible = false
 position = Vector2( 86, 348 )
 rotation = -1.57079
 

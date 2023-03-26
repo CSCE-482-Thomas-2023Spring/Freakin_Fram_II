@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 # Path variables
 # Source Path: "res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/"

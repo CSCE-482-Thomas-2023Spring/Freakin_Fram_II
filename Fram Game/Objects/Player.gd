@@ -12,7 +12,12 @@ func _ready():
 	screen_size = get_viewport_rect().size
 	player_size = $Sprite.get_rect().size / 2
 	interactables = []
-
+	
+	# Small delay on movement on creation
+	disable()
+	yield(get_tree().create_timer(0.25), "timeout")
+	enable()
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

@@ -20,11 +20,7 @@ func robot_interact():
 func power_box_interact():
 	print("Power box interacted")
 	$Player.disable()
-#	yield(create_box(source_path + "Interact-Blocked.json"), "completed")
-	var task1 = terminal.instance()
-	task1._set_path("Level0/Task1/")
-	add_child(task1)
-	yield(task1, "tree_exited")
+	yield(create_box(source_path + "Interact-Blocked.json"), "completed")
 	
 	$Player.enable()
 	

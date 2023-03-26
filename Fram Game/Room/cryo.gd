@@ -11,13 +11,37 @@ func create_box(json_path):
 	add_child(box)
 	yield(box, "tree_exited")
 
-#func robot_interact():
-#	print("Robot interacted")
-#	$Player.disable()
+func closet_door():
+	print("Closet door")
+	
+	# Disable player movement
+	$Player.disable()
+	
+	# Load initial dialogue
 #	yield(create_box(source_path + "Interact-TaskStart.json"), "completed")
-#	$Player.enable()
+	yield(create_box("Level0/Task1/Interact-TaskStart.json"), "completed")
+	
+	# Load the closet_door puzzle
+	var task1 = terminal.instance()
+	task1._set_path("Level0/Task1/")
+	add_child(task1)
+	yield(task1, "tree_exited")
+	
+	# Delete the door after success
+	$Door.queue_free()
+	
+	# Enable player movement
+	$Player.enable()
 	
 func leave_room():
 	print("Leaving cryo")
 	get_tree().change_scene("res://Room/closet.tscn")
 	pass
+
+
+func _on_body_entered(body):
+	pass # Replace with function body.
+
+
+func _on_body_exited(body):
+	pass # Replace with function body.

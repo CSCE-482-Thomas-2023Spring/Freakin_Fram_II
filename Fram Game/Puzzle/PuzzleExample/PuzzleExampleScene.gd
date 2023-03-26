@@ -21,10 +21,10 @@ func create_task(json_path):
 # Call the two room-based dialogues, then open the terminal for task 1
 func _ready():
 	# Call initial dialogue
-#	yield(create_box("Level0/Room-Introduction.json"), "completed")
+	yield(create_box("Level0/Room-Introduction.json"), "completed")
 	
 	# Wait 2 seconds, then call the second dialogue
-#	yield(get_tree().create_timer(2), "timeout")
+	yield(get_tree().create_timer(2), "timeout")
 	yield(create_box("Level0/Task1/Interact-TaskStart.json"), "completed")
 	
 	# Call the terminal for this task

@@ -6,8 +6,25 @@ onready var output = $"../Output/Output Text"
 
 # Change this variable to make lines read only (bookmarked)
 # Eg : [ 0, 2 ] will set lines 1 and 3 to read only
-export var read_only_lines = []
+export(Array, int) var read_only_lines = [] setget readonly_set, readonly_get
 
+export var disabled = false setget disable_set
+
+# Setter & getter for read only lines
+func readonly_set(var new_lines):
+	read_only_lines = new_lines
+	set_read_only_lines()
+func readonly_get():
+	return read_only_lines
+
+func disable_set(new_value):
+	disabled = new_value
+	if disabled == true:
+		# mark as read only
+		self.readonly = true
+	else:
+		self.readonly = false
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# --- replace initial prompt here ---
@@ -15,7 +32,10 @@ func _ready():
 
 # Catches any input before the GUI
 func _input(event):
-
+	
+	if (!has_focus()):
+		return
+		
 	# Allow any mouse or mouse motion event
 	if event is InputEventMouseButton or event is InputEventMouseMotion or event.is_action("Arrow Keys"):
 		return
@@ -124,6 +144,9 @@ func is_error(code_message):
 	return [errored, type]
 
 func executeUserCode():
+	if (disabled):
+		return
+	
 	var code_text = get_text()
 	var python_dir = "./python_files/python.exe"
 	if (OS.get_name() == "OSX" || OS.get_name() == "X11"):

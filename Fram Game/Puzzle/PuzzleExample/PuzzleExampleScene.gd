@@ -4,41 +4,33 @@ extends Node2D
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var terminal = preload("res://Puzzle/puzzleTerminal.tscn")
 
-# Call the two room-based dialogues, then open the terminal for puzzle 1
+# reusable function for loading a dialogue tree
+func create_box(json_path):
+	var box = dialogueBox.instance()
+	box.get_node("DialogueBox")._set_path(json_path)
+	add_child(box)
+	yield(box, "tree_exited")
+
+# reusable function for loading a Python task
+func create_task(json_path):
+	var task = terminal.instance()
+	task._set_path(json_path)
+	add_child(task)
+	yield(task, "tree_exited")
+
+# Call the two room-based dialogues, then open the terminal for task 1
 func _ready():
-	$PuzzleTerminal.visible = false # Temporary workaround; remove later
 	# Call initial dialogue
-	var spawn_dialog = dialogueBox.instance()
-	spawn_dialog.get_node("DialogueBox")._set_path("Level0/Room-Introduction.json")
-	add_child(spawn_dialog)
-	while (is_instance_valid(spawn_dialog)):
-		yield(get_tree().create_timer(.2), "timeout")
+	yield(create_box("Level0/Room-Introduction.json"), "completed")
 	
-	# After a moment, call the second dialogue
+	# Wait 2 seconds, then call the second dialogue
 	yield(get_tree().create_timer(2), "timeout")
-	var interact_dialog = dialogueBox.instance()
-	interact_dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Interact.json")
-	add_child(interact_dialog)
-	while (is_instance_valid(interact_dialog)):
-		yield(get_tree().create_timer(.2), "timeout")
+	yield(create_box("Level0/Task1/Interact-TaskStart.json"), "completed")
 	
-	# Call the terminal for this puzzle - temporarily disabled until I figure out how puzzles are being input
-	#var puzzle1 = terminal.instance()
-	#puzzle1._set_path("res://Puzzle/TestCases/PuzzleExample.json")
-	#add_child(puzzle1)
-	
-	# Temporary workaround to the above issue
-	$PuzzleTerminal.visible = true
-	$PuzzleTerminal.get_tree().paused = true
-	var intro_dialog = dialogueBox.instance()
-	intro_dialog.get_node("DialogueBox")._set_path("Level0/Puzzle1-Introduction.json")
-	add_child(intro_dialog)
-	while (is_instance_valid(intro_dialog)):
-		yield(get_tree().create_timer(.2), "timeout")
-	$PuzzleTerminal.get_tree().paused = false
-	
+	# Call the terminal for this task
+	yield(create_task("Level0/Task1/"), "completed")
+		
 	# Demonstration over; end game
-	while (is_instance_valid($PuzzleTerminal)):
-		yield(get_tree().create_timer(.2), "timeout")
 	yield(get_tree().create_timer(2), "timeout")
+	print("quitting")
 	get_tree().quit()

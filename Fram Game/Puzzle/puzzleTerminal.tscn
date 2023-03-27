@@ -28,17 +28,10 @@ border_width = 7.5
 editor_only = false
 
 [node name="Editor" parent="." instance=ExtResource( 2 )]
-<<<<<<< HEAD
-margin_left = 52.0
-margin_top = 30.0
-margin_right = 742.0
-margin_bottom = 596.0
-=======
 margin_left = -465.0
 margin_top = -283.0
 margin_right = 225.0
 margin_bottom = 283.0
->>>>>>> origin/dev
 
 [node name="Input" parent="Editor/VBoxContainer" index="0"]
 margin_right = 690.0

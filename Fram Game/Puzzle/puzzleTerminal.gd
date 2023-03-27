@@ -1,14 +1,9 @@
 extends Control
 
 # Path variables
-<<<<<<< HEAD
-export var json_test_case_file = "" setget _set_path, _get_path
-#var python_dir = "./python_files/python.exe" # python executable
-=======
 # Source Path: "res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/"
 export var source_path = "DefaultMessages/TaskTemplate/" setget _set_path, _get_path
 var python_dir = "./python_files/python.exe" # python executable
->>>>>>> origin/dev
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
 var godot_user_path_g = ProjectSettings.globalize_path("user://")
@@ -124,12 +119,7 @@ func on_button_pressed():
 	var testData = JSON.parse(jsonTestFile.get_as_text()).result # this is the parsed test json
 	jsonTestFile.close()
 	var stdout = []
-<<<<<<< HEAD
-	var exit_code = OS.execute(GLOBAL.python_dir, [test_code_file_g, test_puzzle_path, GLOBAL.python_dir, godot_user_path_g], true, stdout, true)	
-	print("stdout: ", [test_code_file_g, test_puzzle_path, GLOBAL.python_dir, godot_user_path_g])
-=======
 	var exit_code = OS.execute(python_dir, [test_code_file_g, test_task_path, python_dir, godot_user_path_g], true, stdout, true)	
->>>>>>> origin/dev
 	print(stdout)
 	var file = File.new()
 	file.open("user://results.json", File.READ)
@@ -179,5 +169,5 @@ func on_button_pressed():
 
 func test_pressed():
 	var stdout = []
-	var exit_code = OS.execute(GLOBAL.python_dir, [test_code_file_g, test_puzzle_path, GLOBAL.python_dir, godot_user_path_g], true, stdout, true)
+	var exit_code = OS.execute(GLOBAL.python_dir, [test_code_file_g, test_task_path, GLOBAL.python_dir, godot_user_path_g], true, stdout, true)
 	print(stdout)

@@ -158,3 +158,7 @@ func on_button_pressed():
 #func _process(delta):
 #	pass
 
+
+
+func tutorial_button_pressed():
+	$Tutorial.visible = not $Tutorial.visible

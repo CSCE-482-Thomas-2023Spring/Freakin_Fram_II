@@ -45,6 +45,97 @@ margin_top = 353.0
 margin_right = 690.0
 margin_bottom = 566.0
 
+[node name="TutorialButton" type="Button" parent="."]
+anchor_left = 0.773
+anchor_top = 0.832
+anchor_right = 0.773
+anchor_bottom = 0.832
+margin_left = 0.447937
+margin_top = -0.200012
+margin_right = 97.4479
+margin_bottom = 48.8
+
+[node name="Tutorial" type="ColorRect" parent="."]
+margin_left = 91.0
+margin_top = 14.0
+margin_right = 760.0
+margin_bottom = 509.0
+color = Color( 0.0941176, 0.0941176, 0.0941176, 1 )
+
+[node name="TutorialText" type="RichTextLabel" parent="Tutorial"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 112.0
+margin_top = 10.0
+margin_right = -127.0
+margin_bottom = -19.0
+bbcode_enabled = true
+bbcode_text = "In this level, we explore boolean logic. A boolean is a variable which may take the value “True” or “False.” For example, the following python creates a boolean variable named “condition_1” whose value is true:
+
+condition_1 = True
+
+Given boolean variables condition_1, condition_2, there are several operations we can perform to create new booleans.
+
+not condition_1
+
+Is the boolean whose value is opposite condition_1’s. Namely, if condition_1 is true, then “not condition_1” is false, and vice versa.
+
+condition_1 and condition_2
+
+Is the boolean which is true if condition_1 is true and condition_2 is true simultaneously. Otherwise, it is false. For example, True and True is True, True and False is False, False and True is False, and False and False is False (write out truth tables in LaTeX?).
+
+condition_1 or condition_2
+
+Is the boolean which is true if condition_1 is true or condition_2 is true. For example, True or True is True, True or False is True, False or True is True, and “False or False” is False. As a remark, this may contradict the way “or” is used colloquially as “either one or the other, but not both.” Sometimes, “or” as we have defined it is called the “inclusive or”, and the “colloquial or” is “exclusive or” (see below).
+
+In a sense, these three boolean operations: NOT, OR, AND, are all we need to represent any logic we might want to do. For example, we will need to apply “exclusive or” to complete one of our tasks. It can be written in terms of NOT, AND, and OR as
+
+condition_1 ^ condition_2 == condition_1 and not condition_2 or condition_2 and not condition_1
+
+The astute crew member will notice there is ambiguity here! Depending on the order we evaluate each “and” and “or”, we may arrive at different results. For example,
+(True and False) or False == False or False == False
+while 
+True and (False or True) == True and True = True
+Therefore, we need an “order of operations” for boolean operations like we have with ordinary arithmetic. In python, NOT is applied first, AND is applied next, and OR is applied last. It follows that our definition of XOR can be reread as
+
+(condition_1 and (not condition_2)) or (condition_2 and (not condition_1))
+
+As a rule of thumb, it is a good idea to add parentheses to your python boolean logic to minimize your chances of mistake!
+"
+text = "In this level, we explore boolean logic. A boolean is a variable which may take the value “True” or “False.” For example, the following python creates a boolean variable named “condition_1” whose value is true:
+
+condition_1 = True
+
+Given boolean variables condition_1, condition_2, there are several operations we can perform to create new booleans.
+
+not condition_1
+
+Is the boolean whose value is opposite condition_1’s. Namely, if condition_1 is true, then “not condition_1” is false, and vice versa.
+
+condition_1 and condition_2
+
+Is the boolean which is true if condition_1 is true and condition_2 is true simultaneously. Otherwise, it is false. For example, True and True is True, True and False is False, False and True is False, and False and False is False (write out truth tables in LaTeX?).
+
+condition_1 or condition_2
+
+Is the boolean which is true if condition_1 is true or condition_2 is true. For example, True or True is True, True or False is True, False or True is True, and “False or False” is False. As a remark, this may contradict the way “or” is used colloquially as “either one or the other, but not both.” Sometimes, “or” as we have defined it is called the “inclusive or”, and the “colloquial or” is “exclusive or” (see below).
+
+In a sense, these three boolean operations: NOT, OR, AND, are all we need to represent any logic we might want to do. For example, we will need to apply “exclusive or” to complete one of our tasks. It can be written in terms of NOT, AND, and OR as
+
+condition_1 ^ condition_2 == condition_1 and not condition_2 or condition_2 and not condition_1
+
+The astute crew member will notice there is ambiguity here! Depending on the order we evaluate each “and” and “or”, we may arrive at different results. For example,
+(True and False) or False == False or False == False
+while 
+True and (False or True) == True and True = True
+Therefore, we need an “order of operations” for boolean operations like we have with ordinary arithmetic. In python, NOT is applied first, AND is applied next, and OR is applied last. It follows that our definition of XOR can be reread as
+
+(condition_1 and (not condition_2)) or (condition_2 and (not condition_1))
+
+As a rule of thumb, it is a good idea to add parentheses to your python boolean logic to minimize your chances of mistake!
+"
+
 [connection signal="pressed" from="Editor/VBoxContainer/Output/Button" to="." method="on_button_pressed"]
+[connection signal="pressed" from="TutorialButton" to="." method="tutorial_button_pressed"]
 
 [editable path="Editor"]

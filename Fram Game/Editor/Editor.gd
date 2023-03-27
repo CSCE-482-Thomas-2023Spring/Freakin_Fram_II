@@ -6,7 +6,7 @@ onready var output = $"../Output/Output Text"
 
 # Change this variable to make lines read only (bookmarked)
 # Eg : [ 0, 2 ] will set lines 1 and 3 to read only
-export var read_only_lines = [] setget readonly_set, readonly_get
+export(Array, int) var read_only_lines = [] setget readonly_set, readonly_get
 
 export var disabled = false setget disable_set
 

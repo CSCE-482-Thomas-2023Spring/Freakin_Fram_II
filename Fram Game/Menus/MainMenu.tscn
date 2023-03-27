@@ -1,10 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Menus/MainMenu.gd" type="Script" id=1]
+[ext_resource path="res://Fonts/fonts/conthrax-sb.otf" type="DynamicFontData" id=2]
 
 [sub_resource type="StreamTexture" id=1]
 flags = 4
 load_path = "res://.import/OfficialCoverArt.jpg-0b1e2300f0b70b7f7515967679cf48fd.stex"
+
+[sub_resource type="DynamicFont" id=2]
+size = 10
+font_data = ExtResource( 2 )
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -49,12 +54,14 @@ focus_neighbour_bottom = NodePath("../StartButton")
 text = "Quit"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-margin_left = 101.0
-margin_top = 85.0
-margin_right = 165.0
-margin_bottom = 117.0
-text = "FRAM"
-override_selected_font_color = true
+margin_left = 65.0
+margin_top = 59.0
+margin_right = 105.0
+margin_bottom = 74.0
+rect_scale = Vector2( 12, 12 )
+custom_colors/default_color = Color( 0.321569, 0.435294, 0.458824, 1 )
+custom_fonts/normal_font = SubResource( 2 )
+text = "Fram"
 
 [connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/OptionsButton" to="." method="_on_OptionsButton_pressed"]

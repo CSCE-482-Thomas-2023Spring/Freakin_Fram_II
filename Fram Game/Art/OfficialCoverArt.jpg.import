@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OfficialCoverArt.jpg-1e87ba94c352f7b31527975d18deab44.stex"
+path="res://.import/OfficialCoverArt.jpg-0b1e2300f0b70b7f7515967679cf48fd.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Menus/OfficialCoverArt.jpg"
-dest_files=[ "res://.import/OfficialCoverArt.jpg-1e87ba94c352f7b31527975d18deab44.stex" ]
+source_file="res://Art/OfficialCoverArt.jpg"
+dest_files=[ "res://.import/OfficialCoverArt.jpg-0b1e2300f0b70b7f7515967679cf48fd.stex" ]
 
 [params]
 

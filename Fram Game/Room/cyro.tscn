@@ -1,0 +1,137 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Objects/Wall.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Room/cryo.gd" type="Script" id=3]
+[ext_resource path="res://Objects/Wall.gd" type="Script" id=4]
+[ext_resource path="res://Objects/Interact.gd" type="Script" id=5]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 15.25, 61.5 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 61, 10 )
+
+[node name="Cryo" type="Node"]
+script = ExtResource( 3 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 412, 275 )
+
+[node name="Wall_SW" parent="." instance=ExtResource( 2 )]
+position = Vector2( 772, 600 )
+rotation = -1.57079
+
+[node name="ColorRect" parent="Wall_SW" index="0"]
+margin_left = 88.0
+margin_right = 251.0
+
+[node name="Wall_NW" parent="." instance=ExtResource( 2 )]
+position = Vector2( 773, 199 )
+rotation = -1.57079
+
+[node name="ColorRect" parent="Wall_NW" index="0"]
+margin_left = -19.0
+margin_right = 135.0
+
+[node name="Wall_W2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 792, 194 )
+
+[node name="ColorRect" parent="Wall_W2" index="0"]
+margin_left = -19.0
+margin_right = 134.0
+
+[node name="Wall_W3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 791, 349 )
+
+[node name="ColorRect" parent="Wall_W3" index="0"]
+margin_left = -19.0
+margin_right = 135.0
+
+[node name="Wall_W4" parent="." instance=ExtResource( 2 )]
+visible = false
+position = Vector2( 901, 349 )
+rotation = -1.57079
+
+[node name="ColorRect" parent="Wall_W4" index="0"]
+margin_left = -19.0
+margin_right = 135.0
+
+[node name="Wall_E" parent="." instance=ExtResource( 2 )]
+position = Vector2( 125, 599 )
+rotation = -1.57079
+
+[node name="ColorRect" parent="Wall_E" index="0"]
+margin_left = 87.0
+margin_right = 535.0
+
+[node name="Wall_N" parent="." instance=ExtResource( 2 )]
+position = Vector2( -91, 64 )
+
+[node name="ColorRect" parent="Wall_N" index="0"]
+margin_left = 216.0
+margin_right = 864.0
+
+[node name="Wall_S" parent="." instance=ExtResource( 2 )]
+position = Vector2( -91, 487 )
+
+[node name="ColorRect" parent="Wall_S" index="0"]
+margin_left = 216.0
+margin_right = 864.0
+
+[node name="Exit" type="Area2D" parent="."]
+position = Vector2( 785, 1 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+node_path = NodePath("..")
+call_method = "leave_room"
+require_interact = false
+
+[node name="Interact" type="CollisionShape2D" parent="Exit"]
+position = Vector2( 115.75, 283 )
+shape = SubResource( 3 )
+
+[node name="Door" type="Area2D" parent="."]
+position = Vector2( 792, 231 )
+rotation = 1.5708
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+node_path = NodePath("..")
+call_method = "closet_door"
+
+[node name="Interact" type="CollisionShape2D" parent="Door"]
+position = Vector2( 53, 13 )
+shape = SubResource( 4 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Door"]
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="Door/StaticBody2D"]
+margin_left = -12.0
+margin_top = -7.0
+margin_right = 117.0
+margin_bottom = 18.0
+color = Color( 0.486275, 0.470588, 0.470588, 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door/StaticBody2D"]
+
+[connection signal="body_entered" from="Exit" to="Exit" method="_on_body_entered"]
+[connection signal="body_exited" from="Exit" to="Exit" method="_on_body_exited"]
+[connection signal="body_entered" from="Door" to="Door" method="_on_body_entered"]
+[connection signal="body_exited" from="Door" to="Door" method="_on_body_exited"]
+
+[editable path="Wall_SW"]
+[editable path="Wall_NW"]
+[editable path="Wall_W2"]
+[editable path="Wall_W3"]
+[editable path="Wall_W4"]
+[editable path="Wall_E"]
+[editable path="Wall_N"]
+[editable path="Wall_S"]

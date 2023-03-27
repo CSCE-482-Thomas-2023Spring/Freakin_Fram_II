@@ -3,15 +3,35 @@
 [ext_resource path="res://Puzzle/puzzleTerminal.gd" type="Script" id=1]
 [ext_resource path="res://Editor/Editor.tscn" type="PackedScene" id=2]
 
-[node name="PuzzleTerminal" type="Node2D"]
+[node name="PuzzleTerminal" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 1 )
-json_test_case_file = "res://Puzzle/TestCases/testPuzzle2.json"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 27.0
+margin_right = -36.0
+color = Color( 0.376471, 0.376471, 0.376471, 0.937255 )
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -482.0
+margin_top = 5.0
+margin_right = 476.0
+margin_bottom = -6.0
+border_color = Color( 0.290196, 0.290196, 0.290196, 0.352941 )
+border_width = 7.5
+editor_only = false
 
 [node name="Editor" parent="." instance=ExtResource( 2 )]
-margin_left = 30.0
-margin_top = 24.0
-margin_right = 720.0
-margin_bottom = 590.0
+margin_left = -465.0
+margin_top = -283.0
+margin_right = 225.0
+margin_bottom = 283.0
 
 [node name="Input" parent="Editor/VBoxContainer" index="0"]
 margin_right = 690.0

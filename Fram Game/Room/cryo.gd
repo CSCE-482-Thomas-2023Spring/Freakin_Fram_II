@@ -33,7 +33,8 @@ func closet_door():
 	# Enable player movement
 	$Player.enable()
 	
-func leave_room():
-	print("Leaving cryo")
+func goto_closet():
 	get_tree().change_scene("res://Room/closet.tscn")
-	pass
+	
+func goto_hallway():
+	get_tree().change_scene("res://Room/hallway_east.tscn")

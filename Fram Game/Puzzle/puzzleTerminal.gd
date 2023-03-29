@@ -26,7 +26,7 @@ func create_box(json_path):
 	# if this dialogue box does not exist for this task, use the default
 	var this_path = source_path + json_path
 	var f = File.new()
-	if (not f.file_exists(source_path + json_path)):
+	if (not f.file_exists(this_path)):
 		this_path = "DefaultMessages/TaskTemplate/" + json_path
 	
 	# call a dialogue tree from input file location

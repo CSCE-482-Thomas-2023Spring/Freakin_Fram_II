@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Wall.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Objects/TaskArea.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Objects/TaskInstance.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Menus/OfficialCoverArt.jpg" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -60,6 +60,7 @@ shape = SubResource( 1 )
 
 [node name="TestTask2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 744, 336 )
+task_path = "Level0/Task2/"
 initial_status = 1
 custom_overlap = true
 

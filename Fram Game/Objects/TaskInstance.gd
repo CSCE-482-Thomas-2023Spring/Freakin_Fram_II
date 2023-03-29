@@ -16,9 +16,15 @@ func set_status(new_status):
 
 # Reusable dialogue-calling function
 func dialogue(json_path):
+	# Use default task template dialogue if this task is missing unique interaction dialogue
+	var this_path = task_path + json_path
+	var f = File.new()
+	if (not f.file_exists(this_path)):
+		this_path = "DefaultMessages/TaskTemplate/" + json_path
+	
 	var parent = get_parent()
 	var box = dialogueBox.instance()
-	box.get_node("DialogueBox")._set_path(json_path)
+	box.get_node("DialogueBox")._set_path(this_path)
 	parent.add_child(box)
 	yield(box, "tree_exited")
 
@@ -59,16 +65,16 @@ func interact():
 	player.disable()
 	if (initial_status == 0):
 		# If task is locked, prevent access
-		yield(dialogue(task_path + "Interact-Blocked.json"), "completed")
+		yield(dialogue("Interact-Blocked.json"), "completed")
 	elif (initial_status == 1):
 		# If task is unstarted, start for the first time
-		yield(dialogue(task_path + "Interact-TaskStart.json"), "completed")
+		yield(dialogue("Interact-TaskStart.json"), "completed")
 		yield(launch_task(task_path), "completed")
 	elif (initial_status == 2):
 		# If task is started, continue from before
-		yield(dialogue(task_path + "Interact-Return.json"), "completed")
+		yield(dialogue("Interact-Return.json"), "completed")
 		yield(launch_task(task_path), "completed")
 	elif (initial_status == 3):
 		# If task is completed, prevent access
-		yield(dialogue(task_path + "Interact-Complete.json"), "completed")
+		yield(dialogue("Interact-Complete.json"), "completed")
 	player.enable()

@@ -104,3 +104,7 @@ Interact={
 [physics]
 
 common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_clear_color=Color( 0.113725, 0.113725, 0.113725, 1 )

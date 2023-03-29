@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Objects/Tiles.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Room/hallway_west.gd" type="Script" id=3]
+[ext_resource path="res://Objects/Interact.gd" type="Script" id=5]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 15.25, 61.5 )
+
+[node name="HallwayWest" type="Node"]
+script = ExtResource( 3 )
+
+[node name="Tiles" parent="." instance=ExtResource( 2 )]
+
+[node name="TileMap" parent="Tiles" index="1"]
+tile_data = PoolIntArray( 13, 0, 0, 14, 1, 0, 15, 1, 0, 16, 1, 0, 17, 1, 0, 18, 0, 0, 65549, 0, 0, 65550, 1, 0, 65551, 1, 0, 65552, 1, 0, 65553, 1, 0, 65554, 0, 0, 131085, 0, 0, 131086, 1, 0, 131087, 1, 0, 131088, 1, 0, 131089, 1, 0, 131090, 0, 0, 196621, 0, 0, 196622, 1, 0, 196623, 1, 0, 196624, 1, 0, 196625, 1, 0, 196626, 0, 0, 262157, 0, 0, 262158, 1, 0, 262159, 1, 0, 262160, 1, 0, 262161, 1, 0, 262162, 0, 0, 327693, 0, 0, 327694, 1, 0, 327695, 1, 0, 327696, 1, 0, 327697, 1, 0, 327698, 0, 0, 393229, 0, 0, 393230, 1, 0, 393231, 1, 0, 393232, 1, 0, 393233, 1, 0, 393234, 0, 0, 458752, 0, 0, 458753, 0, 0, 458754, 0, 0, 458755, 0, 0, 458756, 0, 0, 458757, 0, 0, 458758, 0, 0, 458759, 0, 0, 458760, 0, 0, 458761, 0, 0, 458762, 0, 0, 458763, 0, 0, 458764, 0, 0, 458765, 0, 0, 458766, 1, 0, 458767, 1, 0, 458768, 1, 0, 458769, 1, 0, 458770, 0, 0, 458771, 0, 0, 458772, 0, 0, 458773, 0, 0, 458774, 0, 0, 458775, 0, 0, 458776, 0, 0, 458777, 0, 0, 458778, 0, 0, 458779, 0, 0, 458780, 0, 0, 458781, 0, 0, 458782, 0, 0, 458783, 0, 0, 524288, 1, 0, 524289, 1, 0, 524290, 1, 0, 524291, 1, 0, 524292, 1, 0, 524293, 1, 0, 524294, 1, 0, 524295, 1, 0, 524296, 1, 0, 524297, 1, 0, 524298, 1, 0, 524299, 1, 0, 524300, 1, 0, 524301, 1, 0, 524302, 1, 0, 524303, 1, 0, 524304, 1, 0, 524305, 1, 0, 524306, 1, 0, 524307, 1, 0, 524308, 1, 0, 524309, 1, 0, 524310, 1, 0, 524311, 1, 0, 524312, 1, 0, 524313, 1, 0, 524314, 1, 0, 524315, 1, 0, 524316, 1, 0, 524317, 1, 0, 524318, 1, 0, 524319, 1, 0, 589824, 1, 0, 589825, 1, 0, 589826, 1, 0, 589827, 1, 0, 589828, 1, 0, 589829, 1, 0, 589830, 1, 0, 589831, 1, 0, 589832, 1, 0, 589833, 1, 0, 589834, 1, 0, 589835, 1, 0, 589836, 1, 0, 589837, 1, 0, 589838, 1, 0, 589839, 1, 0, 589840, 1, 0, 589841, 1, 0, 589842, 1, 0, 589843, 1, 0, 589844, 1, 0, 589845, 1, 0, 589846, 1, 0, 589847, 1, 0, 589848, 1, 0, 589849, 1, 0, 589850, 1, 0, 589851, 1, 0, 589852, 1, 0, 589853, 1, 0, 589854, 1, 0, 589855, 1, 0, 655360, 1, 0, 655361, 1, 0, 655362, 1, 0, 655363, 1, 0, 655364, 1, 0, 655365, 1, 0, 655366, 1, 0, 655367, 1, 0, 655368, 1, 0, 655369, 1, 0, 655370, 1, 0, 655371, 1, 0, 655372, 1, 0, 655373, 1, 0, 655374, 1, 0, 655375, 1, 0, 655376, 1, 0, 655377, 1, 0, 655378, 1, 0, 655379, 1, 0, 655380, 1, 0, 655381, 1, 0, 655382, 1, 0, 655383, 1, 0, 655384, 1, 0, 655385, 1, 0, 655386, 1, 0, 655387, 1, 0, 655388, 1, 0, 655389, 1, 0, 655390, 1, 0, 655391, 1, 0, 720896, 1, 0, 720897, 1, 0, 720898, 1, 0, 720899, 1, 0, 720900, 1, 0, 720901, 1, 0, 720902, 1, 0, 720903, 1, 0, 720904, 1, 0, 720905, 1, 0, 720906, 1, 0, 720907, 1, 0, 720908, 1, 0, 720909, 1, 0, 720910, 1, 0, 720911, 1, 0, 720912, 1, 0, 720913, 1, 0, 720914, 1, 0, 720915, 1, 0, 720916, 1, 0, 720917, 1, 0, 720918, 1, 0, 720919, 1, 0, 720920, 1, 0, 720921, 1, 0, 720922, 1, 0, 720923, 1, 0, 720924, 1, 0, 720925, 1, 0, 720926, 1, 0, 720927, 1, 0, 786432, 0, 0, 786433, 0, 0, 786434, 0, 0, 786435, 0, 0, 786436, 0, 0, 786437, 0, 0, 786438, 0, 0, 786439, 0, 0, 786440, 0, 0, 786441, 0, 0, 786442, 0, 0, 786443, 0, 0, 786444, 0, 0, 786445, 0, 0, 786446, 1, 0, 786447, 1, 0, 786448, 1, 0, 786449, 1, 0, 786450, 0, 0, 786451, 0, 0, 786452, 0, 0, 786453, 0, 0, 786454, 0, 0, 786455, 0, 0, 786456, 0, 0, 786457, 0, 0, 786458, 0, 0, 786459, 0, 0, 786460, 0, 0, 786461, 0, 0, 786462, 0, 0, 786463, 0, 0, 851981, 0, 0, 851982, 1, 0, 851983, 1, 0, 851984, 1, 0, 851985, 1, 0, 851986, 0, 0, 917517, 0, 0, 917518, 1, 0, 917519, 1, 0, 917520, 1, 0, 917521, 1, 0, 917522, 0, 0, 983053, 0, 0, 983054, 1, 0, 983055, 1, 0, 983056, 1, 0, 983057, 1, 0, 983058, 0, 0, 1048589, 0, 0, 1048590, 1, 0, 1048591, 1, 0, 1048592, 1, 0, 1048593, 1, 0, 1048594, 0, 0, 1114125, 0, 0, 1114126, 1, 0, 1114127, 1, 0, 1114128, 1, 0, 1114129, 1, 0, 1114130, 0, 0, 1179661, 0, 0, 1179662, 1, 0, 1179663, 1, 0, 1179664, 1, 0, 1179665, 1, 0, 1179666, 0, 0, 1245197, 0, 0, 1245198, 1, 0, 1245199, 1, 0, 1245200, 1, 0, 1245201, 1, 0, 1245202, 0, 0 )
+
+[node name="SecurityExit" type="Area2D" parent="."]
+position = Vector2( 513, 16 )
+rotation = -1.57079
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+node_path = NodePath("..")
+call_method = "goto_security"
+require_interact = false
+
+[node name="Interact" type="CollisionShape2D" parent="SecurityExit"]
+shape = SubResource( 3 )
+
+[node name="CargoExit" type="Area2D" parent="."]
+position = Vector2( 513, 623 )
+rotation = -1.57079
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+node_path = NodePath("..")
+call_method = "goto_cargo"
+require_interact = false
+
+[node name="Interact" type="CollisionShape2D" parent="CargoExit"]
+shape = SubResource( 3 )
+
+[node name="HallwayExit" type="Area2D" parent="."]
+position = Vector2( 1005, 320 )
+rotation = -3.14159
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+node_path = NodePath("..")
+call_method = "goto_hallway"
+require_interact = false
+
+[node name="Interact" type="CollisionShape2D" parent="HallwayExit"]
+shape = SubResource( 3 )
+
+[node name="BridgeExit" type="Area2D" parent="."]
+position = Vector2( 15, 320 )
+rotation = -3.14159
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+node_path = NodePath("..")
+call_method = "goto_bridge"
+require_interact = false
+
+[node name="Interact" type="CollisionShape2D" parent="BridgeExit"]
+shape = SubResource( 3 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 513, 317 )
+
+[connection signal="body_entered" from="SecurityExit" to="SecurityExit" method="_on_body_entered"]
+[connection signal="body_exited" from="SecurityExit" to="SecurityExit" method="_on_body_exited"]
+[connection signal="body_entered" from="CargoExit" to="CargoExit" method="_on_body_entered"]
+[connection signal="body_exited" from="CargoExit" to="CargoExit" method="_on_body_exited"]
+[connection signal="body_entered" from="HallwayExit" to="HallwayExit" method="_on_body_entered"]
+[connection signal="body_exited" from="HallwayExit" to="HallwayExit" method="_on_body_exited"]
+[connection signal="body_entered" from="BridgeExit" to="BridgeExit" method="_on_body_entered"]
+[connection signal="body_exited" from="BridgeExit" to="BridgeExit" method="_on_body_exited"]
+
+[editable path="Tiles"]

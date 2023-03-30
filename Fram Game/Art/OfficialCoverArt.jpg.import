@@ -2,11 +2,16 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/OfficialCoverArt.jpg-0b1e2300f0b70b7f7515967679cf48fd.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
-source_file="res://Art/OfficialCoverArt.png"
+source_file="res://Art/OfficialCoverArt.jpg"
+dest_files=[ "res://.import/OfficialCoverArt.jpg-0b1e2300f0b70b7f7515967679cf48fd.stex" ]
+
 [params]
 
 compress/mode=0

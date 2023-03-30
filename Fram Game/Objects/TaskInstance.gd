@@ -19,7 +19,7 @@ func dialogue(json_path):
 	# Use default task template dialogue if this task is missing unique interaction dialogue
 	var this_path = task_path + json_path
 	var f = File.new()
-	if (not f.file_exists(this_path)):
+	if (not f.file_exists("res://SourceFiles/" + this_path)):
 		this_path = "DefaultMessages/TaskTemplate/" + json_path
 	
 	# Call dialgoue box
@@ -31,7 +31,6 @@ func dialogue(json_path):
 
 # Reusable task-calling function
 func launch_task(json_path):
-	var completed = false
 	var parent = get_parent()
 	var task = terminal.instance()
 	task._set_path(json_path)

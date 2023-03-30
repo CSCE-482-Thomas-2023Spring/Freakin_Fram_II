@@ -1,7 +1,7 @@
 extends Area2D
 
 export var task_path: String = "DefaultMessages/TaskTemplate/" setget set_path
-export var initial_status: int = 0 setget set_status
+export var status: int = 0 setget set_status
 export var custom_overlap: bool = false
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var terminal = preload("res://Puzzle/puzzleTerminal.tscn")
@@ -12,7 +12,7 @@ func set_path(new_path):
 
 # Setter function for task's completion status (0 = locked, 1 = unstarted, 2 = started, 3 = finished)
 func set_status(new_status):
-	initial_status = new_status
+	status = new_status
 
 # Reusable dialogue-calling function
 func dialogue(json_path):
@@ -22,6 +22,7 @@ func dialogue(json_path):
 	if (not f.file_exists(this_path)):
 		this_path = "DefaultMessages/TaskTemplate/" + json_path
 	
+	# Call dialgoue box
 	var parent = get_parent()
 	var box = dialogueBox.instance()
 	box.get_node("DialogueBox")._set_path(this_path)
@@ -30,11 +31,17 @@ func dialogue(json_path):
 
 # Reusable task-calling function
 func launch_task(json_path):
+	var completed = false
 	var parent = get_parent()
 	var task = terminal.instance()
 	task._set_path(json_path)
+	task.connect("task_success", self, "task_complete")
 	parent.add_child(task)
 	yield(task, "tree_exited")
+
+# When a task is completed, update status accordingly
+func task_complete():
+	status = 3;
 
 # Scale interaction overlap areas to match size of collision area
 func _ready():
@@ -63,18 +70,20 @@ func _on_TaskArea_body_exited(body):
 func interact():
 	var player = get_node("../Player")
 	player.disable()
-	if (initial_status == 0):
+	if (status == 0):
 		# If task is locked, prevent access
 		yield(dialogue("Interact-Blocked.json"), "completed")
-	elif (initial_status == 1):
-		# If task is unstarted, start for the first time
+	elif (status == 1):
+		# If task is unstarted, start for the first time & update status to started
+		status = 2
 		yield(dialogue("Interact-TaskStart.json"), "completed")
 		yield(launch_task(task_path), "completed")
-	elif (initial_status == 2):
+	elif (status == 2):
 		# If task is started, continue from before
 		yield(dialogue("Interact-Return.json"), "completed")
 		yield(launch_task(task_path), "completed")
-	elif (initial_status == 3):
+		# Update task status if complete
+	elif (status == 3):
 		# If task is completed, prevent access
 		yield(dialogue("Interact-Complete.json"), "completed")
 	player.enable()

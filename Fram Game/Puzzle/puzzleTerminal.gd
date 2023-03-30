@@ -2,18 +2,22 @@ extends Control
 
 # Path variables
 # Source Path: "res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/"
-export var source_path = "DefaultMessages/TaskTemplate/" setget _set_path, _get_path
+export var source_path = "DefaultMessages/TaskTemplate/" setget _set_path
+export var puzzle_success: bool = false setget ,get_status
 var python_dir = "./python_files/python.exe" # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
 var godot_user_path_g = ProjectSettings.globalize_path("user://")
 onready var test_task_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "TaskData.json")
+signal task_success
 
-# Setter/Getter for task path
+# Setter for task path
 func _set_path(new_val: String) -> void:
 	source_path = new_val
-func _get_path() -> String:
-	return source_path
+
+# Getter for puzzle success status
+func get_status() -> bool:
+	return puzzle_success
 
 # Variable declarations for internal use
 var successes = 0
@@ -143,6 +147,7 @@ func on_button_pressed():
 	# Set dialogue for end-of-task success & close terminal as needed
 	if (successes == caseCount):
 		yield(create_box("Success.json"), "completed")
+		emit_signal("task_success")
 		
 		# Delete self
 		queue_free()

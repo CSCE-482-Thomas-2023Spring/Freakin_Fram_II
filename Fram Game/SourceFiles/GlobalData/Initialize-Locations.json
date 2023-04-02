@@ -1,0 +1,48 @@
+{
+    "PodRoom": {
+        "MaintenanceCloset": [0,0],
+        "HallwayEast": [0,0]
+    },
+    "MaintenanceCloset": {
+        "PodRoom": [0,0]
+    },
+    "Laboratory": {
+        "HallwayEast": [0,0]
+    },
+    "Navigation": {
+        "Bridge": [0,0]
+    },
+    "Security": {
+        "HallwayWest": [0,0]
+    },
+    "CrewQuarters": {
+        "HallwayEast": [0,0]
+    },
+    "Communications": {
+        "Bridge": [0,0]
+    },
+    "ReactorRoom": {
+        "HallwayEast": [0,0]
+    },
+    "Bridge": {
+        "Navigation": [0,0],
+        "Communications": [0,0],
+        "HallwayWest": [0,0]
+    },
+    "CargoBay": {
+        "HallwayWest": [0,0]
+    },
+    "HallwayWest": {
+        "Bridge": [0,0],
+        "Security": [0,0],
+        "CargoBay": [0,0],
+        "HallwayEast": [0,0]
+    },
+    "HallwayEast": {
+        "PodRoom": [0,0],
+        "Laboratory": [0,0],
+        "CrewQuarters": [0,0],
+        "ReactorRoom": [0,0],
+        "HallwayWest": [0,0]
+    }
+}

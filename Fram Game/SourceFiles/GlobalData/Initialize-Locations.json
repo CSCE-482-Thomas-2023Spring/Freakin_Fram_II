@@ -1,48 +1,48 @@
 {
     "PodRoom": {
-        "MaintenanceCloset": [0,0],
-        "HallwayEast": [0,0]
+        "MaintenanceCloset": [960,288],
+        "HallwayEast": [480,576]
     },
     "MaintenanceCloset": {
-        "PodRoom": [0,0]
+        "PodRoom": [64,288]
     },
     "Laboratory": {
-        "HallwayEast": [0,0]
+        "HallwayEast": [512,64]
     },
     "Navigation": {
-        "Bridge": [0,0]
+        "Bridge": [512,64]
     },
     "Security": {
-        "HallwayWest": [0,0]
+        "HallwayWest": [512,576]
     },
     "CrewQuarters": {
-        "HallwayEast": [0,0]
+        "HallwayEast": [512,576]
     },
     "Communications": {
-        "Bridge": [0,0]
+        "Bridge": [512,576]
     },
     "ReactorRoom": {
-        "HallwayEast": [0,0]
+        "HallwayEast": [64,160]
     },
     "Bridge": {
-        "Navigation": [0,0],
-        "Communications": [0,0],
-        "HallwayWest": [0,0]
+        "Navigation": [480,576],
+        "Communications": [480,64],
+        "HallwayWest": [960,288]
     },
     "CargoBay": {
-        "HallwayWest": [0,0]
+        "HallwayWest": [128,64]
     },
     "HallwayWest": {
-        "Bridge": [0,0],
-        "Security": [0,0],
-        "CargoBay": [0,0],
-        "HallwayEast": [0,0]
+        "Bridge": [64,320],
+        "Security": [512,64],
+        "CargoBay": [512,576],
+        "HallwayEast": [960,320]
     },
     "HallwayEast": {
-        "PodRoom": [0,0],
-        "Laboratory": [0,0],
-        "CrewQuarters": [0,0],
-        "ReactorRoom": [0,0],
-        "HallwayWest": [0,0]
+        "PodRoom": [704,64],
+        "Laboratory": [512,576],
+        "CrewQuarters": [320,64],
+        "ReactorRoom": [960,320],
+        "HallwayWest": [64,320]
     }
 }

@@ -4,13 +4,15 @@ extends Node2D
 # ==============================================================
 # Task Status 2D Array - format: [[Level 0 Task 1 Status, Level 0 Task 2 Status], [Level 1 Task 1 Status]] etc
 var level_tasks = []
-# Level Entry Location 2D Array - format: [[L0 location from L0, L0 location from L1], [L1 location from L0]] etc
-var entry_locations = []
+# Level Entry Locations - format: entry_locations["NewRoom"]["SourceRoom"] = [x position, y position]
+var entry_locations = {}
 # Player's current room location
 var current_level = 0
-var starting_location = Vector2(0, 0)
+var starting_location = Vector2(480, 288)
 # Current level scene reference
 var current_scene
+# Global data storage location
+var global_path = "res://SourceFiles/GlobalData/"
 
 # Preload necessary scene types
 var mainMenu = preload("res://Menus/MainMenu.tscn")
@@ -62,7 +64,15 @@ func init_tasks():
 
 # Initialize room starting player data
 func init_locations():
-	pass # TODO: probably pull from a JSON
+	# Open locations' json file location
+	var f = File.new()
+	var location_path = global_path + "Initialize-Locations.json"
+	assert(f.file_exists(location_path), "File path " + location_path + " does not exist")
+	f.open(location_path, File.READ)
+	
+	# Store locations to global variable
+	var json = f.get_as_text()
+	entry_locations = parse_json(json)
 
 # Initiate gameplay with saved data; Load Game
 func load_data():
@@ -83,12 +93,14 @@ func start_game():
 	pass
 
 # Return the starting position of level x when coming from level y
-func room_pos(level_num: int, source_num: int = -1) -> Vector2:
-	# Return starting location if the player is not coming from a room (y = -1)
-	if (source_num == -1):
+func room_pos(level_name: String, source_name: String = "") -> Vector2:
+	# Return starting location if the player is not coming from a room (y = "")
+	if (source_name == ""):
 		return starting_location
-	# return that room's location value according to the global location array - TODO
-	return starting_location
+	# return that room's location value according to the global location array
+	var this_location = entry_locations[level_name][source_name]
+	return Vector2(this_location[0], this_location[1])
 
-func room_status():
-	pass
+# Return the task status variables of level x
+func room_status(level_num: int) -> Array:
+	return level_tasks[level_num]

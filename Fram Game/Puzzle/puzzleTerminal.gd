@@ -1,4 +1,4 @@
-extends Control
+extends Node
 
 # Path variables
 # Source Path: "res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/"

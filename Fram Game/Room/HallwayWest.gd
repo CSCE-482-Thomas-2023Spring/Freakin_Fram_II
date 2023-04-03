@@ -12,4 +12,13 @@ func create_box(json_path):
 	yield(box, "tree_exited")
 	
 func goto_hallway():
-	get_tree().change_scene("res://Room/hallway_west.tscn")
+	get_tree().change_scene("res://Room/HallwayEast.tscn")
+
+func goto_security():
+	get_tree().change_scene("res://Room/Security.tscn")
+
+func goto_bridge():
+	get_tree().change_scene("res://Room/Bridge.tscn")
+
+func goto_cargo():
+	get_tree().change_scene("res://Room/CargoBay.tscn")

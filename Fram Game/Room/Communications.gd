@@ -12,4 +12,4 @@ func create_box(json_path):
 	yield(box, "tree_exited")
 	
 func goto_bridge():
-	get_tree().change_scene("res://Room/bridge.tscn")
+	get_tree().change_scene("res://Room/Bridge.tscn")

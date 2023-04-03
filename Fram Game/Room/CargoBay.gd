@@ -10,6 +10,3 @@ func create_box(json_path):
 	box.get_node("DialogueBox")._set_path(json_path)
 	add_child(box)
 	yield(box, "tree_exited")
-	
-func goto_hallway():
-	get_tree().change_scene("res://Room/HallwayWest.tscn")

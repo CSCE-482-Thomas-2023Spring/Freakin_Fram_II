@@ -1,12 +1,12 @@
 [gd_scene load_steps=21 format=2]
 
-[ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Objects/Tiles.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Objects/Robot.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Room/closet.gd" type="Script" id=4]
-[ext_resource path="res://Objects/Interact.gd" type="Script" id=5]
-[ext_resource path="res://Art/space_wall.png" type="Texture" id=6]
-[ext_resource path="res://Art/space_tiles.png" type="Texture" id=7]
+[ext_resource path="res://Objects/Interact.gd" type="Script" id=1]
+[ext_resource path="res://Art/space_wall.png" type="Texture" id=2]
+[ext_resource path="res://Art/space_tiles.png" type="Texture" id=3]
+[ext_resource path="res://Room/MaintenanceCloset.gd" type="Script" id=4]
+[ext_resource path="res://Objects/Tiles.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Objects/Robot.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=7]
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -35,7 +35,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 [sub_resource type="TileSet" id=14]
 resource_local_to_scene = true
 0/name = "space_tiles.png 0"
-0/texture = ExtResource( 7 )
+0/texture = ExtResource( 3 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 160, 160, 32, 32 )
@@ -56,7 +56,7 @@ resource_local_to_scene = true
 } ]
 0/z_index = 0
 1/name = "space_tiles.png 1"
-1/texture = ExtResource( 7 )
+1/texture = ExtResource( 3 )
 1/tex_offset = Vector2( 0, 0 )
 1/modulate = Color( 1, 1, 1, 1 )
 1/region = Rect2( 448, 192, 32, 32 )
@@ -70,7 +70,7 @@ resource_local_to_scene = true
 1/shapes = [  ]
 1/z_index = 0
 2/name = "space_tiles.png 2"
-2/texture = ExtResource( 7 )
+2/texture = ExtResource( 3 )
 2/tex_offset = Vector2( 0, 0 )
 2/modulate = Color( 1, 1, 1, 1 )
 2/region = Rect2( 192, 320, 32, 32 )
@@ -84,7 +84,7 @@ resource_local_to_scene = true
 2/shapes = [  ]
 2/z_index = 0
 3/name = "space_tiles.png 3"
-3/texture = ExtResource( 7 )
+3/texture = ExtResource( 3 )
 3/tex_offset = Vector2( 0, 0 )
 3/modulate = Color( 1, 1, 1, 1 )
 3/region = Rect2( 320, 800, 32, 32 )
@@ -98,7 +98,7 @@ resource_local_to_scene = true
 3/shapes = [  ]
 3/z_index = 0
 5/name = "space_wall.png 5"
-5/texture = ExtResource( 6 )
+5/texture = ExtResource( 2 )
 5/tex_offset = Vector2( 0, 0 )
 5/modulate = Color( 1, 1, 1, 1 )
 5/region = Rect2( 256, 352, 32, 64 )
@@ -119,7 +119,7 @@ resource_local_to_scene = true
 } ]
 5/z_index = 0
 8/name = "space_wall.png 8"
-8/texture = ExtResource( 6 )
+8/texture = ExtResource( 2 )
 8/tex_offset = Vector2( 0, 0 )
 8/modulate = Color( 1, 1, 1, 1 )
 8/region = Rect2( 288, 288, 32, 32 )
@@ -140,7 +140,7 @@ resource_local_to_scene = true
 } ]
 8/z_index = 0
 9/name = "space_wall.png 9"
-9/texture = ExtResource( 6 )
+9/texture = ExtResource( 2 )
 9/tex_offset = Vector2( 0, 0 )
 9/modulate = Color( 1, 1, 1, 1 )
 9/region = Rect2( 288, 224, 32, 32 )
@@ -161,7 +161,7 @@ resource_local_to_scene = true
 } ]
 9/z_index = 0
 10/name = "space_wall.png 10"
-10/texture = ExtResource( 6 )
+10/texture = ExtResource( 2 )
 10/tex_offset = Vector2( 0, 0 )
 10/modulate = Color( 1, 1, 1, 1 )
 10/region = Rect2( 128, 224, 32, 32 )
@@ -182,7 +182,7 @@ resource_local_to_scene = true
 } ]
 10/z_index = 0
 11/name = "space_wall.png 11"
-11/texture = ExtResource( 6 )
+11/texture = ExtResource( 2 )
 11/tex_offset = Vector2( 0, 0 )
 11/modulate = Color( 1, 1, 1, 1 )
 11/region = Rect2( 288, 352, 32, 32 )
@@ -203,7 +203,7 @@ resource_local_to_scene = true
 } ]
 11/z_index = 0
 12/name = "space_wall.png 12"
-12/texture = ExtResource( 6 )
+12/texture = ExtResource( 2 )
 12/tex_offset = Vector2( 0, 0 )
 12/modulate = Color( 1, 1, 1, 1 )
 12/region = Rect2( 128, 352, 32, 32 )
@@ -224,7 +224,7 @@ resource_local_to_scene = true
 } ]
 12/z_index = 0
 13/name = "space_wall.png 13"
-13/texture = ExtResource( 6 )
+13/texture = ExtResource( 2 )
 13/tex_offset = Vector2( 0, 0 )
 13/modulate = Color( 1, 1, 1, 1 )
 13/region = Rect2( 160, 224, 32, 32 )
@@ -253,7 +253,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [sub_resource type="TileSet" id=17]
 0/name = "space_wall.png 0"
-0/texture = ExtResource( 6 )
+0/texture = ExtResource( 2 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 256, 96, 32, 32 )
@@ -280,14 +280,14 @@ extents = Vector2( 15.25, 61.5 )
 [node name="Closet" type="Node"]
 script = ExtResource( 4 )
 
-[node name="Tiles" parent="." instance=ExtResource( 2 )]
+[node name="Tiles" parent="." instance=ExtResource( 5 )]
 position = Vector2( 96, 0 )
 
 [node name="TileMap" parent="Tiles" index="1"]
 tile_set = SubResource( 14 )
 tile_data = PoolIntArray( 131078, 10, 0, 131079, 5, 0, 131080, 5, 0, 131081, 5, 0, 131082, 5, 0, 131083, 5, 0, 131084, 5, 0, 131085, 5, 0, 131086, 5, 0, 131087, 5, 0, 131088, 5, 0, 131089, 5, 0, 131090, 5, 0, 131091, 5, 0, 131092, 5, 0, 131093, 9, 0, 196614, 8, 0, 196629, 8, 0, 262150, 8, 0, 262151, 1, 0, 262152, 1, 0, 262153, 1, 0, 262154, 1, 0, 262155, 1, 0, 262156, 1, 0, 262157, 1, 0, 262158, 1, 0, 262159, 1, 0, 262160, 1, 0, 262161, 1, 0, 262162, 1, 0, 262163, 1, 0, 262164, 1, 0, 262165, 8, 0, 327686, 8, 0, 327687, 1, 0, 327688, 1, 0, 327689, 1, 0, 327690, 1, 0, 327691, 1, 0, 327692, 1, 0, 327693, 1, 0, 327694, 1, 0, 327695, 1, 0, 327696, 1, 0, 327697, 1, 0, 327698, 1, 0, 327699, 1, 0, 327700, 1, 0, 327701, 8, 0, 458749, 13, 0, 458750, 13, 0, 458751, 13, 0, 393216, 13, 0, 393217, 13, 0, 393218, 13, 0, 393219, 13, 0, 393220, 13, 0, 393221, 13, 0, 393222, 11, 0, 393223, 1, 0, 393224, 1, 0, 393225, 1, 0, 393226, 1, 0, 393227, 1, 0, 393228, 1, 0, 393229, 1, 0, 393230, 1, 0, 393231, 1, 0, 393232, 1, 0, 393233, 1, 0, 393234, 1, 0, 393235, 1, 0, 393236, 1, 0, 393237, 8, 0, 524285, 1, 0, 524286, 1, 0, 524287, 1, 0, 458752, 1, 0, 458753, 1, 0, 458754, 1, 0, 458755, 1, 0, 458756, 1, 0, 458757, 1, 0, 458758, 1, 0, 458759, 1, 0, 458760, 1, 0, 458761, 1, 0, 458762, 1, 0, 458763, 1, 0, 458764, 1, 0, 458765, 1, 0, 458766, 1, 0, 458767, 1, 0, 458768, 1, 0, 458769, 1, 0, 458770, 1, 0, 458771, 1, 0, 458772, 1, 0, 458773, 8, 0, 589821, 1, 0, 589822, 1, 0, 589823, 1, 0, 524288, 1, 0, 524289, 1, 0, 524290, 1, 0, 524291, 1, 0, 524292, 1, 0, 524293, 1, 0, 524294, 1, 0, 524295, 1, 0, 524296, 1, 0, 524297, 1, 0, 524298, 1, 0, 524299, 1, 0, 524300, 1, 0, 524301, 1, 0, 524302, 1, 0, 524303, 1, 0, 524304, 1, 0, 524305, 1, 0, 524306, 1, 0, 524307, 1, 0, 524308, 1, 0, 524309, 8, 0, 655357, 1, 0, 655358, 1, 0, 655359, 1, 0, 589824, 1, 0, 589825, 1, 0, 589826, 1, 0, 589827, 1, 0, 589828, 1, 0, 589829, 1, 0, 589830, 1, 0, 589831, 1, 0, 589832, 1, 0, 589833, 1, 0, 589834, 1, 0, 589835, 1, 0, 589836, 1, 0, 589837, 1, 0, 589838, 1, 0, 589839, 1, 0, 589840, 1, 0, 589841, 1, 0, 589842, 1, 0, 589843, 1, 0, 589844, 1, 0, 589845, 8, 0, 720893, 1, 0, 720894, 1, 0, 720895, 1, 0, 655360, 1, 0, 655361, 1, 0, 655362, 1, 0, 655363, 1, 0, 655364, 1, 0, 655365, 1, 0, 655366, 1, 0, 655367, 1, 0, 655368, 1, 0, 655369, 1, 0, 655370, 1, 0, 655371, 1, 0, 655372, 1, 0, 655373, 1, 0, 655374, 1, 0, 655375, 1, 0, 655376, 1, 0, 655377, 1, 0, 655378, 1, 0, 655379, 1, 0, 655380, 1, 0, 655381, 8, 0, 786429, 13, 0, 786430, 13, 0, 786431, 13, 0, 720896, 13, 0, 720897, 13, 0, 720898, 13, 0, 720899, 13, 0, 720900, 13, 0, 720901, 13, 0, 720902, 9, 0, 720903, 1, 0, 720904, 1, 0, 720905, 1, 0, 720906, 1, 0, 720907, 1, 0, 720908, 1, 0, 720909, 1, 0, 720910, 1, 0, 720911, 1, 0, 720912, 1, 0, 720913, 1, 0, 720914, 1, 0, 720915, 1, 0, 720916, 1, 0, 720917, 8, 0, 786438, 8, 0, 786439, 1, 0, 786440, 1, 0, 786441, 1, 0, 786442, 1, 0, 786443, 1, 0, 786444, 1, 0, 786445, 1, 0, 786446, 1, 0, 786447, 1, 0, 786448, 1, 0, 786449, 1, 0, 786450, 1, 0, 786451, 1, 0, 786452, 1, 0, 786453, 8, 0, 851974, 8, 0, 851975, 1, 0, 851976, 1, 0, 851977, 1, 0, 851978, 1, 0, 851979, 1, 0, 851980, 1, 0, 851981, 1, 0, 851982, 1, 0, 851983, 1, 0, 851984, 1, 0, 851985, 1, 0, 851986, 1, 0, 851987, 1, 0, 851988, 1, 0, 851989, 8, 0, 917510, 8, 0, 917511, 1, 0, 917512, 1, 0, 917513, 1, 0, 917514, 1, 0, 917515, 1, 0, 917516, 1, 0, 917517, 1, 0, 917518, 1, 0, 917519, 1, 0, 917520, 1, 0, 917521, 1, 0, 917522, 1, 0, 917523, 1, 0, 917524, 1, 0, 917525, 8, 0, 983046, 12, 0, 983047, 13, 0, 983048, 13, 0, 983049, 13, 0, 983050, 13, 0, 983051, 13, 0, 983052, 13, 0, 983053, 13, 0, 983054, 13, 0, 983055, 13, 0, 983056, 13, 0, 983057, 13, 0, 983058, 13, 0, 983059, 13, 0, 983060, 13, 0, 983061, 11, 0 )
 
-[node name="Robot" parent="." instance=ExtResource( 3 )]
+[node name="Robot" parent="." instance=ExtResource( 6 )]
 position = Vector2( 736, 443 )
 rotation = -4.71238
 node_path = NodePath("..")
@@ -295,7 +295,7 @@ call_method = "robot_interact"
 
 [node name="PowerBox" type="Area2D" parent="."]
 position = Vector2( 416, 128 )
-script = ExtResource( 5 )
+script = ExtResource( 1 )
 node_path = NodePath("..")
 call_method = "power_box_interact"
 
@@ -311,7 +311,7 @@ tile_data = PoolIntArray( -65535, 0, 0 )
 
 [node name="Exit" type="Area2D" parent="."]
 position = Vector2( 16, 288 )
-script = ExtResource( 5 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -322,7 +322,7 @@ require_interact = false
 [node name="Interact" type="CollisionShape2D" parent="Exit"]
 shape = SubResource( 15 )
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
+[node name="Player" parent="." instance=ExtResource( 7 )]
 position = Vector2( 96, 288 )
 
 [connection signal="body_entered" from="PowerBox" to="PowerBox" method="_on_body_entered"]

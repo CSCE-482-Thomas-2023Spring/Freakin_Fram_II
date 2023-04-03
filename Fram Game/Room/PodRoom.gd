@@ -34,7 +34,7 @@ func closet_door():
 	$Player.enable()
 	
 func goto_closet():
-	get_tree().change_scene("res://Room/closet.tscn")
+	get_tree().change_scene("res://Room/MaintenanceCloset.tscn")
 	
 func goto_hallway():
-	get_tree().change_scene("res://Room/hallway_east.tscn")
+	get_tree().change_scene("res://Room/HallwayEast.tscn")

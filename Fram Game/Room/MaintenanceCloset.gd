@@ -26,5 +26,5 @@ func power_box_interact():
 	
 func leave_room():
 	print("Leaving closet")
-	get_tree().change_scene("res://Room/cyro.tscn")
+	get_tree().change_scene("res://Room/PodRoom.tscn")
 	pass

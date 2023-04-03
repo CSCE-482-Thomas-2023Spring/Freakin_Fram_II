@@ -32,12 +32,16 @@ func _physics_process(delta):
 	var velocity = Vector2.ZERO # The player's movement vector.
 	if Input.is_action_pressed("move_right"):
 		velocity.x += 1
+		$AnimationPlayer.play("WalkRight")
 	if Input.is_action_pressed("move_left"):
 		velocity.x -= 1
+		$AnimationPlayer.play("WalkLeft")
 	if Input.is_action_pressed("move_down"):
 		velocity.y += 1
+		$AnimationPlayer.play("WalkDown")
 	if Input.is_action_pressed("move_up"):
 		velocity.y -= 1
+		$AnimationPlayer.play("WalkUp")
 	velocity = velocity.normalized() * speed
 
 	# Move player

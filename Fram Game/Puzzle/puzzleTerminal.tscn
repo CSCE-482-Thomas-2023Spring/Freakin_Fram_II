@@ -43,6 +43,72 @@ margin_top = 353.0
 margin_right = 690.0
 margin_bottom = 566.0
 
+[node name="TutorialButton" type="Button" parent="."]
+anchor_left = 0.773
+anchor_top = 0.832
+anchor_right = 0.868
+anchor_bottom = 0.908
+margin_left = 0.447937
+margin_top = -0.200012
+margin_right = 0.167847
+margin_bottom = 0.159912
+text = "Tutorials"
+
+[node name="Tutorial" type="ColorRect" parent="."]
+visible = false
+margin_left = 91.0
+margin_top = 14.0
+margin_right = 761.0
+margin_bottom = 509.0
+color = Color( 0.780392, 0.780392, 0.780392, 1 )
+
+[node name="TutorialText" type="RichTextLabel" parent="Tutorial"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 47.0
+margin_top = 10.0
+margin_right = -51.0
+margin_bottom = -50.0
+bbcode_enabled = true
+bbcode_text = "[img=500]res://test.png[/img]"
+
+[node name="left" type="Button" parent="Tutorial"]
+anchor_left = 0.3
+anchor_top = 0.929
+anchor_right = 0.401
+anchor_bottom = 0.99
+margin_left = -1.52588e-05
+margin_top = 0.144989
+margin_right = 0.329987
+margin_bottom = -0.0500488
+text = "Left"
+
+[node name="right" type="Button" parent="Tutorial"]
+anchor_left = 0.585
+anchor_top = 0.929
+anchor_right = 0.687
+anchor_bottom = 0.99
+margin_left = 0.0499878
+margin_top = 0.144989
+margin_right = -0.290039
+margin_bottom = -0.0500488
+text = "Right"
+
+[node name="main" type="Button" parent="Tutorial"]
+anchor_left = 0.433
+anchor_top = 0.929
+anchor_right = 0.555
+anchor_bottom = 0.99
+margin_left = -0.110016
+margin_top = 0.144989
+margin_right = 0.149994
+margin_bottom = -0.0500488
+text = "Current"
+
 [connection signal="pressed" from="Editor/VBoxContainer/Output/Button" to="." method="on_button_pressed"]
+[connection signal="pressed" from="TutorialButton" to="." method="tutorial_button_pressed"]
+[connection signal="pressed" from="Tutorial/left" to="." method="tutorial_left_pressed"]
+[connection signal="pressed" from="Tutorial/right" to="." method="tutorial_right_pressed"]
+[connection signal="pressed" from="Tutorial/main" to="." method="tutorial_main_pressed"]
 
 [editable path="Editor"]

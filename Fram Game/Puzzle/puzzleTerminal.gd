@@ -11,6 +11,10 @@ var godot_user_path_g = ProjectSettings.globalize_path("user://")
 onready var test_task_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "TaskData.json")
 signal task_success
 
+var tutorials = ["level0.png", "level1.png", "level3.png", "level4.png", "level5.png"]
+var curr_tutorial = 2
+var main_tutorial = 2 # this is the tutorial relevant to the current level
+
 # Setter for task path
 func _set_path(new_val: String) -> void:
 	source_path = new_val
@@ -24,6 +28,9 @@ var successes = 0
 var caseCount = 0
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var pause = false
+
+func update_tutorial(ind):
+	$Tutorial/TutorialText.bbcode_text = "[img=500]res://Puzzle/Tutorials/" + tutorials[ind] + "[/img]"
 
 # Call a dialogue tree from input file location
 func create_box(json_path):
@@ -41,6 +48,9 @@ func create_box(json_path):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# load the current tutorial
+	update_tutorial(curr_tutorial)
+	
 	# display initial source code as read from corresponding file in path
 	var sourceCode = File.new()
 	sourceCode.open("res://SourceFiles/" + source_path + "StarterCode.py", File.READ)
@@ -163,3 +173,23 @@ func on_button_pressed():
 #func _process(delta):
 #	pass
 
+
+
+
+func tutorial_button_pressed():
+	$Tutorial.visible = not $Tutorial.visible
+
+
+func tutorial_right_pressed():
+	curr_tutorial = (curr_tutorial + 1) % len(tutorials)
+	update_tutorial(curr_tutorial)
+
+
+func tutorial_left_pressed():
+	curr_tutorial = (curr_tutorial - 1) % len(tutorials)
+	update_tutorial(curr_tutorial)
+
+
+func tutorial_main_pressed():
+	curr_tutorial = main_tutorial
+	update_tutorial(curr_tutorial)

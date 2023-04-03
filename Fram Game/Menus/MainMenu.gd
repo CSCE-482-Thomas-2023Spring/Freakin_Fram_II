@@ -11,7 +11,6 @@ func _ready():
 func _on_StartButton_pressed():
 	# Notify Main to start the game anew
 	emit_signal("start_game")
-	#get_tree().change_scene("res://Room/cyro.tscn")
 
 func _on_ContinueButton_pressed():
 	# Notify Main to start the game loading from saved data

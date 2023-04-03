@@ -87,7 +87,7 @@ func start_game():
 	print("Starting game")
 	# Load the room designated in the global variable - TODO
 	print("Previous scene: " + str(current_scene))
-	current_scene.get_tree().change_scene("res://Room/cyro.tscn")
+	current_scene.get_tree().change_scene("res://Room/PodRoom.tscn")
 	print("New scene: " + str(current_scene))
 	# Place the player at the location designated in the global variable - TODO
 	pass

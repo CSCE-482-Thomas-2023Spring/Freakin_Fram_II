@@ -1,19 +1,23 @@
-extends Control
+extends Node
 
 # Path variables
 # Source Path: "res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/"
-export var source_path = "DefaultMessages/TaskTemplate/" setget _set_path, _get_path
+export var source_path = "DefaultMessages/TaskTemplate/" setget _set_path
+export var puzzle_success: bool = false setget ,get_status
 var python_dir = "./python_files/python.exe" # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
 var godot_user_path_g = ProjectSettings.globalize_path("user://")
 onready var test_task_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "TaskData.json")
+signal task_success
 
-# Setter/Getter for task path
+# Setter for task path
 func _set_path(new_val: String) -> void:
 	source_path = new_val
-func _get_path() -> String:
-	return source_path
+
+# Getter for puzzle success status
+func get_status() -> bool:
+	return puzzle_success
 
 # Variable declarations for internal use
 var successes = 0
@@ -26,7 +30,7 @@ func create_box(json_path):
 	# if this dialogue box does not exist for this task, use the default
 	var this_path = source_path + json_path
 	var f = File.new()
-	if (not f.file_exists(source_path + json_path)):
+	if (not f.file_exists("res://SourceFiles/" + this_path)):
 		this_path = "DefaultMessages/TaskTemplate/" + json_path
 	
 	# call a dialogue tree from input file location
@@ -143,6 +147,7 @@ func on_button_pressed():
 	# Set dialogue for end-of-task success & close terminal as needed
 	if (successes == caseCount):
 		yield(create_box("Success.json"), "completed")
+		emit_signal("task_success")
 		
 		# Delete self
 		queue_free()

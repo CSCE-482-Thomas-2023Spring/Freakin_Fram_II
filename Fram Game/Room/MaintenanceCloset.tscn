@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Objects/Interact.gd" type="Script" id=1]
 [ext_resource path="res://Art/space_wall.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Objects/Tiles.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Objects/Robot.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=8]
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -274,8 +275,9 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 } ]
 0/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=15]
-extents = Vector2( 15.25, 61.5 )
+[sub_resource type="RectangleShape2D" id=18]
+resource_local_to_scene = true
+extents = Vector2( 16, 64 )
 
 [node name="Closet" type="Node"]
 script = ExtResource( 4 )
@@ -309,26 +311,20 @@ cell_size = Vector2( 32, 32 )
 format = 1
 tile_data = PoolIntArray( -65535, 0, 0 )
 
-[node name="Exit" type="Area2D" parent="."]
-position = Vector2( 16, 288 )
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
-node_path = NodePath("..")
-call_method = "leave_room"
-require_interact = false
-
-[node name="Interact" type="CollisionShape2D" parent="Exit"]
-shape = SubResource( 15 )
-
 [node name="Player" parent="." instance=ExtResource( 7 )]
 position = Vector2( 96, 288 )
 
+[node name="PodRoom" parent="." instance=ExtResource( 8 )]
+position = Vector2( 0, 224 )
+this_room = 1
+
+[node name="Overlap" parent="PodRoom" index="0"]
+position = Vector2( 16, 64 )
+shape = SubResource( 18 )
+
 [connection signal="body_entered" from="PowerBox" to="PowerBox" method="_on_body_entered"]
 [connection signal="body_exited" from="PowerBox" to="PowerBox" method="_on_body_exited"]
-[connection signal="body_entered" from="Exit" to="Exit" method="_on_body_entered"]
-[connection signal="body_exited" from="Exit" to="Exit" method="_on_body_exited"]
 
 [editable path="Tiles"]
 [editable path="Robot"]
+[editable path="PodRoom"]

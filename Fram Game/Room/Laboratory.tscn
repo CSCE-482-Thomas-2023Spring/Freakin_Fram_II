@@ -398,7 +398,7 @@ resource_local_to_scene = true
 resource_local_to_scene = true
 extents = Vector2( 64, 16 )
 
-[node name="Quarters" type="Node"]
+[node name="Laboratory" type="Node"]
 script = ExtResource( 2 )
 
 [node name="Tiles" parent="." instance=ExtResource( 5 )]

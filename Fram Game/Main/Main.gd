@@ -8,7 +8,7 @@ var level_tasks = []
 var entry_locations = {}
 # Player's current room location
 var current_level = 0
-var starting_location = Vector2(480, 288)
+var starting_location = Vector2(384, 304)
 # Current level scene reference
 var current_scene
 # Global data storage location

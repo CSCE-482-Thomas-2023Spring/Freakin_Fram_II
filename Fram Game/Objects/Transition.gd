@@ -12,4 +12,7 @@ func _on_Transition_body_entered(body):
 		# Call new room from Main scene
 		var target_string = room_type.keys()[target_room]
 		var this_string = room_type.keys()[this_room]
-		get_tree().get_root().get_node("Main").call_deferred("load_room", target_string, this_string)
+		
+		var root = get_tree().get_root().get_node("Main")
+		if root:
+			root.call_deferred("load_room", target_string, this_string)

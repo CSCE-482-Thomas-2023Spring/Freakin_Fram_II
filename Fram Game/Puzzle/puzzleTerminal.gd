@@ -167,3 +167,11 @@ func on_button_pressed():
 
 func tutorial_button_pressed():
 	$Tutorial.visible = not $Tutorial.visible
+
+
+func tutorial_right_pressed():
+	pass # Replace with function body.
+
+
+func tutorial_left_pressed():
+	pass # Replace with function body.

@@ -23,8 +23,3 @@ func power_box_interact():
 	yield(create_box(source_path + "Interact-Blocked.json"), "completed")
 	
 	$Player.enable()
-	
-func leave_room():
-	print("Leaving closet")
-	get_tree().change_scene("res://Room/PodRoom.tscn")
-	pass

@@ -16,20 +16,39 @@ var global_path = "res://SourceFiles/GlobalData/"
 
 # Preload necessary scene types
 var mainMenu = preload("res://Menus/MainMenu.tscn")
+var roomScenes = {}
 
 # Load tasks & start menu on game start
 func _ready():
-	# Initialize all task statuses & level starting locations to their defaults
+	# Initialize task statuses & level starting locations to default values, preload scenes
+	init_scenes()
 	init_tasks()
 	init_locations()
-	# Call title screen for Start / Continue options; initiate game based on signal - TODO
+	
+	# Call title screen for Start / Continue options; initiate game based on signal
 	var title_screen = mainMenu.instance()
 	add_child(title_screen)
-	title_screen.connect("start_game", self, "start_game")
+	title_screen.connect("start_game", self, "load_room", ["PodRoom", ""])
 	title_screen.connect("load_game", self, "load_data")
+	
 	# Fix weird VBoxContainer position bug that is very weird and sets the position to the margin instead
 	title_screen.get_node("VBoxContainer").rect_position.y = 450
 	current_scene = title_screen
+
+# Initialize preloaded scene variables for use in room-changing
+func init_scenes():
+	roomScenes["PodRoom"] = preload("res://Room/PodRoom.tscn")
+	roomScenes["MaintenanceCloset"] = preload("res://Room/MaintenanceCloset.tscn")
+	roomScenes["Laboratory"] = preload("res://Room/Laboratory.tscn")
+	roomScenes["Navigation"] = preload("res://Room/Navigation.tscn")
+	roomScenes["Security"] = preload("res://Room/Security.tscn")
+	roomScenes["CrewQuarters"] = preload("res://Room/CrewQuarters.tscn")
+	roomScenes["Communications"] = preload("res://Room/Communications.tscn")
+	roomScenes["ReactorRoom"] = preload("res://Room/ReactorRoom.tscn")
+	roomScenes["Bridge"] = preload("res://Room/Bridge.tscn")
+	roomScenes["CargoBay"] = preload("res://Room/CargoBay.tscn")
+	roomScenes["HallwayWest"] = preload("res://Room/HallwayWest.tscn")
+	roomScenes["HallwayEast"] = preload("res://Room/HallwayEast.tscn")
 
 # Initialize default level task values based on level & task folders from SourceFiles
 # TODO: probably update this to pull from a json of default task statuses instead, as some will start at 1, etc.
@@ -76,31 +95,44 @@ func init_locations():
 
 # Initiate gameplay with saved data; Load Game
 func load_data():
-	print("Loading game data")
 	# Load task status variables & player location from saved data - TODO
+	var start_room = "Navigation" # TODO: pull value from saved data
+	
 	# Load started puzzle task programs from saved data - TODO
+	
 	# Initiate gameplay
-	start_game()
+	load_room(start_room, "")
 
-# Initiate gameplay; New Game if called directly
-func start_game():
-	print("Starting game")
-	# Load the room designated in the global variable - TODO
-	print("Previous scene: " + str(current_scene))
-	current_scene.get_tree().change_scene("res://Room/PodRoom.tscn")
-	print("New scene: " + str(current_scene))
-	# Place the player at the location designated in the global variable - TODO
-	pass
+# Load a new room with corresponding location & task status values
+func load_room(room_name: String, source_room: String):
+	# Ensure room transition is valid (there exists connection between source and dest rooms)
+	if (entry_locations.has(room_name) and ((source_room == "") or entry_locations[room_name].has(source_room))):
+		
+		# Load room scene
+		var new_room = roomScenes[room_name].instance()
+		
+		# Set player position within room if applicable
+		var player_location = room_pos(room_name, source_room)
+		new_room.get_node("Player").position = player_location
+		
+		# Set status of tasks within room - TODO
+		#var task_statuses = room_status(room_name)
+		
+		# Finish transition to room
+		add_child(new_room)
+		current_scene.queue_free()
+		current_scene = new_room
 
 # Return the starting position of level x when coming from level y
 func room_pos(level_name: String, source_name: String = "") -> Vector2:
 	# Return starting location if the player is not coming from a room (y = "")
 	if (source_name == ""):
 		return starting_location
+	
 	# return that room's location value according to the global location array
 	var this_location = entry_locations[level_name][source_name]
 	return Vector2(this_location[0], this_location[1])
 
-# Return the task status variables of level x
+# Return the task status variables of level x - TODO: change from int to string
 func room_status(level_num: int) -> Array:
 	return level_tasks[level_num]

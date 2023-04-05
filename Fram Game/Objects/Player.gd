@@ -34,16 +34,17 @@ func _physics_process(delta):
 	if Input.is_action_pressed("move_right"):
 		velocity.x += 1
 		$AnimationPlayer.play("WalkRight")
-	elif Input.is_action_pressed("move_left"):
+	if Input.is_action_pressed("move_left"):
 		velocity.x -= 1
 		$AnimationPlayer.play("WalkLeft")
-	elif Input.is_action_pressed("move_down"):
+	if Input.is_action_pressed("move_down"):
 		velocity.y += 1
 		$AnimationPlayer.play("WalkDown")
-	elif Input.is_action_pressed("move_up"):
+	if Input.is_action_pressed("move_up"):
 		velocity.y -= 1
 		$AnimationPlayer.play("WalkUp")
-	else:
+		
+	if velocity == Vector2.ZERO:
 		$AnimationPlayer.play("idle")
 	velocity = velocity.normalized() * speed
 

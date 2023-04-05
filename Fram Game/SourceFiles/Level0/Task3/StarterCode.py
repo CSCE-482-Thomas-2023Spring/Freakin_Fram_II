@@ -1,1 +1,3 @@
-# Task 3 placeholder code
+# change the value of the "locked" variable
+locked = True
+print(locked)

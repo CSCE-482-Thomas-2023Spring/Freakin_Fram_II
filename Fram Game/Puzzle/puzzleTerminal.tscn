@@ -70,7 +70,6 @@ margin_top = 10.0
 margin_right = -51.0
 margin_bottom = -50.0
 bbcode_enabled = true
-bbcode_text = "[img=500]res://test.png[/img]"
 
 [node name="left" type="Button" parent="Tutorial"]
 anchor_left = 0.3

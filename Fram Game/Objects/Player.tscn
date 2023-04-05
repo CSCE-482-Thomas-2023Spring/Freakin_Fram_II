@@ -16,10 +16,22 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 1 ]
+"values": [ 1, 1 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite2:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -115,7 +127,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.1 ),
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ 0 ]
@@ -134,7 +146,6 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
 hframes = 8
 vframes = 8
-frame = 34
 
 [node name="Sprite" type="ColorRect" parent="."]
 visible = false
@@ -158,6 +169,7 @@ anims/WalkUp = SubResource( 4 )
 anims/idle = SubResource( 7 )
 
 [node name="InteractLabel" type="ColorRect" parent="."]
+visible = false
 margin_left = -12.0
 margin_top = -78.0
 margin_right = 12.0

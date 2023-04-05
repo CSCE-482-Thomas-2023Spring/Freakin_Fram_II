@@ -5,6 +5,12 @@ export var task_path: String = "DefaultMessages/TaskTemplate/"
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var terminal = preload("res://Puzzle/puzzleTerminal.tscn")
 
+# Useless placeholder functions to avoid conflicts with added stuff; this script will be replaced with Level later
+func set_status(input):
+	pass
+func get_status():
+	return [0]
+
 func dialogue(json_path):
 	$Player.disable()
 	
@@ -24,3 +30,5 @@ func dialogue(json_path):
 
 func check_bed():
 	yield(dialogue("Interact-Blocked.json"), "completed")
+
+

@@ -25,7 +25,7 @@ func get_status() -> bool:
 
 # Variable declarations for internal use
 var successes = 0
-var caseCount = 0
+var caseCount = 1
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var pause = false
 
@@ -136,23 +136,24 @@ func on_button_pressed():
 	var exit_code = OS.execute(python_dir, [test_code_file_g, test_task_path, python_dir, godot_user_path_g], true, stdout, true)	
 	print(stdout)
 	var file = File.new()
-	file.open("res://results.json", File.READ)
+	file.open("user://results.json", File.READ)
 	var results = JSON.parse(file.get_as_text()).result # this is the parsed test results json
 	file.close()
 	
 	
 	# EXAMPLE FOR EMILY (use later to print suggestions based on error types)
-	var successCountString = ""
-	var failureString = ""
-	if testData.data.useFunction:
-		var data = process_test_results_function(results.testResults)
-		successCountString = data[0]
-		failureString = data[1]
-		print(successCountString)
-		print(failureString)
-	elif testData.data.usestdout:
-		successCountString = process_test_results_stdout(results.testResults)
-		print(successCountString)
+	if not results.has('error'):
+		var successCountString = ""
+		var failureString = ""
+		if testData.data.useFunction:
+			var data = process_test_results_function(results.testResults)
+			successCountString = data[0]
+			failureString = data[1]
+			print(successCountString)
+			print(failureString)
+		elif testData.data.usestdout:
+			successCountString = process_test_results_stdout(results.testResults)
+			print(successCountString)
 	
 	# Set dialogue for end-of-task success & close terminal as needed
 	if (successes == caseCount):

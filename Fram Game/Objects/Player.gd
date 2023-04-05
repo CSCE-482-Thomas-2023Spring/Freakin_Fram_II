@@ -17,6 +17,7 @@ func _ready():
 	disable()
 	yield(get_tree().create_timer(0.25), "timeout")
 	enable()
+	#$AnimationPlayer.player("idle")
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -32,12 +33,18 @@ func _physics_process(delta):
 	var velocity = Vector2.ZERO # The player's movement vector.
 	if Input.is_action_pressed("move_right"):
 		velocity.x += 1
-	if Input.is_action_pressed("move_left"):
+		$AnimationPlayer.play("WalkRight")
+	elif Input.is_action_pressed("move_left"):
 		velocity.x -= 1
-	if Input.is_action_pressed("move_down"):
+		$AnimationPlayer.play("WalkLeft")
+	elif Input.is_action_pressed("move_down"):
 		velocity.y += 1
-	if Input.is_action_pressed("move_up"):
+		$AnimationPlayer.play("WalkDown")
+	elif Input.is_action_pressed("move_up"):
 		velocity.y -= 1
+		$AnimationPlayer.play("WalkUp")
+	else:
+		$AnimationPlayer.play("idle")
 	velocity = velocity.normalized() * speed
 
 	# Move player

@@ -1,3 +1,6 @@
 [
-	{"Name":"[color=black]Placeholder", "Text":"[color=black]Task 3 Introduction"}
+	{	"Name": "[color=red]M.O.M.", "Text": "[color=black]Yeesh! This looks complicated, but I think I recognize the pattern."},
+	{ "Name": "[color=red]M.O.M.", "Text": "[color=black]We need to set the variables for each switch according to the rules on the door here."},
+	{	"Name": "[color=red]M.O.M.", "Text": "[color=black]Looks like the first one is already correct.  I have some data on True/False variables, so poke me when you're ready and I'll pull it up."},
+	{	"Name": "[color=red]M.O.M.", "Text": "[color=black]I'll hang out in the corner here until then. Good luck!"}
 ]

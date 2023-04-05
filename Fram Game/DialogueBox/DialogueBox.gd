@@ -31,6 +31,10 @@ func _process(_delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		if finished:
 			nextPhrase()
+		else:
+			displayLine()
+
+
 
 # Get this conversation's full dialogue from a json file and return it as an array
 func getDialog() -> Array:
@@ -46,6 +50,13 @@ func getDialog() -> Array:
 		return output
 	else:
 		return []
+
+
+func displayLine() -> void:
+	$DialogueText.visible_characters = len($DialogueText.text)
+	finished = true
+	return
+	
 
 # Displays next line of dialogue
 func nextPhrase() -> void:

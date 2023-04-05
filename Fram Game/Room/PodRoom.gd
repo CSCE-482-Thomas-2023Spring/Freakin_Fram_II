@@ -32,3 +32,9 @@ func closet_door():
 	
 	# Enable player movement
 	$Player.enable()
+
+# Useless placeholder functions to avoid conflicts with added stuff; this script will be replaced with Level later
+func set_status(input):
+	pass
+func get_status():
+	return [0]

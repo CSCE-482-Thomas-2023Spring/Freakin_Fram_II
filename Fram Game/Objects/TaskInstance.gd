@@ -1,18 +1,35 @@
 extends Area2D
 
-export var task_path: String = "DefaultMessages/TaskTemplate/" setget set_path
-export var status: int = 0 setget set_status
+# Task's global variables
+# --------------------------
+# Task path variable ("res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/")
+export var task_path: String = "DefaultMessages/TaskTemplate/"
+# Current task status (0 = locked, 1 = unstarted, 2 = started, 3 = finished)
+export var status: int = 0 setget set_status, get_status
+# Custom overlap (false = automatically scales overlap area, true = keeps manual overlap changes)
 export var custom_overlap: bool = false
+
+# Emit a signal when this task's status is updated
+signal status_update
+
+# Preloaded scene types
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var terminal = preload("res://Puzzle/puzzleTerminal.tscn")
 
-# Setter function for task's path ("res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/")
-func set_path(new_path):
-	task_path = new_path
-
-# Setter function for task's completion status (0 = locked, 1 = unstarted, 2 = started, 3 = finished)
-func set_status(new_status):
+# Setter function for task's completion status - called in task initialization
+func set_status(new_status: int):
 	status = new_status
+
+# Setter function for task's completion status - called at task completion
+func update_status(new_status: int):
+	# Set new status
+	status = new_status
+	# Emit signal for updated status
+	emit_signal("status_update")
+
+# Getter function for task's completion status
+func get_status() -> int:
+	return status
 
 # Reusable dialogue-calling function
 func dialogue(json_path):
@@ -31,18 +48,19 @@ func dialogue(json_path):
 
 # Reusable task-calling function
 func launch_task(json_path):
+	# Create task & set task variables
 	var parent = get_parent()
 	var task = terminal.instance()
 	task._set_path(json_path)
-	task.connect("task_success", self, "task_complete")
+	
+	# Connect signal to task success
+	task.connect("task_success", self, "update_status", [3])
+	
+	# Launch task and wait until completion
 	parent.add_child(task)
 	yield(task, "tree_exited")
 
-# When a task is completed, update status accordingly
-func task_complete():
-	status = 3;
-
-# Scale interaction overlap areas to match size of collision area
+# Scale interaction overlap areas to match size of collision area if applicable
 func _ready():
 	if (!custom_overlap):
 		var pos = $StaticBody2D/CollisionShape.position
@@ -56,13 +74,11 @@ func _ready():
 # Add self to list of interactive objects if in range
 func _on_TaskArea_body_entered(body):
 	if body is Player:
-		print("Adding ", self)
 		body.interactables.append(self)
 
 # Remove self from list of interactive objects if out of range
 func _on_TaskArea_body_exited(body):
 	if body is Player:
-		print("Removing ", self)
 		body.interactables.erase(self)
 
 # Call task dialogue & terminal on interact based on task status
@@ -74,7 +90,7 @@ func interact():
 		yield(dialogue("Interact-Blocked.json"), "completed")
 	elif (status == 1):
 		# If task is unstarted, start for the first time & update status to started
-		status = 2
+		update_status(2)
 		yield(dialogue("Interact-TaskStart.json"), "completed")
 		yield(launch_task(task_path), "completed")
 	elif (status == 2):

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Puzzle/puzzleTerminal.gd" type="Script" id=1]
 [ext_resource path="res://Editor/Editor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Puzzle/TestCases.gd" type="Script" id=3]
 
 [node name="PuzzleTerminal" type="Node"]
 script = ExtResource( 1 )
@@ -12,6 +13,22 @@ anchor_bottom = 1.0
 margin_left = 27.0
 margin_right = -36.0
 color = Color( 0.376471, 0.376471, 0.376471, 0.937255 )
+
+[node name="TestCases" type="ColorRect" parent="ColorRect"]
+anchor_left = 0.76
+anchor_top = 0.058
+anchor_right = 0.982
+anchor_bottom = 0.414
+margin_left = -0.360046
+margin_top = -0.120003
+margin_right = 0.297974
+margin_bottom = 0.039978
+color = Color( 0.164706, 0.160784, 0.160784, 1 )
+script = ExtResource( 3 )
+
+[node name="ItemList" type="ItemList" parent="ColorRect/TestCases"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="ReferenceRect" type="ReferenceRect" parent="."]
 anchor_left = 0.5
@@ -26,10 +43,14 @@ border_width = 7.5
 editor_only = false
 
 [node name="Editor" parent="." instance=ExtResource( 2 )]
-margin_left = -465.0
-margin_top = -283.0
-margin_right = 225.0
-margin_bottom = 283.0
+anchor_left = 0.046
+anchor_top = 0.058
+anchor_right = 0.72
+anchor_bottom = 0.942
+margin_left = -0.104004
+margin_top = -0.120003
+margin_right = -0.280029
+margin_bottom = 0.119995
 
 [node name="Input" parent="Editor/VBoxContainer" index="0"]
 margin_right = 690.0
@@ -42,6 +63,7 @@ def foo(a,b,c):
 margin_top = 353.0
 margin_right = 690.0
 margin_bottom = 566.0
+color = Color( 0.164706, 0.160784, 0.160784, 1 )
 
 [node name="TutorialButton" type="Button" parent="."]
 anchor_left = 0.773

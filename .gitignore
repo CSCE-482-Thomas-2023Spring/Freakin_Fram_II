@@ -7,6 +7,9 @@ Godot*.exe
 python_files/
 results.json
 
+#DS store for MacOS
+.DS_Store
+
 # Mono-specific ignores
 .mono/
 data_*/

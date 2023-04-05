@@ -9,37 +9,13 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
-"class": "Component",
-"language": "GDScript",
-"path": "res://addons/gs_ecs/component.gd"
-}, {
-"base": "Node",
-"class": "Entity",
-"language": "GDScript",
-"path": "res://addons/gs_ecs/entity.gd"
-}, {
-"base": "Node",
-"class": "Group",
-"language": "GDScript",
-"path": "res://addons/gs_ecs/group.gd"
-}, {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
 "path": "res://Objects/Player.gd"
-}, {
-"base": "Node",
-"class": "System",
-"language": "GDScript",
-"path": "res://addons/gs_ecs/system.gd"
 } ]
 _global_script_class_icons={
-"Component": "res://addons/gs_ecs/icons/menuGrid.png",
-"Entity": "res://addons/gs_ecs/icons/singleplayer.png",
-"Group": "res://addons/gs_ecs/icons/share2.png",
-"Player": "",
-"System": "res://addons/gs_ecs/icons/gear.png"
+"Player": ""
 }
 
 [application]

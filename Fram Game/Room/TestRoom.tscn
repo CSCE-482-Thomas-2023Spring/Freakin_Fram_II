@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Room/Level.gd" type="Script" id=1]
 [ext_resource path="res://Objects/TaskInstance.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=4]
 
 [node name="TestRoom" type="Node2D"]
 script = ExtResource( 1 )
@@ -14,3 +15,7 @@ position = Vector2( 512, 192 )
 position = Vector2( 768, 320 )
 task_path = "Level0/Task1/"
 status = 1
+
+[node name="Transition" parent="." instance=ExtResource( 4 )]
+target_room = 12
+this_room = 12

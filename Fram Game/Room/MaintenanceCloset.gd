@@ -23,3 +23,9 @@ func power_box_interact():
 	yield(create_box(source_path + "Interact-Blocked.json"), "completed")
 	
 	$Player.enable()
+
+# Useless placeholder functions to avoid conflicts with added stuff; this script will be replaced with Level later
+func set_status(input):
+	pass
+func get_status():
+	return [0]

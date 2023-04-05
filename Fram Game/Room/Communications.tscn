@@ -34,11 +34,10 @@ position = Vector2( 64, 16 )
 shape = SubResource( 1 )
 
 [node name="TaskArea" parent="." instance=ExtResource( 6 )]
-position = Vector2( 624, 408 )
+position = Vector2( 704, 336 )
 
 [node name="LabTable" parent="." instance=ExtResource( 5 )]
-position = Vector2( 688, 360 )
-rotation = 1.57079
+position = Vector2( 624, 248 )
 
 [editable path="Tiles"]
 [editable path="Bridge"]

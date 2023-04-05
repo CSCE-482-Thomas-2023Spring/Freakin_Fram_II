@@ -10,3 +10,4 @@ func create_box(json_path):
 	box.get_node("DialogueBox")._set_path(json_path)
 	add_child(box)
 	yield(box, "tree_exited")
+

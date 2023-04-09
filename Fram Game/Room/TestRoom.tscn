@@ -23,3 +23,16 @@ position = Vector2( 189, 145 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 512, 192 )
+
+[node name="Task1_2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 318, 323 )
+task_path = "Level0/Task1/"
+status = 1
+hide_on_complete = true
+
+[node name="Task1_3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 527, 348 )
+task_path = "Level0/Task1/"
+status = 1
+hide_on_complete = true
+collision_enabled = false

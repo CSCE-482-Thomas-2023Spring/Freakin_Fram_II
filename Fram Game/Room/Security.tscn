@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Room/Security.gd" type="Script" id=1]
+[ext_resource path="res://Room/Level.gd" type="Script" id=1]
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/Tiles.tscn" type="PackedScene" id=4]
@@ -14,6 +14,7 @@ extents = Vector2( 64, 16 )
 
 [node name="Security" type="Node"]
 script = ExtResource( 1 )
+Level = 4
 
 [node name="Tiles" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1024, 640 )
@@ -33,9 +34,6 @@ position = Vector2( 32, 0 )
 [node name="TileMap" parent="Locker" index="1"]
 tile_data = PoolIntArray( 393232, 25, 0, 393233, 25, 0, 393234, 25, 0, 393235, 25, 0 )
 
-[node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 513, 556 )
-
 [node name="HallwayWest" parent="." instance=ExtResource( 2 )]
 position = Vector2( 448, 608 )
 target_room = 10
@@ -50,6 +48,9 @@ position = Vector2( 616, 488 )
 
 [node name="LabTable" parent="." instance=ExtResource( 5 )]
 position = Vector2( 692, 323 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 513, 556 )
 
 [editable path="Tiles"]
 [editable path="Trim"]

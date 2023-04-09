@@ -26,10 +26,12 @@ func set_status(new_status: int):
 	
 	# If status is completed (3) and hide_on_complete is set, hide sprite and disable collision
 	if (status == 3 and hide_on_complete):
-		$Sprite.queue_free()
+		if (has_node("Sprite")):
+			$Sprite.queue_free()
 		# Only disable collision if not already disabled
 		if (collision_enabled):
-			$StaticBody2D.queue_free()
+			if (has_node("StaticBody2D")):
+				$StaticBody2D.queue_free()
 		
 		# Get player and dequeue this task from interactables -> TODO: given time, rework to avoid accessing parent
 		if (get_parent().has_node("Player")):

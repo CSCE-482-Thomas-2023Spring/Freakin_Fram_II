@@ -475,17 +475,18 @@ shape = SubResource( 18 )
 position = Vector2( 792, 280 )
 task_path = "Level0/Task1/"
 status = 1
-custom_overlap = true
 hide_on_complete = true
 
 [node name="Sprite" parent="Task1" index="0"]
 position = Vector2( 0, 8 )
 
 [node name="HorizontalOverlap" parent="Task1" index="1"]
+visible = false
 position = Vector2( -8, 8 )
 shape = SubResource( 19 )
 
 [node name="VerticalOverlap" parent="Task1" index="2"]
+visible = false
 position = Vector2( -8, 8 )
 shape = SubResource( 20 )
 

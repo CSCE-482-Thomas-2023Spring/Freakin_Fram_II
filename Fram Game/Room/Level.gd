@@ -33,7 +33,7 @@ func get_status() -> Array:
 func update_task_status(task_num: int, child_ref):
 	# Set individual status value
 	var new_status = child_ref.get_status()
-	task_statuses[Level][task_num] = new_status
+	task_statuses[Level][task_num - 1] = new_status
 	# Update Main's task list
 	emit_signal("level_update")
 	# Update children's tasks
@@ -79,7 +79,7 @@ func task_update():
 			child.set_status(task_statuses[Level][task_num - 1])
 			# Initialize task's connection
 			if (not init_connections):
-				child.connect("status_update", self, "update_task_status", [Level, child])
+				child.connect("status_update", self, "update_task_status", [task_num, child])
 		
 		# If child is a character
 		elif (child_name.substr(0, 9) == "Character"):

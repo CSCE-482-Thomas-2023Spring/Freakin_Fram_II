@@ -58,10 +58,10 @@ func dialogue(json_path):
 		this_path = "DefaultMessages/TaskTemplate/" + json_path
 	
 	# Call dialgoue box
-	var parent = get_parent()
+	var root = get_tree().get_root()
 	var box = dialogueBox.instance()
 	box.get_node("DialogueBox")._set_path(this_path)
-	parent.add_child(box)
+	root.add_child(box)
 	yield(box, "tree_exited")
 
 # Reusable task-calling function

@@ -673,9 +673,6 @@ visible = false
 position = Vector2( 0, 8 )
 shape = SubResource( 17 )
 
-[node name="Player" parent="." instance=ExtResource( 6 )]
-position = Vector2( 513, 65 )
-
 [node name="HallwayEast" parent="." instance=ExtResource( 1 )]
 position = Vector2( 448, 0 )
 target_room = 11
@@ -684,6 +681,9 @@ this_room = 2
 [node name="Overlap" parent="HallwayEast" index="0"]
 position = Vector2( 64, 16 )
 shape = SubResource( 16 )
+
+[node name="Player" parent="." instance=ExtResource( 6 )]
+position = Vector2( 513, 65 )
 
 [editable path="Tiles"]
 [editable path="Trim"]

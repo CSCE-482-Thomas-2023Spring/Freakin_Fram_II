@@ -25,9 +25,6 @@ tile_data = PoolIntArray( 1, 8, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 12, 0,
 [node name="TileMap" parent="Trim" index="1"]
 tile_data = PoolIntArray( 2, 3, 0, 5, 4, 0, 65538, 3, 0, 65541, 4, 0, 131074, 3, 0, 131077, 7, 0, 196610, 3, 0, 262146, 3, 0, 327682, 3, 0, 393218, 3, 0, 458754, 3, 0, 524290, 3, 0, 589826, 3, 0, 655362, 3, 0, 720898, 3, 0, 786434, 3, 0, 851970, 3, 0, 917506, 3, 0, 983042, 3, 0, 1048578, 3, 0 )
 
-[node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 127, 76 )
-
 [node name="HallwayWest" parent="." instance=ExtResource( 1 )]
 position = Vector2( 64, 0 )
 target_room = 10
@@ -54,6 +51,9 @@ position = Vector2( 768, 368 )
 
 [node name="Sprite" parent="Ship4" index="1"]
 tile_data = PoolIntArray( 0, 1, 0 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 127, 76 )
 
 [editable path="Tiles"]
 [editable path="Trim"]

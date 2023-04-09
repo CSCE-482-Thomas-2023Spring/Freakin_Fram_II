@@ -60,9 +60,10 @@ func _ready():
 
 # Reusable dialogue-calling function
 func dialogue(json_path):
+	var root = get_tree().get_root()
 	var box = dialogueBox.instance()
 	box.get_node("DialogueBox")._set_path(json_path)
-	add_child(box)
+	root.add_child(box)
 	yield(box, "tree_exited")
 
 # Whenever a task's status is updated, update each relevant child accordingly

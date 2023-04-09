@@ -62,9 +62,6 @@ tile_data = PoolIntArray( 13, 1610612744, 0, 14, 1, 0, 15, 1, 0, 16, 1, 0, 17, 1
 [node name="TileMap" parent="Trim" index="1"]
 tile_data = PoolIntArray( 14, 3, 0, 17, 4, 0, 65550, 3, 0, 65553, 4, 0, 131086, 3, 0, 131089, 4, 0, 196617, 1, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 196621, 0, 0, 196622, 8, 0, 196625, 7, 0, 196626, 0, 0, 196627, 0, 0, 196628, 0, 0, 196629, 0, 0, 196630, 2, 0, 262153, 3, 0, 262166, 4, 0, 327689, 3, 0, 327702, 4, 0, 393225, 3, 0, 393238, 4, 0, 458761, 3, 0, 458774, 4, 0, 524297, 3, 0, 524310, 4, 0, 589833, 3, 0, 589846, 4, 0, 655369, 3, 0, 655382, 4, 0, 720905, 3, 0, 720918, 4, 0, 786441, 3, 0, 786454, 4, 0 )
 
-[node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 513, 65 )
-
 [node name="Bridge" parent="." instance=ExtResource( 1 )]
 position = Vector2( 448, 0 )
 target_room = 8
@@ -157,6 +154,9 @@ visible = false
 [node name="CollisionShape" parent="Task1/StaticBody2D" index="0"]
 position = Vector2( 0, 8 )
 shape = SubResource( 4 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 513, 65 )
 
 [editable path="Tiles"]
 [editable path="Trim"]

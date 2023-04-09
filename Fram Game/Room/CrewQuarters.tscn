@@ -13,6 +13,7 @@ extents = Vector2( 64, 16 )
 
 [node name="CrewQuarters" type="Node"]
 script = ExtResource( 2 )
+Level = 5
 
 [node name="Tiles" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1024, 640 )

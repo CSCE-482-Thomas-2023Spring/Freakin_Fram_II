@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Room/Level.gd" type="Script" id=1]
 [ext_resource path="res://Objects/Trim.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Objects/cryopod.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Objects/TaskInstance.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Objects/Hideable.tscn" type="PackedScene" id=10]
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -417,6 +418,10 @@ extents = Vector2( 24, 64 )
 resource_local_to_scene = true
 extents = Vector2( 16, 64 )
 
+[sub_resource type="RectangleShape2D" id=22]
+resource_local_to_scene = true
+extents = Vector2( 64, 16 )
+
 [node name="PodRoom" type="YSort"]
 script = ExtResource( 1 )
 
@@ -497,8 +502,18 @@ shape = SubResource( 21 )
 [node name="Player" parent="." instance=ExtResource( 6 )]
 position = Vector2( 384, 304 )
 
+[node name="HideableObject" parent="." instance=ExtResource( 10 )]
+position = Vector2( 480, 472 )
+condition_level = 1
+condition_task = 2
+
+[node name="Collision" parent="HideableObject/RigidBody2D" index="0"]
+position = Vector2( 0, -8 )
+shape = SubResource( 22 )
+
 [editable path="Tiles"]
 [editable path="Trim"]
 [editable path="HallwayEast"]
 [editable path="MaintenanceCloset"]
 [editable path="Task1"]
+[editable path="HideableObject"]

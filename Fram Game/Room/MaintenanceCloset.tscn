@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Objects/Interact.gd" type="Script" id=1]
 [ext_resource path="res://Art/space_wall.png" type="Texture" id=2]
@@ -281,8 +281,24 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 resource_local_to_scene = true
 extents = Vector2( 16, 64 )
 
+[sub_resource type="RectangleShape2D" id=21]
+resource_local_to_scene = true
+extents = Vector2( 12, 16 )
+
+[sub_resource type="RectangleShape2D" id=22]
+resource_local_to_scene = true
+extents = Vector2( 24, 48 )
+
 [sub_resource type="RectangleShape2D" id=19]
 extents = Vector2( 25.5, 25.25 )
+
+[sub_resource type="RectangleShape2D" id=23]
+resource_local_to_scene = true
+extents = Vector2( 12, 16 )
+
+[sub_resource type="RectangleShape2D" id=24]
+resource_local_to_scene = true
+extents = Vector2( 24, 48 )
 
 [sub_resource type="RectangleShape2D" id=20]
 resource_local_to_scene = true
@@ -333,6 +349,14 @@ position = Vector2( 65, 9 )
 rotation = 0.546288
 texture = ExtResource( 6 )
 
+[node name="HorizontalOverlap" parent="Task2" index="1"]
+visible = false
+shape = SubResource( 21 )
+
+[node name="VerticalOverlap" parent="Task2" index="2"]
+visible = false
+shape = SubResource( 22 )
+
 [node name="CollisionShape" parent="Task2/StaticBody2D" index="0"]
 position = Vector2( 64, 9 )
 shape = SubResource( 19 )
@@ -348,12 +372,12 @@ position = Vector2( -34, -13 )
 texture = ExtResource( 10 )
 
 [node name="HorizontalOverlap" parent="Task3" index="1"]
-visible = true
-position = Vector2( -36, -4 )
+position = Vector2( -38, -13 )
+shape = SubResource( 23 )
 
 [node name="VerticalOverlap" parent="Task3" index="2"]
-visible = true
-position = Vector2( -37, -4 )
+position = Vector2( -21, -4 )
+shape = SubResource( 24 )
 
 [node name="CollisionShape" parent="Task3/StaticBody2D" index="0"]
 position = Vector2( -50.5, -25.5 )

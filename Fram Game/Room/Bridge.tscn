@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=13 format=2]
 
+[ext_resource path="res://Art/captain.png" type="Texture" id=1]
 [ext_resource path="res://Room/Bridge.gd" type="Script" id=2]
 [ext_resource path="res://Objects/Tiles.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Objects/TaskInstance.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=4]
 resource_local_to_scene = true
@@ -17,7 +19,19 @@ extents = Vector2( 64, 16 )
 resource_local_to_scene = true
 extents = Vector2( 16, 64 )
 
-[node name="Bridge" type="Node"]
+[sub_resource type="RectangleShape2D" id=7]
+resource_local_to_scene = true
+extents = Vector2( 12, 16 )
+
+[sub_resource type="RectangleShape2D" id=8]
+resource_local_to_scene = true
+extents = Vector2( 24, 48 )
+
+[sub_resource type="RectangleShape2D" id=9]
+resource_local_to_scene = true
+extents = Vector2( 16, 14 )
+
+[node name="Bridge" type="YSort"]
 script = ExtResource( 2 )
 
 [node name="Tiles" parent="." instance=ExtResource( 3 )]
@@ -55,7 +69,26 @@ this_room = 8
 position = Vector2( 16, 64 )
 shape = SubResource( 6 )
 
+[node name="Captain" parent="." instance=ExtResource( 6 )]
+position = Vector2( 303, 254 )
+
+[node name="Sprite" parent="Captain" index="0"]
+texture = ExtResource( 1 )
+
+[node name="HorizontalOverlap" parent="Captain" index="1"]
+visible = false
+shape = SubResource( 7 )
+
+[node name="VerticalOverlap" parent="Captain" index="2"]
+visible = false
+shape = SubResource( 8 )
+
+[node name="CollisionShape" parent="Captain/StaticBody2D" index="0"]
+position = Vector2( 0, 18 )
+shape = SubResource( 9 )
+
 [editable path="Tiles"]
 [editable path="Communications"]
 [editable path="Navigation"]
 [editable path="HallwayWest"]
+[editable path="Captain"]

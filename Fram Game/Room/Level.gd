@@ -25,6 +25,10 @@ func set_status(new_statuses: Array):
 	# Update children's tasks
 	task_update()
 
+# Getter for level's task statuses - called by Main on level_update signal
+func get_status() -> Array:
+	return task_statuses
+
 # Update individual task status - called on task interaction
 func update_task_status(task_num: int, child_ref):
 	# Set individual status value
@@ -45,9 +49,14 @@ func update_char_status(char_ref):
 	# Update children's tasks
 	task_update()
 
-# Getter for level's task statuses - called by Main on level_update signal
-func get_status() -> Array:
-	return task_statuses
+# Initialize dummy statuses if tasks aren't initialized by main (aka run locally in editor) - not used in full game
+func _ready():
+	if (task_statuses == []):
+		var index = 0
+		while (index < 8):
+			task_statuses.append([1,1,1,1,1,1,1,1,1,1])
+			index += 1
+		task_update()
 
 # Reusable dialogue-calling function
 func dialogue(json_path):
@@ -58,7 +67,7 @@ func dialogue(json_path):
 
 # Whenever a task's status is updated, update each relevant child accordingly
 func task_update():
-	# Separate children by name - find "Task" and "Character" children
+	# Separate children into types by name - "Task" / "Character" / "Hideable"
 	var children = get_children()
 	for child in children:
 		var child_name = child.name
@@ -80,6 +89,11 @@ func task_update():
 			# Initialize character's connction - TODO: test
 			if (not init_connections):
 				child.connect("status_update", self, "update_char_status", [child])
+		
+		# If child is a hideable object
+		elif (child_name.substr(0, 8) == "Hideable"):
+			# Check hidable object's condition
+			child.check_condition(task_statuses)
 	
 	# Update connection initialization status on first run
 	if (not init_connections):

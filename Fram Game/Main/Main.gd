@@ -85,6 +85,13 @@ func init_tasks():
 			# Add this level's array of task statuses to the overarching tasks array
 			level_tasks.append(task_list)
 		level_name = source_folder.get_next()
+	
+	# TODO: replace temporary code making a long list of tasks because I don't know how many there are
+	level_tasks = []
+	var temp_index = 0
+	while (temp_index < 8):
+		level_tasks.append([1,1,1,1,1,1,1,1,1,1])
+		temp_index += 1
 
 # Initialize room starting player data
 func init_locations():

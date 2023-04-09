@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Room/Navigation.gd" type="Script" id=2]
@@ -8,22 +8,13 @@
 [ext_resource path="res://Objects/TaskInstance.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Objects/Trim.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Art/navigator.png" type="Texture" id=8]
+[ext_resource path="res://Art/table_long.png" type="Texture" id=9]
+[ext_resource path="res://Art/paper.png" type="Texture" id=10]
+[ext_resource path="res://Art/computer.png" type="Texture" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 resource_local_to_scene = true
 extents = Vector2( 64, 16 )
-
-[sub_resource type="RectangleShape2D" id=2]
-resource_local_to_scene = true
-extents = Vector2( 32, 16 )
-
-[sub_resource type="RectangleShape2D" id=3]
-resource_local_to_scene = true
-extents = Vector2( 24, 16 )
-
-[sub_resource type="RectangleShape2D" id=4]
-resource_local_to_scene = true
-extents = Vector2( 16, 16 )
 
 [sub_resource type="RectangleShape2D" id=5]
 resource_local_to_scene = true
@@ -36,6 +27,26 @@ extents = Vector2( 24, 48 )
 [sub_resource type="RectangleShape2D" id=7]
 resource_local_to_scene = true
 extents = Vector2( 17, 11 )
+
+[sub_resource type="RectangleShape2D" id=9]
+resource_local_to_scene = true
+extents = Vector2( 63.5, 39.5 )
+
+[sub_resource type="RectangleShape2D" id=8]
+resource_local_to_scene = true
+extents = Vector2( 32.5, 40 )
+
+[sub_resource type="RectangleShape2D" id=2]
+resource_local_to_scene = true
+extents = Vector2( 32, 16 )
+
+[sub_resource type="RectangleShape2D" id=3]
+resource_local_to_scene = true
+extents = Vector2( 24, 16 )
+
+[sub_resource type="RectangleShape2D" id=4]
+resource_local_to_scene = true
+extents = Vector2( 16, 16 )
 
 [node name="Navigation" type="YSort"]
 script = ExtResource( 2 )
@@ -62,32 +73,8 @@ this_room = 3
 position = Vector2( 64, 16 )
 shape = SubResource( 1 )
 
-[node name="Table1" parent="." instance=ExtResource( 5 )]
-position = Vector2( 639, 326 )
-
-[node name="Task1" parent="." instance=ExtResource( 6 )]
-position = Vector2( 639, 349 )
-custom_overlap = true
-
-[node name="Sprite" parent="Task1" index="0"]
-position = Vector2( 0, 8 )
-scale = Vector2( 0.500001, 0.5 )
-
-[node name="HorizontalOverlap" parent="Task1" index="1"]
-position = Vector2( 0, -16 )
-shape = SubResource( 2 )
-
-[node name="VerticalOverlap" parent="Task1" index="2"]
-visible = false
-position = Vector2( 0, 8 )
-shape = SubResource( 3 )
-
-[node name="CollisionShape" parent="Task1/StaticBody2D" index="0"]
-position = Vector2( 0, 8 )
-shape = SubResource( 4 )
-
 [node name="Navigator" parent="." instance=ExtResource( 6 )]
-position = Vector2( 656, 220 )
+position = Vector2( 486, 195 )
 
 [node name="Sprite" parent="Navigator" index="0"]
 texture = ExtResource( 8 )
@@ -104,8 +91,78 @@ shape = SubResource( 6 )
 position = Vector2( 0, 21 )
 shape = SubResource( 7 )
 
+[node name="BigTable" parent="." instance=ExtResource( 5 )]
+position = Vector2( 478, 228 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Collision" parent="BigTable" index="0"]
+visible = true
+position = Vector2( 31.5, 40 )
+shape = SubResource( 9 )
+
+[node name="Sprite" parent="BigTable" index="2"]
+position = Vector2( 32, 40.5 )
+texture = ExtResource( 9 )
+
+[node name="Paper" type="Sprite" parent="BigTable"]
+position = Vector2( -8, 28.5 )
+rotation = 0.555799
+texture = ExtResource( 10 )
+
+[node name="Paper2" type="Sprite" parent="BigTable"]
+position = Vector2( 30, 17.5 )
+rotation = -0.835703
+texture = ExtResource( 10 )
+
+[node name="Paper3" type="Sprite" parent="BigTable"]
+position = Vector2( 63, 31.5 )
+rotation = 0.336681
+texture = ExtResource( 10 )
+
+[node name="Paper4" type="Sprite" parent="BigTable"]
+position = Vector2( 20.0001, 42.5 )
+rotation = 0.336681
+texture = ExtResource( 10 )
+
+[node name="Table1" parent="." instance=ExtResource( 5 )]
+position = Vector2( 659, 326 )
+
+[node name="Collision" parent="Table1" index="0"]
+visible = true
+position = Vector2( -0.5, 41 )
+shape = SubResource( 8 )
+
+[node name="Task1" parent="." instance=ExtResource( 6 )]
+position = Vector2( 659, 349 )
+custom_overlap = true
+
+[node name="Sprite" parent="Task1" index="0"]
+position = Vector2( 0, 4 )
+scale = Vector2( 0.342198, 0.342198 )
+texture = ExtResource( 11 )
+
+[node name="HorizontalOverlap" parent="Task1" index="1"]
+position = Vector2( 0, -16 )
+shape = SubResource( 2 )
+
+[node name="VerticalOverlap" parent="Task1" index="2"]
+visible = false
+position = Vector2( 0, 8 )
+shape = SubResource( 3 )
+
+[node name="StaticBody2D" parent="Task1" index="3"]
+visible = false
+
+[node name="CollisionShape" parent="Task1/StaticBody2D" index="0"]
+position = Vector2( 0, 8 )
+shape = SubResource( 4 )
+
 [editable path="Tiles"]
 [editable path="Trim"]
 [editable path="Bridge"]
-[editable path="Task1"]
 [editable path="Navigator"]
+[editable path="BigTable"]
+[editable path="Table1"]
+[editable path="Task1"]

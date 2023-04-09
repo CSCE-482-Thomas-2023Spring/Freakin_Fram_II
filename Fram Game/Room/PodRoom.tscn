@@ -1,13 +1,13 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=25 format=2]
 
-[ext_resource path="res://Room/PodRoom.gd" type="Script" id=1]
+[ext_resource path="res://Room/Level.gd" type="Script" id=1]
 [ext_resource path="res://Objects/Trim.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Art/space_wall.png" type="Texture" id=3]
 [ext_resource path="res://Art/space_tiles.png" type="Texture" id=4]
 [ext_resource path="res://Objects/Tiles.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Objects/cryopod.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Objects/Door.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Objects/TaskInstance.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
@@ -405,6 +405,18 @@ extents = Vector2( 64, 16 )
 resource_local_to_scene = true
 extents = Vector2( 16, 64 )
 
+[sub_resource type="RectangleShape2D" id=19]
+resource_local_to_scene = true
+extents = Vector2( 24, 64 )
+
+[sub_resource type="RectangleShape2D" id=20]
+resource_local_to_scene = true
+extents = Vector2( 24, 64 )
+
+[sub_resource type="RectangleShape2D" id=21]
+resource_local_to_scene = true
+extents = Vector2( 16, 64 )
+
 [node name="PodRoom" type="YSort"]
 script = ExtResource( 1 )
 
@@ -418,11 +430,6 @@ tile_data = PoolIntArray( 196613, 10, 0, 196614, 5, 0, 196615, 5, 0, 196616, 5, 
 
 [node name="TileMap" parent="Trim" index="1"]
 tile_data = PoolIntArray( 327686, 1, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0, 327690, 0, 0, 327691, 0, 0, 327692, 0, 0, 327693, 0, 0, 327694, 0, 0, 327695, 0, 0, 327696, 0, 0, 327697, 0, 0, 327698, 0, 0, 327699, 0, 0, 327700, 0, 0, 327701, 0, 0, 327702, 0, 0, 327703, 2, 0, 393222, 3, 0, 393239, 4, 0, 458758, 3, 0, 458775, 7, 0, 458776, 0, 0, 458777, 0, 0, 458778, 0, 0, 458779, 0, 0, 458780, 0, 0, 458781, 0, 0, 458782, 0, 0, 458783, 0, 0, 524294, 3, 0, 589830, 3, 0, 655366, 3, 0, 720902, 3, 0, 720919, 5, 0, 786438, 3, 0, 786455, 4, 0, 851974, 3, 0, 851991, 4, 0, 917517, 6, 0, 917520, 5, 0, 983053, 3, 0, 983056, 4, 0, 1048589, 3, 0, 1048592, 4, 0, 1114125, 3, 0, 1114128, 4, 0, 1179661, 3, 0, 1179664, 4, 0, 1245197, 3, 0, 1245200, 4, 0 )
-
-[node name="Door" parent="." instance=ExtResource( 8 )]
-position = Vector2( 787, 224 )
-node_path = NodePath("..")
-call_method = "closet_door"
 
 [node name="Cryopod" parent="." instance=ExtResource( 7 )]
 position = Vector2( 352, 288 )
@@ -464,6 +471,28 @@ target_room = 1
 position = Vector2( 16, 64 )
 shape = SubResource( 18 )
 
+[node name="Task1" parent="." instance=ExtResource( 8 )]
+position = Vector2( 792, 280 )
+task_path = "Level0/Task1/"
+status = 1
+custom_overlap = true
+hide_on_complete = true
+
+[node name="Sprite" parent="Task1" index="0"]
+position = Vector2( 0, 8 )
+
+[node name="HorizontalOverlap" parent="Task1" index="1"]
+position = Vector2( -8, 8 )
+shape = SubResource( 19 )
+
+[node name="VerticalOverlap" parent="Task1" index="2"]
+position = Vector2( -8, 8 )
+shape = SubResource( 20 )
+
+[node name="CollisionShape" parent="Task1/StaticBody2D" index="0"]
+position = Vector2( -8, 8 )
+shape = SubResource( 21 )
+
 [node name="Player" parent="." instance=ExtResource( 6 )]
 position = Vector2( 384, 304 )
 
@@ -471,3 +500,4 @@ position = Vector2( 384, 304 )
 [editable path="Trim"]
 [editable path="HallwayEast"]
 [editable path="MaintenanceCloset"]
+[editable path="Task1"]

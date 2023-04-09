@@ -32,7 +32,9 @@ func set_status(new_status: int):
 			$StaticBody2D.queue_free()
 		
 		# Get player and dequeue this task from interactables -> TODO: given time, rework to avoid accessing parent
-		get_parent().get_node("Player").interactables.erase(self)
+		if (get_parent().has_node("Player")):
+			if (get_parent().get_node("Player").get("interactables")):
+				get_parent().get_node("Player").interactables.erase(self)
 
 # Setter function for task's completion status - called at task completion
 func update_status(new_status: int):

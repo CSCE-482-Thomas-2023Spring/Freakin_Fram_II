@@ -1,8 +1,7 @@
 extends Area2D
 
 # Enumerated room type based on all existing rooms in game
-# TODO: remove TestRoom after devlopment
-enum room_type {PodRoom, MaintenanceCloset, Laboratory, Navigation, Security, CrewQuarters, Communications, ReactorRoom, Bridge, CargoBay, HallwayWest, HallwayEast, TestRoom}
+enum room_type {PodRoom, MaintenanceCloset, Laboratory, Navigation, Security, CrewQuarters, Communications, ReactorRoom, Bridge, CargoBay, HallwayWest, HallwayEast}
 
 # Settable variables for the rooms involved in navigation (this room -> target room)
 export(room_type) var target_room

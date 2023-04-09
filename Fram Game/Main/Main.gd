@@ -1,9 +1,13 @@
 extends Node2D
 
+# Enumerated room type based on all existing rooms in game
+enum room_type {PodRoom, MaintenanceCloset, Laboratory, Navigation, Security, CrewQuarters, Communications, ReactorRoom, Bridge, CargoBay, HallwayWest, HallwayEast}
 # Global Variables - always available, updated throughout play
 # ==============================================================
 # Story Progress - format: [event 1 status, event 2 status, event 3 status, ...]
 var story = []
+# Character Interaction Progress - format: conversations["CharacterName"][TalkNum] = status (0/1) of interacting with Character for instance Num
+var conversations = []
 # Task Status 2D Array - format: [[Level 0 Task 1 Status, Level 0 Task 2 Status], [Level 1 Task 1 Status]] etc
 var level_tasks = [] setget update_statuses
 # Level Entry Locations - format: entry_locations["NewRoom"]["SourceRoom"] = [x position, y position]
@@ -27,14 +31,34 @@ func update_statuses(new_statuses: Array):
 	
 	# Check for untriggered story events
 	check_story()
+	
+	# TODO: delete when done testting
+	print("Story (Status):")
+	print(str(story))
+
+# Function called from character to update new conversation status values
+# TODO: add characters & link, test
+func update_conversation(new_conversations: Array):
+	# Update conversation status values
+	conversations = new_conversations
+	
+	# TODO: delete after development
+	print("Conversations:")
+	print(str(conversations))
+	
+	# Check for untriggered story events - TODO: add character-based events
+	check_story()
+	
+	# TODO: delete when done testing
+	print("Story (Conversations):")
+	print(str(story))
 
 # Load tasks & start menu on game start
 func _ready():
-	# Initialize task statuses & level starting locations to default values, preload scenes
+	# Initialize global variables & level starting locations to default values, preload scenes
 	init_scenes()
-	init_tasks()
+	init_globals()
 	init_locations()
-	init_story()
 	
 	# Call title screen for Start / Continue options; initiate game based on signal
 	var title_screen = mainMenu.instance()
@@ -60,31 +84,29 @@ func init_scenes():
 	roomScenes["CargoBay"] = preload("res://Room/CargoBay.tscn")
 	roomScenes["HallwayWest"] = preload("res://Room/HallwayWest.tscn")
 	roomScenes["HallwayEast"] = preload("res://Room/HallwayEast.tscn")
-	roomScenes["TestRoom"] = preload("res://Room/TestRoom.tscn") # TODO: remove after development
 
-# Initialize default level task values based on task initialization json
-func init_tasks():
-	# Open locations' json file location
+# Initialize default global variable values based on initialization json
+func init_globals():
+	# Open global variables' json file location
 	var f = File.new()
-	var tasks_path = global_path + "Initialize-Tasks.json"
-	assert(f.file_exists(tasks_path), "File path " + tasks_path + " does not exist")
-	f.open(tasks_path, File.READ)
+	var full_path = global_path + "GlobalData-Initial.json"
+	assert(f.file_exists(full_path), "File path " + full_path + " does not exist")
+	f.open(full_path, File.READ)
 	
-	# Store locations to global variable
+	# Access initial global data from json
 	var json = f.get_as_text()
-	level_tasks = parse_json(json)
+	var global_data = parse_json(json)
 	
-	print("Initial Tasks:")
-	var index = 0
-	while(index < 8):
-		print("Level " + str(index) + ": " + str(level_tasks[index]))
-		index += 1
+	# Store initial global data as global variables
+	level_tasks = global_data["Tasks"]
+	conversations = global_data["Conversations"]
+	story = global_data["Story"]
 
 # Initialize room starting player data
 func init_locations():
 	# Open locations' json file location
 	var f = File.new()
-	var location_path = global_path + "Initialize-Locations.json"
+	var location_path = global_path + "LocationData.json"
 	assert(f.file_exists(location_path), "File path " + location_path + " does not exist")
 	f.open(location_path, File.READ)
 	
@@ -92,29 +114,35 @@ func init_locations():
 	var json = f.get_as_text()
 	entry_locations = parse_json(json)
 
-# Initialize starting story progress data
-func init_story():
-	# Initialize story progress array to all incomplete values - TODO: update number of story events
-	var index = 0
-	while (index < 50):
-		story.append(0)
-		index += 1
-
 # Initiate gameplay with saved data; Load Game
 func load_data():
-	# Load task status variables & player location from saved data - TODO
-	var start_room = "TestRoom" # TODO: pull value from saved data
+	# Open global variables' json file location
+	var f = File.new()
+	var full_path = global_path + "GlobalData-Saved.json"
+	assert(f.file_exists(full_path), "File path " + full_path + " does not exist")
+	f.open(full_path, File.READ)
 	
-	# Load started puzzle task programs from saved data - TODO
+	# Access saved global data from json
+	var json = f.get_as_text()
+	var global_data = parse_json(json)
+	
+	# Store saved global data as global variables
+	level_tasks = global_data["Tasks"]
+	conversations = global_data["Conversations"]
+	story = global_data["Story"]
+	
+	# Update current location data
+	var location_data = global_data["Location"]
+	current_level = location_data["RoomNum"]
+	starting_location = Vector2(location_data["X"], location_data["Y"])
 	
 	# Initiate gameplay
-	load_room(start_room, "")
+	load_room(room_type.keys()[current_level], "")
 
 # Load a new room with corresponding location & task status values
 func load_room(room_name: String, source_room: String):
 	# Ensure room transition is valid (there exists connection between source and dest rooms)
-	# TODO: remove TestRoom after development
-	if ((entry_locations.has(room_name) or (room_name == "TestRoom")) and ((source_room == "") or source_room == "TestRoom" or entry_locations[room_name].has(source_room))):
+	if ((entry_locations.has(room_name)) and ((source_room == "") or entry_locations[room_name].has(source_room))):
 		
 		# Load room scene
 		var new_room = roomScenes[room_name].instance()
@@ -134,13 +162,20 @@ func load_room(room_name: String, source_room: String):
 		current_scene.queue_free()
 		current_scene = new_room
 		
+		# Update value of current room number
+		current_level = room_type.get(room_name)
+		
 		# Check for untriggered story events
 		check_story()
+		
+		# TODO: delete when done testing
+		print("Story (Load Room):")
+		print(str(story))
 
 # Return the starting position of level x when coming from level y
 func room_pos(level_name: String, source_name: String = "") -> Vector2:
 	# Return starting location if the player is not coming from a room (y = "")
-	if (source_name == "" or source_name == "TestRoom"): # TODO: remove TestRoom after development
+	if (source_name == ""):
 		return starting_location
 	
 	# return that room's location value according to the global location array
@@ -243,7 +278,7 @@ func check_story():
 	# Level 7 (Reactor Room) task triggers
 	level_status = level_tasks[7]
 	
-	# Location-based events: - TODO: elaborate & make updates to current_level in load_room function
+	# Location-based events: - TODO: elaborate
 	# ----------------------------------------
 	# Pod Room events
 	if (current_level == 0):

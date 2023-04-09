@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Objects/Trim.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Room/HallwayEast.gd" type="Script" id=2]
+[ext_resource path="res://Room/Level.gd" type="Script" id=2]
 [ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/Tiles.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=5]

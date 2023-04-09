@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Room/Communications.gd" type="Script" id=1]
+[ext_resource path="res://Room/Level.gd" type="Script" id=1]
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/Tiles.tscn" type="PackedScene" id=4]
@@ -12,8 +12,9 @@
 resource_local_to_scene = true
 extents = Vector2( 64, 16 )
 
-[node name="Comms" type="Node"]
+[node name="Communications" type="Node"]
 script = ExtResource( 1 )
+Level = 6
 
 [node name="Tiles" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1024, 640 )

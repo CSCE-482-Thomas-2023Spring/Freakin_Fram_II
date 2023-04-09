@@ -1,15 +1,13 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Room/Level.gd" type="Script" id=1]
 [ext_resource path="res://Objects/TaskInstance.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Objects/Hideable.tscn" type="PackedScene" id=5]
 
 [node name="TestRoom" type="Node2D"]
 script = ExtResource( 1 )
-
-[node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 512, 192 )
 
 [node name="Task1" parent="." instance=ExtResource( 2 )]
 position = Vector2( 768, 320 )
@@ -19,3 +17,9 @@ status = 1
 [node name="Transition" parent="." instance=ExtResource( 4 )]
 target_room = 12
 this_room = 12
+
+[node name="HideableScene" parent="." instance=ExtResource( 5 )]
+position = Vector2( 189, 145 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 512, 192 )

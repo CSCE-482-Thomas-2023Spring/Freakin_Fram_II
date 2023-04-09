@@ -405,7 +405,7 @@ extents = Vector2( 64, 16 )
 resource_local_to_scene = true
 extents = Vector2( 16, 64 )
 
-[node name="Cryo" type="YSort"]
+[node name="PodRoom" type="YSort"]
 script = ExtResource( 1 )
 
 [node name="Tiles" parent="." instance=ExtResource( 5 )]
@@ -423,9 +423,6 @@ tile_data = PoolIntArray( 327686, 1, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0
 position = Vector2( 787, 224 )
 node_path = NodePath("..")
 call_method = "closet_door"
-
-[node name="Player" parent="." instance=ExtResource( 6 )]
-position = Vector2( 384, 304 )
 
 [node name="Cryopod" parent="." instance=ExtResource( 7 )]
 position = Vector2( 352, 288 )
@@ -466,6 +463,9 @@ target_room = 1
 [node name="Overlap" parent="MaintenanceCloset" index="0"]
 position = Vector2( 16, 64 )
 shape = SubResource( 18 )
+
+[node name="Player" parent="." instance=ExtResource( 6 )]
+position = Vector2( 384, 304 )
 
 [editable path="Tiles"]
 [editable path="Trim"]

@@ -62,11 +62,11 @@ this_room = 3
 position = Vector2( 64, 16 )
 shape = SubResource( 1 )
 
-[node name="LabTable" parent="." instance=ExtResource( 5 )]
-position = Vector2( 512, 326 )
+[node name="Table1" parent="." instance=ExtResource( 5 )]
+position = Vector2( 639, 326 )
 
 [node name="Task1" parent="." instance=ExtResource( 6 )]
-position = Vector2( 512, 349 )
+position = Vector2( 639, 349 )
 custom_overlap = true
 
 [node name="Sprite" parent="Task1" index="0"]

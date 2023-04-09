@@ -139,6 +139,37 @@ func load_data():
 	# Initiate gameplay
 	load_room(room_type.keys()[current_level], "")
 
+
+func save_data():
+	# Erase existing saved data file
+	var f = File.new()
+	var save_path = "res://SourceFiles/GlobalData/GlobalData-Saved.json"
+	if (f.file_exists(save_path)):
+		var dir = Directory.new()
+		dir.remove(save_path)
+	
+	# Parse global variable and location data into a dictionary
+	var new_data = {
+		"Location": {
+			"RoomNum": current_level,
+			"X": current_scene.get_node("Player").get_position()[0],
+			"Y": current_scene.get_node("Player").get_position()[1]
+		},
+		"Tasks": level_tasks,
+		"Conversations": conversations,
+		"Story": story
+	}
+	
+	# Open a new json data file
+	if (f.open(save_path, File.WRITE) != 0):
+		# Error opening file
+		print("ERROR: Could not save to file " + save_path)
+		return
+	
+	# Convert the dictionary data into a json and store it
+	f.store_line(to_json(new_data))
+	f.close()
+
 # Load a new room with corresponding location & task status values
 func load_room(room_name: String, source_room: String):
 	# Ensure room transition is valid (there exists connection between source and dest rooms)
@@ -171,6 +202,9 @@ func load_room(room_name: String, source_room: String):
 		# TODO: delete when done testing
 		print("Story (Load Room):")
 		print(str(story))
+		
+		# TODO: delete test
+		save_data()
 
 # Return the starting position of level x when coming from level y
 func room_pos(level_name: String, source_name: String = "") -> Vector2:

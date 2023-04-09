@@ -18,12 +18,18 @@ signal level_update
 # Preload scene types before instancing them
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 
-# Setter for level's task statuses - called by Main on creation
+# Setter for level's task statuses - called by Main on creation & story update
 func set_status(new_statuses: Array):
 	# Set new status values
 	task_statuses = new_statuses
 	# Update children's tasks
 	task_update()
+	
+	print("Level Tasks:")
+	var index = 0
+	while(index < 8):
+		print("Level " + str(index) + ": " + str(task_statuses[index]))
+		index += 1
 
 # Getter for level's task statuses - called by Main on level_update signal
 func get_status() -> Array:

@@ -1,15 +1,10 @@
-{
-    "readOnly": [0],
-    "data": {
-        "usestdout": true,
-        "useFunction": false,
-        "functionName": "foo"
-    },
-    "cases" : [
-        {
-            "input": "",
-            "returns": "",
-            "stdout": ""
-        }
-    ]
-}
+[
+    [1],
+    [0,0],
+    [0,0,0,0,0,0,0],
+    [0],
+    [0,0],
+    [0,0],
+    [0,0],
+    [0]
+]

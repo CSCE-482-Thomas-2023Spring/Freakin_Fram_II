@@ -98,7 +98,6 @@ __meta__ = {
 }
 
 [node name="Collision" parent="BigTable" index="0"]
-visible = true
 position = Vector2( 31.5, 40 )
 shape = SubResource( 9 )
 
@@ -127,15 +126,14 @@ rotation = 0.336681
 texture = ExtResource( 10 )
 
 [node name="Table1" parent="." instance=ExtResource( 5 )]
-position = Vector2( 659, 326 )
+position = Vector2( 335, 104 )
 
 [node name="Collision" parent="Table1" index="0"]
-visible = true
 position = Vector2( -0.5, 41 )
 shape = SubResource( 8 )
 
 [node name="Task1" parent="." instance=ExtResource( 6 )]
-position = Vector2( 659, 349 )
+position = Vector2( 335, 127 )
 custom_overlap = true
 
 [node name="Sprite" parent="Task1" index="0"]
@@ -144,7 +142,7 @@ scale = Vector2( 0.342198, 0.342198 )
 texture = ExtResource( 11 )
 
 [node name="HorizontalOverlap" parent="Task1" index="1"]
-position = Vector2( 0, -16 )
+position = Vector2( 0, 53 )
 shape = SubResource( 2 )
 
 [node name="VerticalOverlap" parent="Task1" index="2"]

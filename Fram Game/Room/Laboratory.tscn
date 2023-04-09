@@ -414,7 +414,7 @@ extents = Vector2( 24, 40 )
 
 [sub_resource type="RectangleShape2D" id=32]
 resource_local_to_scene = true
-extents = Vector2( 32, 42.5 )
+extents = Vector2( 14.5, 11.5 )
 
 [sub_resource type="RectangleShape2D" id=18]
 resource_local_to_scene = true
@@ -422,7 +422,7 @@ extents = Vector2( 12, 16 )
 
 [sub_resource type="RectangleShape2D" id=19]
 resource_local_to_scene = true
-extents = Vector2( 35, 55 )
+extents = Vector2( 31, 45.5 )
 
 [sub_resource type="RectangleShape2D" id=17]
 resource_local_to_scene = true
@@ -472,7 +472,7 @@ extents = Vector2( 32, 16 )
 resource_local_to_scene = true
 extents = Vector2( 64, 16 )
 
-[node name="Laboratory" type="Node"]
+[node name="Laboratory" type="YSort"]
 script = ExtResource( 2 )
 
 [node name="Tiles" parent="." instance=ExtResource( 5 )]
@@ -487,7 +487,7 @@ tile_data = PoolIntArray( 13, 1610612744, 0, 14, 1, 0, 15, 1, 0, 16, 1, 0, 17, 1
 tile_data = PoolIntArray( 14, 3, 0, 17, 4, 0, 65550, 3, 0, 65553, 4, 0, 131086, 3, 0, 131089, 4, 0, 196611, 1, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 196621, 0, 0, 196622, 8, 0, 196625, 7, 0, 196626, 0, 0, 196627, 0, 0, 196628, 0, 0, 196629, 0, 0, 196630, 0, 0, 196631, 0, 0, 196632, 0, 0, 196633, 0, 0, 196634, 0, 0, 196635, 0, 0, 196636, 2, 0, 262147, 3, 0, 262172, 4, 0, 327683, 3, 0, 327708, 4, 0, 393219, 3, 0, 393244, 4, 0, 458755, 3, 0, 458780, 4, 0, 524291, 3, 0, 524316, 4, 0, 589827, 3, 0, 589852, 4, 0, 655363, 3, 0, 655388, 4, 0, 720899, 3, 0, 720924, 4, 0, 786435, 3, 0, 786460, 4, 0, 851971, 3, 0, 851996, 4, 0, 917507, 3, 0, 917532, 4, 0, 983043, 3, 0, 983068, 4, 0, 1048579, 3, 0, 1048604, 4, 0 )
 
 [node name="Scientist" parent="." instance=ExtResource( 8 )]
-position = Vector2( 689, 198 )
+position = Vector2( 881, 328 )
 
 [node name="Sprite" parent="Scientist" index="0"]
 position = Vector2( 0, -11 )
@@ -501,18 +501,15 @@ shape = SubResource( 30 )
 visible = false
 shape = SubResource( 31 )
 
-[node name="StaticBody2D" parent="Scientist" index="3"]
-visible = false
-
 [node name="CollisionShape" parent="Scientist/StaticBody2D" index="0"]
-position = Vector2( 0, -3.5 )
+position = Vector2( 0.5, 9.5 )
 shape = SubResource( 32 )
 
 [node name="LabTable6" parent="." instance=ExtResource( 7 )]
 position = Vector2( 141, 202 )
 
 [node name="Task6" parent="." instance=ExtResource( 8 )]
-position = Vector2( 141, 184 )
+position = Vector2( 142, 226 )
 custom_overlap = true
 
 [node name="Sprite" parent="Task6" index="0"]
@@ -525,7 +522,7 @@ position = Vector2( -4, 8 )
 shape = SubResource( 18 )
 
 [node name="VerticalOverlap" parent="Task6" index="2"]
-position = Vector2( 19, 17 )
+position = Vector2( 15, 15.5 )
 shape = SubResource( 19 )
 
 [node name="StaticBody2D" parent="Task6" index="3"]

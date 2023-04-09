@@ -74,7 +74,7 @@ position = Vector2( 64, 16 )
 shape = SubResource( 1 )
 
 [node name="Navigator" parent="." instance=ExtResource( 6 )]
-position = Vector2( 486, 195 )
+position = Vector2( 486, 188 )
 
 [node name="Sprite" parent="Navigator" index="0"]
 texture = ExtResource( 8 )
@@ -92,7 +92,7 @@ position = Vector2( 0, 21 )
 shape = SubResource( 7 )
 
 [node name="BigTable" parent="." instance=ExtResource( 5 )]
-position = Vector2( 478, 228 )
+position = Vector2( 478, 221 )
 __meta__ = {
 "_edit_group_": true
 }

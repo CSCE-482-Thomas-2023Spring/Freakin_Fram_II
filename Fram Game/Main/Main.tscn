@@ -6,10 +6,10 @@
 script = ExtResource( 1 )
 
 [node name="RoomLabel" type="Label" parent="."]
-margin_left = 872.0
-margin_top = 72.0
-margin_right = 976.0
-margin_bottom = 104.0
+margin_left = 23.0
+margin_top = 13.0
+margin_right = 127.0
+margin_bottom = 45.0
 text = "PodRoom"
 align = 2
 uppercase = true

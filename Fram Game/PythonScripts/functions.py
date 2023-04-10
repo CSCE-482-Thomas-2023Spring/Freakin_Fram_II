@@ -10,5 +10,5 @@ def blast_it():
 def take_evasive_move(size):
     print("evade " + str(size))
 
-def course_correct(size):
-    print("course correct " + str(size))
+def course_correct():
+    print("course correct")

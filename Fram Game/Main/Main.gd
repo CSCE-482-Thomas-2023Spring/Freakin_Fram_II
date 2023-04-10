@@ -450,12 +450,13 @@ func check_story():
 	
 	# Level 2 (Laboratory) task triggers - TODO: update as necessary
 	level_status = level_tasks[2]
-	if (level_status[0] == 3 and level_status[1] == 3 and level_status[2] == 3 and level_status[3] == 3 and level_status[4] == 3 and level_status[5] == 3 and level_tasks[2][6] == 0):
+	if (level_status[0] == 3 and level_status[1] == 3 and level_status[2] == 3 and level_status[3] == 3 and level_status[4] == 3 and level_tasks[2][6] == 0):
 		# When Level 2 Tasks 6 are completed, unblock Level 2 Task 7
-		level_tasks[2][6] = 1
+		level_tasks[2][4] = 1
+		level_tasks[3][0] = 1
 		current_scene.set_status(level_tasks)
 		return
-	if (level_status[6] == 3 and level_tasks[3][0] == 0):
+	if (level_status[5] == 3 and level_tasks[3][0] == 0):
 		# When Level 2 Task 7 is completed, unblock Level 3 Task 1
 		level_tasks[3][0] = 1
 		current_scene.set_status(level_tasks)

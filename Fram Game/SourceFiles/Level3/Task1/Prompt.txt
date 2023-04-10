@@ -1,4 +1,27 @@
 Correct the collision avoidance system!
 
 During the system damage, the collison avoidance settings of the ship was changed
+
 Fix the settings based off these instructions:
+
+If an asteroid is 200m away or farther, just log it in the ship's log with "log_asteroid()".
+
+If an asteroid is between 100m away and 200m away, double-check the distance with "ping_asteroid()" and log it with "log_asteroid()".
+
+If an asteroid is closer than 100m and 100m across or larger, blast it with "balst_it()"!
+
+If an asteroid is closer than 100m and is less than 100m across, avoid it with "take_evasive_move(size_of_asteroid)" and then get the ship back on track with "course_correct()".
+
+from functions import *
+def takeAction(distance_to_asteroid, size_of_asteroid):
+	if distance_to_asteroid >= 2: # 200
+		log_asteroid()
+	elif distance_to_asteroid >= 1: # 100
+		ping_asteroid()
+		log_asteroid()
+	else:
+		if size_of_asteroid >= 100: # 5
+			blast_it()
+		else:
+			take_evasive_move(size_of_asteroid)
+			course_correct(size_of_asteroid)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Room/Level.gd" type="Script" id=1]
 [ext_resource path="res://Objects/Trim.tscn" type="PackedScene" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://Objects/TaskInstance.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Objects/Hideable.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Art/door_horizontal.png" type="Texture" id=11]
+[ext_resource path="res://Art/door_vertical.png" type="Texture" id=12]
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -484,6 +486,7 @@ hide_on_complete = true
 
 [node name="Sprite" parent="Task1" index="0"]
 position = Vector2( 0, 8 )
+texture = ExtResource( 12 )
 
 [node name="HorizontalOverlap" parent="Task1" index="1"]
 visible = false
@@ -510,6 +513,10 @@ condition_task = 2
 [node name="Collision" parent="HideableObject/RigidBody2D" index="0"]
 position = Vector2( 0, -8 )
 shape = SubResource( 22 )
+
+[node name="Sprite" parent="HideableObject" index="1"]
+position = Vector2( 0, 12 )
+texture = ExtResource( 11 )
 
 [editable path="Tiles"]
 [editable path="Trim"]

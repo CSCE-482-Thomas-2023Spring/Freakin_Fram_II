@@ -7,6 +7,14 @@ Godot*.exe
 python_files/
 results.json
 
+# Save Data
+GlobalData-Saved.json
+StarterCode-Saved.py
+StarterCode-Temp.py
+TaskData-Saved.json
+TaskData-Temp.json
+
+
 #DS store for MacOS
 .DS_Store
 

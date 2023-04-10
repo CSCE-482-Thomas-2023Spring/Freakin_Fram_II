@@ -53,31 +53,33 @@ margin_right = 690.0
 margin_bottom = 566.0
 
 [node name="TutorialButton" type="Button" parent="."]
-anchor_left = 0.738
-anchor_top = 0.861
-anchor_right = 0.833
-anchor_bottom = 0.937
-margin_left = 0.288025
-margin_top = -0.039978
-margin_right = 0.00787354
-margin_bottom = 0.319946
+anchor_left = 0.732422
+anchor_top = 0.817187
+anchor_right = 0.858398
+anchor_bottom = 0.89375
+margin_left = 7.0
+margin_top = 3.0
+margin_right = 7.0
+margin_bottom = 3.0
 text = "Tutorials"
 align = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Sprite" type="Sprite" parent="TutorialButton"]
 position = Vector2( 23, 24 )
 texture = ExtResource( 3 )
 
 [node name="ExitButton" type="Button" parent="."]
-anchor_left = 0.736
-anchor_top = 0.056
-anchor_right = 0.785
-anchor_bottom = 0.128
-margin_left = 0.335938
-margin_top = 0.16
-margin_right = 0.159973
-margin_bottom = 0.0799942
-text = "X"
+anchor_left = 0.884766
+anchor_top = 0.821875
+anchor_right = 0.948242
+anchor_bottom = 0.898438
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Tutorial" type="ColorRect" parent="."]
 visible = false

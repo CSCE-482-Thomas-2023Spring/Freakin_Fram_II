@@ -63,6 +63,12 @@ func _ready():
 	var readOnlyLines = JSON.parse(sourceData.get_as_text()).result["readOnly"]
 	$Editor.get_node("VBoxContainer").get_node("Input").readonly_set(readOnlyLines)
 	
+	# fetch prompt and set the text
+	var promptText = File.new()
+	promptText.open("res://SourceFiles/" + source_path + "Prompt.txt", File.READ)
+	$Prompt.text = promptText.get_as_text()
+	promptText.close()
+	
 	# _ready copies the test script from PythonScripts to user://
 	var file = File.new()
 	file.open("res://PythonScripts/testCode.py", File.READ)

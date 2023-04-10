@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Art/captain.png" type="Texture" id=1]
 [ext_resource path="res://Room/Level.gd" type="Script" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Objects/TaskInstance.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Objects/Trim.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Objects/ControlPanels.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Objects/Hideable.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Art/door_horizontal.png" type="Texture" id=10]
 
 [sub_resource type="RectangleShape2D" id=4]
 resource_local_to_scene = true
@@ -32,6 +34,10 @@ extents = Vector2( 24, 48 )
 [sub_resource type="RectangleShape2D" id=9]
 resource_local_to_scene = true
 extents = Vector2( 16, 14 )
+
+[sub_resource type="RectangleShape2D" id=10]
+resource_local_to_scene = true
+extents = Vector2( 63.5, 38.5 )
 
 [node name="Bridge" type="YSort"]
 script = ExtResource( 2 )
@@ -99,6 +105,18 @@ shape = SubResource( 9 )
 [node name="Player" parent="." instance=ExtResource( 4 )]
 position = Vector2( 479, 295 )
 
+[node name="HideableObject" parent="." instance=ExtResource( 9 )]
+position = Vector2( 479, 137 )
+condition_level = 7
+
+[node name="Collision" parent="HideableObject/RigidBody2D" index="0"]
+position = Vector2( 1.5, -15.5 )
+shape = SubResource( 10 )
+
+[node name="Sprite" parent="HideableObject" index="1"]
+position = Vector2( 1, -15 )
+texture = ExtResource( 10 )
+
 [editable path="Tiles"]
 [editable path="Trim"]
 [editable path="Panels"]
@@ -106,3 +124,4 @@ position = Vector2( 479, 295 )
 [editable path="Navigation"]
 [editable path="HallwayWest"]
 [editable path="Captain"]
+[editable path="HideableObject"]

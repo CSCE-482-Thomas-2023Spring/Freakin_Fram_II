@@ -31,3 +31,6 @@ func _on_OptionsButton_pressed():
 func _on_QuitButton_pressed():
 	# Notify Main to quit the game and delete temporary data
 	emit_signal("quit_game")
+	
+
+

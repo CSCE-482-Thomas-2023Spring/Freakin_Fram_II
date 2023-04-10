@@ -13,8 +13,8 @@ onready var test_task_path = ProjectSettings.globalize_path("res://SourceFiles/"
 signal task_success
 
 var tutorials = ["level0.png", "level1.png", "level3.png", "level4.png", "level5.png"]
-var curr_tutorial = 2
-var main_tutorial = 2 # this is the tutorial relevant to the current level
+export var main_tutorial: int # this is the tutorial relevant to the current level
+onready var curr_tutorial = main_tutorial
 
 # Setter for task path
 func _set_path(new_val: String) -> void:
@@ -31,7 +31,7 @@ var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var pause = false
 
 func update_tutorial(ind):
-	$Tutorial/TutorialText.bbcode_text = "[img=500]res://Puzzle/Tutorials/" + tutorials[ind] + "[/img]"
+	$Tutorial/TutorialText.bbcode_text = "[img=750]res://Puzzle/Tutorials/" + tutorials[ind] + "[/img]"
 
 # Call a dialogue tree from input file location
 func create_box(json_path):
@@ -220,6 +220,9 @@ func on_button_pressed():
 # Call tutorial menu
 func tutorial_button_pressed():
 	$Tutorial.visible = not $Tutorial.visible
+	
+func tutorial_back_pressed():
+	$Tutorial.visible = not $Tutorial.visible
 
 # Index displayed tutorial to the right
 func tutorial_right_pressed():
@@ -292,3 +295,4 @@ func _on_ExitButton_pressed():
 	
 	# Close terminal
 	queue_free()
+	

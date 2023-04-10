@@ -589,3 +589,4 @@ func close_pause():
 	
 	# Unpause current level scene
 	add_child(current_scene)
+	

@@ -134,6 +134,7 @@ shape = SubResource( 8 )
 position = Vector2( 335, 127 )
 task_path = "Level3/Task1/"
 custom_overlap = true
+tutorial_page = 2
 
 [node name="Sprite" parent="Task1" index="0"]
 position = Vector2( 0, 4 )

@@ -33,6 +33,7 @@ margin_right = 976.0
 margin_bottom = 506.0
 text = "placeholder"
 readonly = true
+wrap_enabled = true
 
 [node name="Editor" parent="." instance=ExtResource( 2 )]
 margin_left = -465.0

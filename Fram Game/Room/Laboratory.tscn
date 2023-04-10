@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Room/Level.gd" type="Script" id=2]
@@ -416,18 +416,6 @@ extents = Vector2( 24, 40 )
 resource_local_to_scene = true
 extents = Vector2( 14.5, 11.5 )
 
-[sub_resource type="RectangleShape2D" id=18]
-resource_local_to_scene = true
-extents = Vector2( 12, 16 )
-
-[sub_resource type="RectangleShape2D" id=19]
-resource_local_to_scene = true
-extents = Vector2( 31, 45.5 )
-
-[sub_resource type="RectangleShape2D" id=17]
-resource_local_to_scene = true
-extents = Vector2( 16, 16 )
-
 [sub_resource type="RectangleShape2D" id=20]
 resource_local_to_scene = true
 extents = Vector2( 32, 28 )
@@ -435,6 +423,10 @@ extents = Vector2( 32, 28 )
 [sub_resource type="RectangleShape2D" id=21]
 resource_local_to_scene = true
 extents = Vector2( 32, 16 )
+
+[sub_resource type="RectangleShape2D" id=17]
+resource_local_to_scene = true
+extents = Vector2( 16, 16 )
 
 [sub_resource type="RectangleShape2D" id=22]
 resource_local_to_scene = true
@@ -508,30 +500,6 @@ shape = SubResource( 32 )
 
 [node name="LabTable6" parent="." instance=ExtResource( 7 )]
 position = Vector2( 141, 202 )
-
-[node name="Task6" parent="." instance=ExtResource( 8 )]
-position = Vector2( 142, 226 )
-custom_overlap = true
-
-[node name="Sprite" parent="Task6" index="0"]
-position = Vector2( 1, 8 )
-texture = ExtResource( 15 )
-
-[node name="HorizontalOverlap" parent="Task6" index="1"]
-visible = false
-position = Vector2( -4, 8 )
-shape = SubResource( 18 )
-
-[node name="VerticalOverlap" parent="Task6" index="2"]
-position = Vector2( 15, 15.5 )
-shape = SubResource( 19 )
-
-[node name="StaticBody2D" parent="Task6" index="3"]
-visible = false
-
-[node name="CollisionShape" parent="Task6/StaticBody2D" index="0"]
-position = Vector2( 0, 8 )
-shape = SubResource( 17 )
 
 [node name="LabTable5" parent="." instance=ExtResource( 7 )]
 position = Vector2( 192, 428 )
@@ -695,10 +663,13 @@ shape = SubResource( 16 )
 [node name="Player" parent="." instance=ExtResource( 6 )]
 position = Vector2( 513, 65 )
 
+[node name="Paper" type="Sprite" parent="."]
+position = Vector2( 141, 232 )
+texture = ExtResource( 15 )
+
 [editable path="Tiles"]
 [editable path="Trim"]
 [editable path="Scientist"]
-[editable path="Task6"]
 [editable path="Task5"]
 [editable path="Task4"]
 [editable path="Task3"]

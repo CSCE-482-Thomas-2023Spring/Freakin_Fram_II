@@ -1,1 +1,4 @@
 Correct the collision avoidance system!
+
+During the system damage, the collison avoidance settings of the ship was changed
+Fix the settings based off these instructions:

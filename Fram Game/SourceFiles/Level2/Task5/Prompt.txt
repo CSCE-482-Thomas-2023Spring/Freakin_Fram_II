@@ -1,2 +1,7 @@
 Swap the numbers!
+
+This lab monitoring function has a couple of wires crosssed.
+We need to switch the values of the two variables, A and B.
+Swap the variables' values!
+
 Hint: use a third variable

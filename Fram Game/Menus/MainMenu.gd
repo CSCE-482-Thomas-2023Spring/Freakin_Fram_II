@@ -3,6 +3,7 @@ extends Control
 # Signal Variables for Main
 signal start_game
 signal load_game
+signal quit_game
 
 func _ready():
 	# Set focus on buttons to enable keyboard/controller input
@@ -25,4 +26,5 @@ func _on_OptionsButton_pressed():
 	pass # Replace with function body.
 
 func _on_QuitButton_pressed():
-	get_tree().quit()
+	# Notify Main to quit the game and delete temporary data
+	emit_signal("quit_game")

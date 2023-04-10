@@ -1,5 +1,5 @@
 {
-    "readOnly": [8],
+    "readOnly": [0, 4],
     "data": {
         "usestdout": true,
         "useFunction": false,

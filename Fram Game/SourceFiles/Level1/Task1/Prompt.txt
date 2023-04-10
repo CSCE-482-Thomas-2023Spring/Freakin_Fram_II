@@ -1,2 +1,3 @@
 Power on the robot!
-Hint: Opposite of False
+
+(Hint: Opposite of False)

@@ -1,5 +1,3 @@
-# During the system damage, the collison avoidance settings of the ship was changed
-# Fix the settings based off these instructions
 from functions import *
 def takeAction(distance_to_asteroid, size_of_asteroid):
 	if distance_to_asteroid >= 2: # 200

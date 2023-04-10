@@ -21,6 +21,8 @@ var current_scene
 var global_path = "res://SourceFiles/GlobalData/"
 # Reference to pause menu screen if applicable
 var pause_scene
+# Global path to user folder
+var user_path = ProjectSettings.globalize_path("user://")
 
 # Preload necessary scene types
 var mainMenu = preload("res://Menus/MainMenu.tscn")
@@ -62,6 +64,7 @@ func _ready():
 	init_scenes()
 	init_globals()
 	init_locations()
+	init_user()
 	
 	# Hide pause menu button
 	$MenuButton.hide()
@@ -121,11 +124,37 @@ func init_locations():
 	var json = f.get_as_text()
 	entry_locations = parse_json(json)
 
+# Initialize user path directories if not already existing
+func init_user():
+	var dir = Directory.new()
+	
+	# Initialize SaveFiles folder
+	if (not dir.dir_exists(user_path + "SaveFiles")):
+		dir.make_dir(user_path + "SaveFiles")
+	
+	# Initialize GlobalData folder
+	if (not dir.dir_exists(user_path + "SaveFiles/GlobalData")):
+		dir.make_dir(user_path + "SaveFiles/GlobalData")
+	
+	# Initialize each level folder
+	var level_index = 0
+	while (level_index < 8):
+		if (not dir.dir_exists(user_path + "SaveFiles/Level" + str(level_index))):
+			dir.make_dir(user_path + "SaveFiles/Level" + str(level_index))
+		
+		# Initialize each task folder
+		var task_index = 1
+		while (task_index <= level_tasks[level_index].size()):
+			if (not dir.dir_exists(user_path + "SaveFiles/Level" + str(level_index) + "/Task" + str(task_index))):
+				dir.make_dir(user_path + "SaveFiles/Level" + str(level_index) + "/Task" + str(task_index))
+			task_index += 1
+		level_index += 1
+
 # Initiate gameplay with saved data; Load Game
 func load_data():
 	# Open global variables' json file location
 	var f = File.new()
-	var full_path = global_path + "GlobalData-Saved.json"
+	var full_path = user_path + "SaveFiles/GlobalData/GlobalData-Saved.json"
 	assert(f.file_exists(full_path), "File path " + full_path + " does not exist")
 	f.open(full_path, File.READ)
 	
@@ -147,7 +176,7 @@ func load_data():
 	# ----------------------------------------------------------------------
 	# Open SourceFiles directory to iterate through tasks
 	var source_dir = Directory.new()
-	source_dir.open("res://SourceFiles")
+	source_dir.open(user_path + "SaveFiles")
 	source_dir.list_dir_begin()
 	var level_name = source_dir.get_next()
 	while (level_name != ""):
@@ -156,21 +185,18 @@ func load_data():
 		if ((source_dir.current_is_dir()) and (level_name.substr(0, 5) == "Level")):
 			# Open level directory for iteration
 			var level_dir = Directory.new()
-			level_dir.open("res://SourceFiles/" + level_name)
+			level_dir.open(user_path + "SaveFiles/" + level_name)
 			level_dir.list_dir_begin()
 			var task_name = level_dir.get_next()
 			while (task_name != ""):
 				
 				# Check each folder within level directory for the "Task" substring
 				if ((level_dir.current_is_dir()) and (task_name.substr(0, 4) == "Task")):
-					var this_path = "res://SourceFiles/" + level_name + "/" + task_name + "/"
+					var this_path = user_path + "SaveFiles/" + level_name + "/" + task_name + "/"
 					
 					# If saved task data exists, create temp files to match
 					var save_code = File.new()
 					if (save_code.file_exists(this_path + "StarterCode-Saved.py")):
-						
-						# TODO: delete test
-						print("Loading saved code for " + level_name + " " + task_name)
 						
 						# Open python save file & read data
 						save_code.open(this_path + "StarterCode-Saved.py", File.READ)
@@ -207,7 +233,7 @@ func load_data():
 func save_data():
 	# Erase existing saved data file
 	var f = File.new()
-	var save_path = "res://SourceFiles/GlobalData/GlobalData-Saved.json"
+	var save_path = user_path + "SaveFiles/GlobalData/GlobalData-Saved.json"
 	if (f.file_exists(save_path)):
 		var dir = Directory.new()
 		dir.remove(save_path)
@@ -238,7 +264,7 @@ func save_data():
 	# ----------------------------------------------------------------------
 	# Open SourceFiles directory to iterate through tasks
 	var source_dir = Directory.new()
-	source_dir.open("res://SourceFiles")
+	source_dir.open(user_path + "SaveFiles")
 	source_dir.list_dir_begin()
 	var level_name = source_dir.get_next()
 	while (level_name != ""):
@@ -247,21 +273,18 @@ func save_data():
 		if ((source_dir.current_is_dir()) and (level_name.substr(0, 5) == "Level")):
 			# Open level directory for iteration
 			var level_dir = Directory.new()
-			level_dir.open("res://SourceFiles/" + level_name)
+			level_dir.open(user_path + "SaveFiles/" + level_name)
 			level_dir.list_dir_begin()
 			var task_name = level_dir.get_next()
 			while (task_name != ""):
 				
 				# Check each folder within level directory for the "Task" substring
 				if ((level_dir.current_is_dir()) and (task_name.substr(0, 4) == "Task")):
-					var this_path = "res://SourceFiles/" + level_name + "/" + task_name + "/"
+					var this_path = user_path + "SaveFiles/" + level_name + "/" + task_name + "/"
 					
 					# If saved task data exists, create temp files to match
 					var temp_code = File.new()
 					if (temp_code.file_exists(this_path + "StarterCode-Temp.py")):
-						
-						# TODO: delete test
-						print("Saving temporary code for " + level_name + " " + task_name)
 						
 						# Open python temp file & read data
 						temp_code.open(this_path + "StarterCode-Temp.py", File.READ)
@@ -298,7 +321,7 @@ func game_title():
 	# ----------------------------------------------------------------------
 	# Open SourceFiles directory to iterate through tasks
 	var source_dir = Directory.new()
-	source_dir.open("res://SourceFiles")
+	source_dir.open(user_path + "SaveFiles")
 	source_dir.list_dir_begin()
 	var level_name = source_dir.get_next()
 	while (level_name != ""):
@@ -307,21 +330,18 @@ func game_title():
 		if ((source_dir.current_is_dir()) and (level_name.substr(0, 5) == "Level")):
 			# Open level directory for iteration
 			var level_dir = Directory.new()
-			level_dir.open("res://SourceFiles/" + level_name)
+			level_dir.open(user_path + "SaveFiles/" + level_name)
 			level_dir.list_dir_begin()
 			var task_name = level_dir.get_next()
 			while (task_name != ""):
 				
 				# Check each folder within level directory for the "Task" substring
 				if ((level_dir.current_is_dir()) and (task_name.substr(0, 4) == "Task")):
-					var this_path = "res://SourceFiles/" + level_name + "/" + task_name + "/"
+					var this_path = user_path + "SaveFiles/" + level_name + "/" + task_name + "/"
 					
 					# If saved task data exists, delete it
 					var temp_code = File.new()
 					if (temp_code.file_exists(this_path + "StarterCode-Temp.py")):
-						
-						# TODO: delete test
-						print("Deleting temporary code for " + level_name + " " + task_name)
 						
 						# Delete both temporary files
 						var dir = Directory.new()

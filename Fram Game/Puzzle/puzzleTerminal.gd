@@ -75,16 +75,16 @@ func _ready():
   
 	# Check if temporary save data exists
 	var temp_code = File.new()
-	if (temp_code.file_exists("res://SourceFiles/" + source_path + "/StarterCode-Temp.py")):
+	if (temp_code.file_exists(godot_user_path_g + "SaveFiles/" + source_path + "/StarterCode-Temp.py")):
 		
 		# Update displayed code to match temporary code
-		temp_code.open("res://SourceFiles/" + source_path + "StarterCode-Temp.py", File.READ)
+		temp_code.open(godot_user_path_g + "SaveFiles/" + source_path + "StarterCode-Temp.py", File.READ)
 		$Editor.get_node("VBoxContainer").get_node("Input").text = temp_code.get_as_text()
 		temp_code.close()
 		
 		# Update readonly lines to match temporary lines
 		var temp_data = File.new()
-		temp_data.open("res://SourceFiles/" + source_path + "TaskData-Temp.json", File.READ)
+		temp_data.open(godot_user_path_g + "SaveFiles/" + source_path + "TaskData-Temp.json", File.READ)
 		readOnlyLines = JSON.parse(temp_data.get_as_text()).result["readOnly"]
 		$Editor.get_node("VBoxContainer").get_node("Input").readonly_set(readOnlyLines)
 		temp_data.close()
@@ -229,7 +229,7 @@ func tutorial_main_pressed():
 func _on_ExitButton_pressed():
 	# Delete this task's existing temporary py file
 	var f_py = File.new()
-	var temp_py = "res://SourceFiles/" + source_path + "/StarterCode-Temp.py"
+	var temp_py = godot_user_path_g + "SaveFiles/" + source_path + "/StarterCode-Temp.py"
 	if (f_py.file_exists(temp_py)):
 		var dir = Directory.new()
 		dir.remove(temp_py)
@@ -246,7 +246,7 @@ func _on_ExitButton_pressed():
 	
 	# Delete this task's existing temporary readonly line file
 	var f_rdonly = File.new()
-	var temp_rdonly = "res://SourceFiles/" + source_path + "/TaskData-Temp.json"
+	var temp_rdonly = godot_user_path_g + "SaveFiles/" + source_path + "/TaskData-Temp.json"
 	if (f_rdonly.file_exists(temp_rdonly)):
 		var dir = Directory.new()
 		dir.remove(temp_rdonly)

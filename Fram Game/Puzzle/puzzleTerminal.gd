@@ -49,6 +49,10 @@ func create_box(json_path):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# Hide pause button
+	if (get_tree().get_root().has_node("Main")):
+		get_tree().get_root().get_node("Main").get_node("MenuButton").hide()
+	
 	# load the current tutorial
 	update_tutorial(curr_tutorial)
 	
@@ -193,6 +197,10 @@ func on_button_pressed():
 		yield(create_box("Success.json"), "completed")
 		emit_signal("task_success")
 		
+		# Display pause button once again
+		if (get_tree().get_root().has_node("Main")):
+			get_tree().get_root().get_node("Main").get_node("MenuButton").show()
+		
 		# Delete self
 		queue_free()
 		
@@ -277,6 +285,10 @@ func _on_ExitButton_pressed():
 	# Store new readonly line data
 	f_rdonly.store_line(to_json(new_rdonly))
 	f_rdonly.close()
+	
+	# Display pause button once again
+	if (get_tree().get_root().has_node("Main")):
+		get_tree().get_root().get_node("Main").get_node("MenuButton").show()
 	
 	# Close terminal
 	queue_free()

@@ -12,6 +12,7 @@ margin_right = 987.0
 margin_bottom = 77.0
 text = "Pod Room"
 align = 2
+uppercase = true
 
 [node name="MenuButton" type="Button" parent="."]
 margin_left = 24.0

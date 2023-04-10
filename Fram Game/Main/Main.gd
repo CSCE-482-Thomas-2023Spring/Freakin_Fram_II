@@ -383,9 +383,6 @@ func load_room(room_name: String, source_room: String):
 		# TODO: delete when done testing
 		print("Story (Load Room):")
 		print(str(story))
-		
-		# TODO: delete test
-		save_data()
 
 # Return the starting position of level x when coming from level y
 func room_pos(level_name: String, source_name: String = "") -> Vector2:

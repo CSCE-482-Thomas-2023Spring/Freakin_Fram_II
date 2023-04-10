@@ -65,6 +65,7 @@ func _ready():
 	add_child(title_screen)
 	title_screen.connect("start_game", self, "load_room", ["PodRoom", ""])
 	title_screen.connect("load_game", self, "load_data")
+	title_screen.connect("quit_game", self, "quit_game")
 	
 	# Fix weird VBoxContainer position bug that is very weird and sets the position to the margin instead
 	title_screen.get_node("VBoxContainer").rect_position.y = 450
@@ -136,8 +137,199 @@ func load_data():
 	current_level = location_data["RoomNum"]
 	starting_location = Vector2(location_data["X"], location_data["Y"])
 	
+	# Load any previously started tasks from saved data to temporary data
+	# ----------------------------------------------------------------------
+	# Open SourceFiles directory to iterate through tasks
+	var source_dir = Directory.new()
+	source_dir.open("res://SourceFiles")
+	source_dir.list_dir_begin()
+	var level_name = source_dir.get_next()
+	while (level_name != ""):
+		
+		# Check each folder within SourceFiles for the "Level" substring
+		if ((source_dir.current_is_dir()) and (level_name.substr(0, 5) == "Level")):
+			# Open level directory for iteration
+			var level_dir = Directory.new()
+			level_dir.open("res://SourceFiles/" + level_name)
+			level_dir.list_dir_begin()
+			var task_name = level_dir.get_next()
+			while (task_name != ""):
+				
+				# Check each folder within level directory for the "Task" substring
+				if ((level_dir.current_is_dir()) and (task_name.substr(0, 4) == "Task")):
+					var this_path = "res://SourceFiles/" + level_name + "/" + task_name + "/"
+					
+					# If saved task data exists, create temp files to match
+					var save_code = File.new()
+					if (save_code.file_exists(this_path + "StarterCode-Saved.py")):
+						
+						# TODO: delete test
+						print("Loading saved code for " + level_name + " " + task_name)
+						
+						# Open python save file & read data
+						save_code.open(this_path + "StarterCode-Saved.py", File.READ)
+						var code = save_code.get_as_text()
+						save_code.close()
+						
+						# Open python temp file & store data
+						var temp_code = File.new()
+						temp_code.open(this_path + "StarterCode-Temp.py", File.WRITE)
+						temp_code.store_string(code)
+						temp_code.close()
+						
+						# Open task data save file & read data
+						var save_data = File.new()
+						save_data.open(this_path + "TaskData-Saved.json", File.READ)
+						var data = parse_json(save_data.get_as_text())
+						save_data.close()
+						
+						# Open task data temp file & store data
+						var temp_data = File.new()
+						temp_data.open(this_path + "TaskData-Temp.json", File.WRITE)
+						temp_data.store_line(to_json(data))
+						temp_data.close()
+				
+				# Load next task folder
+				task_name = level_dir.get_next()
+		
+		# Load next level folder
+		level_name = source_dir.get_next()
+	
 	# Initiate gameplay
 	load_room(room_type.keys()[current_level], "")
+
+func save_data():
+	# Erase existing saved data file
+	var f = File.new()
+	var save_path = "res://SourceFiles/GlobalData/GlobalData-Saved.json"
+	if (f.file_exists(save_path)):
+		var dir = Directory.new()
+		dir.remove(save_path)
+	
+	# Parse global variable and location data into a dictionary
+	var new_data = {
+		"Location": {
+			"RoomNum": current_level,
+			"X": current_scene.get_node("Player").get_position()[0],
+			"Y": current_scene.get_node("Player").get_position()[1]
+		},
+		"Tasks": level_tasks,
+		"Conversations": conversations,
+		"Story": story
+	}
+	
+	# Open a new json data file
+	if (f.open(save_path, File.WRITE) != 0):
+		# Error opening file
+		print("ERROR: Could not save to file " + save_path)
+		return
+	
+	# Convert the dictionary data into a json and store it
+	f.store_line(to_json(new_data))
+	f.close()
+	
+	# Save any existing temporary task data
+	# ----------------------------------------------------------------------
+	# Open SourceFiles directory to iterate through tasks
+	var source_dir = Directory.new()
+	source_dir.open("res://SourceFiles")
+	source_dir.list_dir_begin()
+	var level_name = source_dir.get_next()
+	while (level_name != ""):
+		
+		# Check each folder within SourceFiles for the "Level" substring
+		if ((source_dir.current_is_dir()) and (level_name.substr(0, 5) == "Level")):
+			# Open level directory for iteration
+			var level_dir = Directory.new()
+			level_dir.open("res://SourceFiles/" + level_name)
+			level_dir.list_dir_begin()
+			var task_name = level_dir.get_next()
+			while (task_name != ""):
+				
+				# Check each folder within level directory for the "Task" substring
+				if ((level_dir.current_is_dir()) and (task_name.substr(0, 4) == "Task")):
+					var this_path = "res://SourceFiles/" + level_name + "/" + task_name + "/"
+					
+					# If saved task data exists, create temp files to match
+					var temp_code = File.new()
+					if (temp_code.file_exists(this_path + "StarterCode-Temp.py")):
+						
+						# TODO: delete test
+						print("Saving temporary code for " + level_name + " " + task_name)
+						
+						# Open python temp file & read data
+						temp_code.open(this_path + "StarterCode-Temp.py", File.READ)
+						var code = temp_code.get_as_text()
+						temp_code.close()
+						
+						# Open python save file & store data
+						var save_code = File.new()
+						save_code.open(this_path + "StarterCode-Saved.py", File.WRITE)
+						save_code.store_string(code)
+						save_code.close()
+						
+						# Open task data temp file & read data
+						var temp_data = File.new()
+						temp_data.open(this_path + "TaskData-Temp.json", File.READ)
+						var data = parse_json(temp_data.get_as_text())
+						temp_data.close()
+						
+						# Open task data save file & store data
+						var save_data = File.new()
+						save_data.open(this_path + "TaskData-Saved.json", File.WRITE)
+						save_data.store_line(to_json(data))
+						save_data.close()
+				
+				# Load next task folder
+				task_name = level_dir.get_next()
+		
+		# Load next level folder
+		level_name = source_dir.get_next()
+
+# Quit the game - called by main menu & pause menu
+func quit_game():
+	# Delete any existing temporary task data
+	# ----------------------------------------------------------------------
+	# Open SourceFiles directory to iterate through tasks
+	var source_dir = Directory.new()
+	source_dir.open("res://SourceFiles")
+	source_dir.list_dir_begin()
+	var level_name = source_dir.get_next()
+	while (level_name != ""):
+		
+		# Check each folder within SourceFiles for the "Level" substring
+		if ((source_dir.current_is_dir()) and (level_name.substr(0, 5) == "Level")):
+			# Open level directory for iteration
+			var level_dir = Directory.new()
+			level_dir.open("res://SourceFiles/" + level_name)
+			level_dir.list_dir_begin()
+			var task_name = level_dir.get_next()
+			while (task_name != ""):
+				
+				# Check each folder within level directory for the "Task" substring
+				if ((level_dir.current_is_dir()) and (task_name.substr(0, 4) == "Task")):
+					var this_path = "res://SourceFiles/" + level_name + "/" + task_name + "/"
+					
+					# If saved task data exists, delete it
+					var temp_code = File.new()
+					if (temp_code.file_exists(this_path + "StarterCode-Temp.py")):
+						
+						# TODO: delete test
+						print("Deleting temporary code for " + level_name + " " + task_name)
+						
+						# Delete both temporary files
+						var dir = Directory.new()
+						dir.remove(this_path + "StarterCode-Temp.py")
+						dir.remove(this_path + "TaskData-Temp.json")
+				
+				# Load next task folder
+				task_name = level_dir.get_next()
+		
+		# Load next level folder
+		level_name = source_dir.get_next()
+	
+	# Exit game
+	get_tree().quit()
 
 # Load a new room with corresponding location & task status values
 func load_room(room_name: String, source_room: String):
@@ -171,6 +363,9 @@ func load_room(room_name: String, source_room: String):
 		# TODO: delete when done testing
 		print("Story (Load Room):")
 		print(str(story))
+		
+		# TODO: delete test
+		save_data()
 
 # Return the starting position of level x when coming from level y
 func room_pos(level_name: String, source_name: String = "") -> Vector2:

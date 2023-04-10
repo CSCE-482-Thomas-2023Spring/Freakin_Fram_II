@@ -93,7 +93,7 @@ position = Vector2( 1, -15 )
 texture = ExtResource( 7 )
 
 [node name="HideableObject2" parent="." instance=ExtResource( 6 )]
-position = Vector2( 510, 437 )
+position = Vector2( 510, 438 )
 condition_level = 7
 
 [node name="Collision" parent="HideableObject2/RigidBody2D" index="0"]

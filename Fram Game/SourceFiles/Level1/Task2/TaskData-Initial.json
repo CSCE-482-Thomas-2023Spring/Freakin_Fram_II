@@ -1,5 +1,5 @@
 {
-    "readOnly": [0,2],
+    "readOnly": [11],
     "data": {
         "usestdout": true,
         "useFunction": false,
@@ -9,7 +9,7 @@
         {
             "input": "",
             "returns": "",
-            "stdout": "False\r\n"
+            "stdout": "True\r\n"
         }
     ]
 }

@@ -1,5 +1,5 @@
 {
-    "readOnly": [0,2],
+    "readOnly": [9,20],
     "data": {
         "usestdout": true,
         "useFunction": false,
@@ -9,7 +9,7 @@
         {
             "input": "",
             "returns": "",
-            "stdout": "False\r\n"
+            "stdout": "Fred Ash Kyle\r\n4 12 2\r\n"
         }
     ]
 }

@@ -132,6 +132,7 @@ shape = SubResource( 8 )
 
 [node name="Task1" parent="." instance=ExtResource( 6 )]
 position = Vector2( 335, 127 )
+task_path = "Level3/Task1/"
 custom_overlap = true
 
 [node name="Sprite" parent="Task1" index="0"]

@@ -1,0 +1,45 @@
+{
+    "readOnly": [3],
+    "data": {
+        "usestdout": true,
+        "useFunction": true,
+        "functionName": "takeAction"
+    },
+    "cases" : [
+        {
+            "input": [200, 100],
+            "returns": null,
+            "stdout": "log\n"
+        },
+        {
+            "input": [150, 100],
+            "returns": null,
+            "stdout": "ping\nlog\n"
+        },
+        {
+            "input": [100, 50],
+            "returns": null,
+            "stdout": "ping\nlog\n"
+        },
+        {
+            "input": [99, 5],
+            "returns": null,
+            "stdout": "blast\n"
+        },
+        {
+            "input": [99, 4],
+            "returns": null,
+            "stdout": "evade 4\ncourse correct 4\n"
+        },
+        {
+            "input": [30, 2],
+            "returns": null,
+            "stdout": "evade 2\ncourse correct 2\n"
+        },
+        {
+            "input": [50, 90],
+            "returns": null,
+            "stdout": "blast\n"
+        }
+    ]
+}

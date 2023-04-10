@@ -1,33 +1,38 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Menus/MainMenu.gd" type="Script" id=1]
-[ext_resource path="res://Art/OfficialCoverArt.jpg" type="Texture" id=2]
+[ext_resource path="res://Fonts/fonts/conthrax-sb.otf" type="DynamicFontData" id=2]
 
 [sub_resource type="StreamTexture" id=1]
-resource_local_to_scene = true
-resource_name = "OfficialCoverArt.jpg"
+flags = 4
+load_path = "res://.import/OfficialCoverArt.jpg-0b1e2300f0b70b7f7515967679cf48fd.stex"
+
+[sub_resource type="DynamicFont" id=2]
+size = 10
+font_data = ExtResource( 2 )
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
 
-[node name="CoverArt" type="TextureRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="BgImageRect" type="TextureRect" parent="."]
+show_behind_parent = true
+margin_right = 2048.0
+margin_bottom = 1536.0
+rect_scale = Vector2( 0.499941, 0.451916 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
 texture = SubResource( 1 )
-
-[node name="OfficialCoverArt" type="Sprite" parent="CoverArt"]
-position = Vector2( 512, 352 )
-scale = Vector2( 0.501953, 0.492188 )
-texture = ExtResource( 2 )
+stretch_mode = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 33.0
-margin_top = -126.0
-margin_right = 233.0
+margin_left = 750.0
+margin_top = -190.0
+margin_right = 950.0
+margin_bottom = -58.0
 
 [node name="StartButton" type="Button" parent="VBoxContainer"]
 margin_right = 200.0
@@ -35,10 +40,17 @@ margin_bottom = 30.0
 focus_neighbour_top = NodePath("../QuitButton")
 text = "Start"
 
-[node name="OptionsButton" type="Button" parent="VBoxContainer"]
+[node name="ContinueButton" type="Button" parent="VBoxContainer"]
 margin_top = 34.0
 margin_right = 200.0
 margin_bottom = 64.0
+text = "Continue"
+
+[node name="OptionsButton" type="Button" parent="VBoxContainer"]
+visible = false
+margin_top = 68.0
+margin_right = 200.0
+margin_bottom = 98.0
 text = "Options"
 
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
@@ -48,14 +60,17 @@ margin_bottom = 98.0
 focus_neighbour_bottom = NodePath("../StartButton")
 text = "Quit"
 
-[node name="GameTitle" type="RichTextLabel" parent="."]
-margin_left = 736.0
-margin_top = 88.0
-margin_right = 872.0
-margin_bottom = 120.0
-text = "FRAM"
-override_selected_font_color = true
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 65.0
+margin_top = 59.0
+margin_right = 105.0
+margin_bottom = 74.0
+rect_scale = Vector2( 12, 12 )
+custom_colors/default_color = Color( 0.321569, 0.435294, 0.458824, 1 )
+custom_fonts/normal_font = SubResource( 2 )
+text = "Fram"
 
 [connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/OptionsButton" to="." method="_on_OptionsButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]

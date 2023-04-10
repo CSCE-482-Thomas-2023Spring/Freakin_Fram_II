@@ -13,6 +13,6 @@ def take_evasive_move(a):
     print("evade", a)
     return
 
-def course_correct(a):
-    print("course correct", a)
+def course_correct():
+    print("course correct")
     return

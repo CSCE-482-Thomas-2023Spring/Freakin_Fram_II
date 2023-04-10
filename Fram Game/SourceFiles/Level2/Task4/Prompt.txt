@@ -2,7 +2,6 @@ Calculate the year!
 
 We found a bacteria in space. Initially, the bacteria is 10 cm^2.
 We have been studying it and have figured out that it doubles every 0.9 hours.
-Calculate when it will be at least 200 cm^2 and set year_of_200 to that value.
+Calculate the size of the bacteria after 3.6 hours.
 
-Hint: There should be no decimals in the year
-Hint: log(x, b) returns log_b(x)
+Hint: You can multiply a variable by a value and then assign the result to the same variable (see starter code)

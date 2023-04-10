@@ -5,4 +5,4 @@ def swap(my_list):
 	
 	# write code here
 
-	return my_list
+	return [A, B]

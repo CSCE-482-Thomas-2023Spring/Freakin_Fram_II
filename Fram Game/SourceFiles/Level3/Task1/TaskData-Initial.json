@@ -29,12 +29,12 @@
         {
             "input": [99, 4],
             "returns": null,
-            "stdout": "evade 4\ncourse correct 4\n"
+            "stdout": "evade 4\ncourse correct\n"
         },
         {
             "input": [30, 2],
             "returns": null,
-            "stdout": "evade 2\ncourse correct 2\n"
+            "stdout": "evade 2\ncourse correct\n"
         },
         {
             "input": [50, 90],

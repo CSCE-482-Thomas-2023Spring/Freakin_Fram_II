@@ -44,15 +44,26 @@ margin_right = 690.0
 margin_bottom = 566.0
 
 [node name="TutorialButton" type="Button" parent="."]
-anchor_left = 0.773
-anchor_top = 0.832
-anchor_right = 0.868
-anchor_bottom = 0.908
-margin_left = 0.447937
-margin_top = -0.200012
-margin_right = 0.167847
-margin_bottom = 0.159912
+anchor_left = 0.738
+anchor_top = 0.861
+anchor_right = 0.833
+anchor_bottom = 0.937
+margin_left = 0.288025
+margin_top = -0.039978
+margin_right = 0.00787354
+margin_bottom = 0.319946
 text = "Tutorials"
+
+[node name="ExitButton" type="Button" parent="."]
+anchor_left = 0.736
+anchor_top = 0.056
+anchor_right = 0.785
+anchor_bottom = 0.128
+margin_left = 0.335938
+margin_top = 0.16
+margin_right = 0.159973
+margin_bottom = 0.0799942
+text = "X"
 
 [node name="Tutorial" type="ColorRect" parent="."]
 visible = false
@@ -106,6 +117,7 @@ text = "Current"
 
 [connection signal="pressed" from="Editor/VBoxContainer/Output/Button" to="." method="on_button_pressed"]
 [connection signal="pressed" from="TutorialButton" to="." method="tutorial_button_pressed"]
+[connection signal="pressed" from="ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="pressed" from="Tutorial/left" to="." method="tutorial_left_pressed"]
 [connection signal="pressed" from="Tutorial/right" to="." method="tutorial_right_pressed"]
 [connection signal="pressed" from="Tutorial/main" to="." method="tutorial_main_pressed"]

@@ -220,6 +220,9 @@ func on_button_pressed():
 # Call tutorial menu
 func tutorial_button_pressed():
 	$Tutorial.visible = not $Tutorial.visible
+	
+func tutorial_back_pressed():
+	$Tutorial.visible = not $Tutorial.visible
 
 # Index displayed tutorial to the right
 func tutorial_right_pressed():

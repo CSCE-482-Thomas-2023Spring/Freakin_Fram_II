@@ -98,7 +98,7 @@ func _ready():
 	funcFile.close()
 	
 	var userTestCode = File.new()
-	userTestCode.open(test_code_file, File.WRITE)
+	userTestCode.open(test_code_file, File.WRITE) # opens user://testCode.py
 	userTestCode.store_string(testCode)
 	userTestCode.close()
 	

@@ -1,5 +1,5 @@
 {
-    "readOnly": [5],
+    "readOnly": [8],
     "data": {
         "usestdout": true,
         "useFunction": false,
@@ -9,7 +9,7 @@
         {
             "input": "",
             "returns": "",
-            "stdout": "3.88\r\n"
+            "stdout": "3.89\r\n"
         }
     ]
 }

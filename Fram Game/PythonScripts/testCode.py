@@ -49,7 +49,13 @@ if importSuccessful:
                 f = io.StringIO()
                 returned = None
                 with redirect_stdout(f):
-                    returned = userSolution(*case.input)
+                    if hasattr(testData.data, "listInput"):
+                        if testData.data.listInput:
+                            returned = userSolution(case.input)
+                        else:
+                            returned = userSolution(*case.input)
+                    else:
+                        returned = userSolution(*case.input)
                 stdout = f.getvalue()
                 returnPassed = (not testData.data.useFunction) or (returned == case.returns)
                 stdoutPassed = (not testData.data.usestdout) or (stdout == case.stdout)

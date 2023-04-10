@@ -1,5 +1,9 @@
-from math import log
-
 bacteria_size = 10 
-year_of_200 = 0
-print(f'{year_of_200:0,.2f}')
+
+# Add lines to finish the calculation here
+bacteria_size = bacteria_size * 2
+
+# Record your final answer here
+final_size = 
+
+print(final_size)

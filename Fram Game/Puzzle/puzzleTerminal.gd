@@ -8,7 +8,7 @@ var python_dir = "./python_files/python.exe" # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
 var godot_user_path_g = ProjectSettings.globalize_path("user://")
-onready var test_task_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "TaskData.json")
+onready var test_task_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "TaskData-Initial.json")
 signal task_success
 
 var tutorials = ["level0.png", "level1.png", "level3.png", "level4.png", "level5.png"]
@@ -53,13 +53,13 @@ func _ready():
 	
 	# display initial source code as read from corresponding file in path
 	var sourceCode = File.new()
-	sourceCode.open("res://SourceFiles/" + source_path + "StarterCode.py", File.READ)
+	sourceCode.open("res://SourceFiles/" + source_path + "StarterCode-Initial.py", File.READ)
 	$Editor.get_node("VBoxContainer").get_node("Input").text = sourceCode.get_as_text()
 	sourceCode.close()
 	
 	# insert readonly lines as read from source data json
 	var sourceData = File.new()
-	sourceData.open("res://SourceFiles/" + source_path + "TaskData.json", File.READ)
+	sourceData.open("res://SourceFiles/" + source_path + "TaskData-Initial.json", File.READ)
 	var readOnlyLines = JSON.parse(sourceData.get_as_text()).result["readOnly"]
 	$Editor.get_node("VBoxContainer").get_node("Input").readonly_set(readOnlyLines)
 	
@@ -68,6 +68,22 @@ func _ready():
 	promptText.open("res://SourceFiles/" + source_path + "Prompt.txt", File.READ)
 	$Prompt.text = promptText.get_as_text()
 	promptText.close()
+  
+	# Check if temporary save data exists
+	var temp_code = File.new()
+	if (temp_code.file_exists("res://SourceFiles/" + source_path + "/StarterCode-Temp.py")):
+		
+		# Update displayed code to match temporary code
+		temp_code.open("res://SourceFiles/" + source_path + "StarterCode-Temp.py", File.READ)
+		$Editor.get_node("VBoxContainer").get_node("Input").text = temp_code.get_as_text()
+		temp_code.close()
+		
+		# Update readonly lines to match temporary lines
+		var temp_data = File.new()
+		temp_data.open("res://SourceFiles/" + source_path + "TaskData-Temp.json", File.READ)
+		readOnlyLines = JSON.parse(temp_data.get_as_text()).result["readOnly"]
+		$Editor.get_node("VBoxContainer").get_node("Input").readonly_set(readOnlyLines)
+		temp_data.close()
 	
 	# _ready copies the test script from PythonScripts to user://
 	var file = File.new()
@@ -135,7 +151,7 @@ func on_button_pressed():
 	
 	# Parse information from 
 	var jsonTestFile = File.new()
-	jsonTestFile.open("res://SourceFiles/" + source_path + "TaskData.json", File.READ)
+	jsonTestFile.open("res://SourceFiles/" + source_path + "TaskData-Initial.json", File.READ)
 	var testData = JSON.parse(jsonTestFile.get_as_text()).result # this is the parsed test json
 	jsonTestFile.close()
 	var stdout = []
@@ -182,21 +198,74 @@ func on_button_pressed():
 
 
 
-
+# Call tutorial menu
 func tutorial_button_pressed():
 	$Tutorial.visible = not $Tutorial.visible
 
-
+# Index displayed tutorial to the right
 func tutorial_right_pressed():
 	curr_tutorial = (curr_tutorial + 1) % len(tutorials)
 	update_tutorial(curr_tutorial)
 
-
+# Index displayed tutorial to the left
 func tutorial_left_pressed():
 	curr_tutorial = (curr_tutorial - 1) % len(tutorials)
 	update_tutorial(curr_tutorial)
 
-
+# Index displayed tutorial to the most relevant one to this puzzle
 func tutorial_main_pressed():
 	curr_tutorial = main_tutorial
 	update_tutorial(curr_tutorial)
+
+# Save current task progress to temporary file and exit terminal
+func _on_ExitButton_pressed():
+	# Delete this task's existing temporary py file
+	var f_py = File.new()
+	var temp_py = "res://SourceFiles/" + source_path + "/StarterCode-Temp.py"
+	if (f_py.file_exists(temp_py)):
+		var dir = Directory.new()
+		dir.remove(temp_py)
+	
+	# Create a new temporary py file to write to
+	if (f_py.open(temp_py, File.WRITE) != 0):
+		# Error opening file
+		print("ERROR: Could not save to temporary py file " + temp_py)
+		return
+	
+	# Store new python data
+	f_py.store_string($Editor/VBoxContainer/Input.get_text())
+	f_py.close()
+	
+	# Delete this task's existing temporary readonly line file
+	var f_rdonly = File.new()
+	var temp_rdonly = "res://SourceFiles/" + source_path + "/TaskData-Temp.json"
+	if (f_rdonly.file_exists(temp_rdonly)):
+		var dir = Directory.new()
+		dir.remove(temp_rdonly)
+	
+	# Create a new temporary readonly line file to write to
+	if (f_rdonly.open(temp_rdonly, File.WRITE) != 0):
+		# Error opening file
+		print("ERROR: Could not save to temporary readonly file " + temp_rdonly)
+		return
+	
+	# Access initial source data for certain elements of the new task data
+	var sourceData = File.new()
+	sourceData.open("res://SourceFiles/" + source_path + "TaskData-Initial.json", File.READ)
+	var old_data = JSON.parse(sourceData.get_as_text()).result["data"]
+	var old_cases = JSON.parse(sourceData.get_as_text()).result["cases"]
+	sourceData.close()
+	
+	# Set up new readonly line data
+	var new_rdonly = {
+		"readOnly": $Editor/VBoxContainer/Input.readonly_get(),
+		"data": old_data,
+		"cases" : old_cases
+	}
+	
+	# Store new readonly line data
+	f_rdonly.store_line(to_json(new_rdonly))
+	f_rdonly.close()
+	
+	# Close terminal
+	queue_free()

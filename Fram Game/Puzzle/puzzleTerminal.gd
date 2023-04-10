@@ -94,7 +94,7 @@ func _ready():
 	
 	var funcFile = File.new()
 	funcFile.open("res://PythonScripts/functions.py", File.READ)
-	var functionCode = file.get_as_text()
+	var functionCode = funcFile.get_as_text()
 	funcFile.close()
 	
 	var userTestCode = File.new()

@@ -1,7 +1,7 @@
-def log_asteriod():
+def log_asteroid():
     print("log")
 
-def ping_asteriod():
+def ping_asteroid():
     print("ping")
 
 def blast_it():

@@ -39,7 +39,9 @@ except Exception as e:
 if importSuccessful:
     for case in testCases:
         returned, stdout = None, None
+        stderr = None
         returnPassed, stdoutPassed = True, True
+        error_message = ""
         if testData.data.useFunction:
             userSolution = None
             try:
@@ -48,18 +50,20 @@ if importSuccessful:
                 returned = None
                 with redirect_stdout(f):
                     returned = userSolution(*case.input)
-                out = f.getvalue()
+                stdout = f.getvalue()
                 returnPassed = (not testData.data.useFunction) or (returned == case.returns)
-                stdoutPassed = (not testData.data.usestdout) or (out == case.stdout)
+                stdoutPassed = (not testData.data.usestdout) or (stdout == case.stdout)
                 returnResults.append((returnPassed, returned))
             except Exception as e:
                 userSolution = None
+                error_message = f"{e}"
             if userSolution is None:
-                results["error"] = e.message #"Something went wrong. Check function and parameters"
+                results["error"] = error_message #"Something went wrong. Check function and parameters"
         else:
             returnResults.append((True, None))
         
         # not using function implies entire program should be run in subprocess
+
         if not testData.data.useFunction:
             programOutput = subprocess.run([python_dir, player_code], capture_output=True)
             stdout = programOutput.stdout.decode('utf-8')

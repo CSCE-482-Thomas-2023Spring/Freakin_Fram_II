@@ -394,8 +394,9 @@ func load_room(room_name: String, source_room: String):
 		current_scene.queue_free()
 		current_scene = new_room
 		
-		# Update value of current room number
+		# Update value of current room number & label display
 		current_level = room_type.get(room_name)
+		$RoomLabel.text = room_type.keys()[current_level]
 		
 		# Check for untriggered story events
 		check_story()

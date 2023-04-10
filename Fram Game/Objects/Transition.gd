@@ -16,8 +16,3 @@ func _on_Transition_body_entered(body):
 		var root = get_tree().get_root().get_node("Main")
 		if root:
 			root.call_deferred("load_room", target_string, this_string)
-
-		# Change room label in main.tscn to reflect new room
-		var roomLabel = root.get_node("RoomLabel")
-		print("Target Room: ", room_type.keys()[target_room])
-		roomLabel.text = room_type.keys()[target_room]

@@ -19,9 +19,12 @@ var starting_location = Vector2(384, 304)
 var current_scene
 # Global data storage location
 var global_path = "res://SourceFiles/GlobalData/"
+# Reference to pause menu screen if applicable
+var pause_scene
 
 # Preload necessary scene types
 var mainMenu = preload("res://Menus/MainMenu.tscn")
+var pauseMenu = preload("res://Menus/PauseMenu.tscn")
 var roomScenes = {}
 
 # Function called from level to update new task status values
@@ -59,6 +62,9 @@ func _ready():
 	init_scenes()
 	init_globals()
 	init_locations()
+	
+	# Hide pause menu button
+	$MenuButton.hide()
 	
 	# Call title screen for Start / Continue options; initiate game based on signal
 	var title_screen = mainMenu.instance()
@@ -286,8 +292,8 @@ func save_data():
 		# Load next level folder
 		level_name = source_dir.get_next()
 
-# Quit the game - called by main menu & pause menu
-func quit_game():
+# Return to the title screen of the game - called by pause menu
+func game_title():
 	# Delete any existing temporary task data
 	# ----------------------------------------------------------------------
 	# Open SourceFiles directory to iterate through tasks
@@ -328,6 +334,17 @@ func quit_game():
 		# Load next level folder
 		level_name = source_dir.get_next()
 	
+	# Close current level and reset global variables
+	current_scene.queue_free()
+	pause_scene.queue_free()
+	
+	# Restart game
+	current_level = 0
+	starting_location = Vector2(384, 304)
+	_ready()
+
+# Quit the game - called by main menu
+func quit_game():
 	# Exit game
 	get_tree().quit()
 
@@ -335,6 +352,9 @@ func quit_game():
 func load_room(room_name: String, source_room: String):
 	# Ensure room transition is valid (there exists connection between source and dest rooms)
 	if ((entry_locations.has(room_name)) and ((source_room == "") or entry_locations[room_name].has(source_room))):
+		
+		# Unhide pause menu button
+		$MenuButton.show()
 		
 		# Load room scene
 		var new_room = roomScenes[room_name].instance()
@@ -527,3 +547,28 @@ func check_story():
 	# East Hallway events
 	if (current_level == 11):
 		pass
+
+# When menu is pressed, open menu scene over current scene
+func _on_MenuButton_pressed():
+	# Open pause menu and set focus
+	$MenuButton.hide()
+	pause_scene = pauseMenu.instance()
+	add_child(pause_scene)
+	pause_scene.get_node("VBoxContainer").get_node("SaveButton").grab_focus()
+	
+	# Pause current level scene
+	#current_scene.get_tree().paused = true
+	
+	# Connect menu button signals
+	pause_scene.connect("save_game", self, "save_data")
+	pause_scene.connect("quit_game", self, "game_title")
+	pause_scene.connect("close_menu", self, "close_pause")
+
+# Close pause menu - called from pause menu
+func close_pause():
+	# Close pause menu and redisplay button
+	pause_scene.queue_free()
+	$MenuButton.show()
+	
+	# Unpause current level scene
+	#current_scene.get_tree().paused = false

@@ -12,6 +12,8 @@ export var custom_overlap: bool = false
 export var hide_on_complete: bool = false
 # Object collision status (true = task posesses collision, false = task can be moved through)
 export var collision_enabled: bool = true
+# set the starting page for the tutorial on the terminal
+export var tutorial_page: int = 0
 
 # Emit a signal when this task's status is updated
 signal status_update
@@ -70,6 +72,8 @@ func launch_task(json_path):
 	var parent = get_parent()
 	var task = terminal.instance()
 	task._set_path(json_path)
+	
+	task.main_tutorial = tutorial_page
 	
 	# Connect signal to task success
 	task.connect("task_success", self, "update_status", [3])

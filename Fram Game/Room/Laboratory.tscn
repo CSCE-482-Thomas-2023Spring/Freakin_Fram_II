@@ -552,6 +552,7 @@ position = Vector2( 832, 428 )
 position = Vector2( 192, 446 )
 task_path = "Level2/Task5/"
 custom_overlap = true
+tutorial_page = 1
 
 [node name="Sprite" parent="Task5" index="0"]
 position = Vector2( 0, 8 )
@@ -578,6 +579,7 @@ shape = SubResource( 17 )
 position = Vector2( 352, 446 )
 task_path = "Level2/Task4/"
 custom_overlap = true
+tutorial_page = 1
 
 [node name="Sprite" parent="Task4" index="0"]
 position = Vector2( 0, 8 )
@@ -604,6 +606,7 @@ shape = SubResource( 17 )
 position = Vector2( 512, 446 )
 task_path = "Level2/Task3/"
 custom_overlap = true
+tutorial_page = 1
 
 [node name="Sprite" parent="Task3" index="0"]
 position = Vector2( 0, 8 )
@@ -630,6 +633,7 @@ shape = SubResource( 17 )
 position = Vector2( 672, 446 )
 task_path = "Level2/Task2/"
 custom_overlap = true
+tutorial_page = 1
 
 [node name="Sprite" parent="Task2" index="0"]
 position = Vector2( 0, 8 )
@@ -655,6 +659,7 @@ shape = SubResource( 17 )
 position = Vector2( 832, 446 )
 task_path = "Level2/Task1/"
 custom_overlap = true
+tutorial_page = 1
 
 [node name="Sprite" parent="Task1" index="0"]
 position = Vector2( 119, 49 )

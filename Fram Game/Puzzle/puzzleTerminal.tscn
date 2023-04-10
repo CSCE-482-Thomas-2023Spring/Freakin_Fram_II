@@ -83,18 +83,18 @@ __meta__ = {
 
 [node name="Tutorial" type="ColorRect" parent="."]
 visible = false
-margin_left = 91.0
-margin_top = 14.0
-margin_right = 761.0
-margin_bottom = 509.0
+margin_left = 74.0
+margin_top = 24.0
+margin_right = 934.0
+margin_bottom = 613.0
 color = Color( 0.780392, 0.780392, 0.780392, 1 )
 
 [node name="TutorialText" type="RichTextLabel" parent="Tutorial"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 47.0
-margin_top = 10.0
-margin_right = -51.0
+margin_left = 29.0
+margin_top = 24.0
+margin_right = -28.0
 margin_bottom = -50.0
 bbcode_enabled = true
 

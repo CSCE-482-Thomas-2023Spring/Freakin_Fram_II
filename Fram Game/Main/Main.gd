@@ -335,8 +335,8 @@ func game_title():
 		level_name = source_dir.get_next()
 	
 	# Close current level and reset global variables
+	close_pause()
 	current_scene.queue_free()
-	pause_scene.queue_free()
 	
 	# Restart game
 	current_level = 0
@@ -557,7 +557,7 @@ func _on_MenuButton_pressed():
 	pause_scene.get_node("VBoxContainer").get_node("SaveButton").grab_focus()
 	
 	# Pause current level scene
-	#current_scene.get_tree().paused = true
+	remove_child(current_scene)
 	
 	# Connect menu button signals
 	pause_scene.connect("save_game", self, "save_data")
@@ -571,4 +571,4 @@ func close_pause():
 	$MenuButton.show()
 	
 	# Unpause current level scene
-	#current_scene.get_tree().paused = false
+	add_child(current_scene)

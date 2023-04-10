@@ -295,3 +295,4 @@ func _on_ExitButton_pressed():
 	
 	# Close terminal
 	queue_free()
+	

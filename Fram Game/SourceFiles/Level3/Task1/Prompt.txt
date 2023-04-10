@@ -8,6 +8,6 @@ If an asteroid is 200m away or farther, just log it in the ship's log with "log_
 
 If an asteroid is between 100m away and 200m away, double-check the distance with "ping_asteroid()" and log it with "log_asteroid()".
 
-If an asteroid is closer than 100m and 5m across or larger, blast it with "balst_it()"!
+If an asteroid is closer than 100m and 5m across or larger, blast it with "blast_it()"!
 
 If an asteroid is closer than 100m and is less than 5m across, avoid it with "take_evasive_move(size_of_asteroid)" and then get the ship back on track with "course_correct()".

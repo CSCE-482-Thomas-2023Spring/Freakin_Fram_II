@@ -7,6 +7,7 @@ export var puzzle_success: bool = false setget ,get_status
 var python_dir = "./python_files/python.exe" # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
+var function_code_file = "user://functions.py"
 var godot_user_path_g = ProjectSettings.globalize_path("user://")
 onready var test_task_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "TaskData-Initial.json")
 signal task_success
@@ -91,10 +92,20 @@ func _ready():
 	var testCode = file.get_as_text()
 	file.close()
 	
+	var funcFile = File.new()
+	funcFile.open("res://PythonScripts/functions.py", File.READ)
+	var functionCode = file.get_as_text()
+	funcFile.close()
+	
 	var userTestCode = File.new()
 	userTestCode.open(test_code_file, File.WRITE)
 	userTestCode.store_string(testCode)
 	userTestCode.close()
+	
+	var funcCodeCopy = File.new()
+	funcCodeCopy.open(function_code_file, File.WRITE)
+	funcCodeCopy.store_string(functionCode)
+	funcCodeCopy.close()
 	
 	# Display initial task-introduction dialogue
 	yield(create_box("Introduction.json"), "completed")

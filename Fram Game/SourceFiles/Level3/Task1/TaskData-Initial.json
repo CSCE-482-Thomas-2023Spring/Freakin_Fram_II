@@ -1,9 +1,9 @@
 {
     "readOnly": [0,2],
     "data": {
-        "usestdout": true,
-        "useFunction": false,
-        "functionName": "foo"
+        "usestdout": false,
+        "useFunction": true,
+        "functionName": "takeAction"
     },
     "cases" : [
         {

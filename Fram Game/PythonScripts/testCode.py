@@ -2,6 +2,8 @@ import json
 from types import SimpleNamespace
 import sys
 import subprocess
+import io
+from contextlib import redirect_stdout
 
 # [/home/ethan/.local/share/godot/app_userdata/Fram Game/testCode.py /home/ethan/Documents/repos/Freakin_Fram_II/Fram Game/Puzzle/TestCases/testPuzzle2.json python3 /home/ethan/.local/share/godot/app_userdata/Fram Game/]
 
@@ -42,8 +44,13 @@ if importSuccessful:
             userSolution = None
             try:
                 userSolution = getattr(userCode, testData.data.functionName)
-                returned = userSolution(*case.input)
+                f = io.StringIO()
+                returned = None
+                with redirect_stdout(f):
+                    returned = userSolution(*case.input)
+                out = f.getvalue()
                 returnPassed = (not testData.data.useFunction) or (returned == case.returns)
+                stdoutPassed = (not testData.data.usestdout) or (out == case.stdout)
                 returnResults.append((returnPassed, returned))
             except Exception as e:
                 userSolution = None
@@ -51,11 +58,14 @@ if importSuccessful:
                 results["error"] = e.message #"Something went wrong. Check function and parameters"
         else:
             returnResults.append((True, None))
+        
+        # not using function implies entire program should be run in subprocess
+        if not testData.data.useFunction:
+            programOutput = subprocess.run([python_dir, player_code], capture_output=True)
+            stdout = programOutput.stdout.decode('utf-8')
+            stderr = programOutput.stderr.decode('utf-8')
+            stdoutPassed = (not testData.data.usestdout) or (stdout == case.stdout)
 
-        programOutput = subprocess.run([python_dir, player_code], capture_output=True)
-        stdout = programOutput.stdout.decode('utf-8')
-        stderr = programOutput.stderr.decode('utf-8')
-        stdoutPassed = (not testData.data.usestdout) or (stdout == case.stdout)
         stdoutResults.append((stdoutPassed, returned))
         totalResult = {
             "input": case.input,

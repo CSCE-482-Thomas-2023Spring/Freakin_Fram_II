@@ -9,7 +9,7 @@
         {
             "input": "",
             "returns": "",
-            "stdout": "False\r\n"
+            "stdout": "200 100\r\n"
         }
     ]
 }

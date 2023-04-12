@@ -1,0 +1,15 @@
+{
+    "readOnly": [0,2],
+    "data": {
+        "usestdout": true,
+        "useFunction": false,
+        "functionName": "foo"
+    },
+    "cases" : [
+        {
+            "input": "",
+            "returns": "",
+            "stdout": "True\n"
+        }
+    ]
+}

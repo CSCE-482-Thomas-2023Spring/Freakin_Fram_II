@@ -185,7 +185,10 @@ func executeUserCode():
 	print("is_error: ", is_error(code_output))
 	
 	# Change output box to the result of Python code
+#	if (setText):
 	output.text = code_output
+	return code_output
 
-func _on_Button_pressed():
-	executeUserCode()
+#func _on_Button_pressed():
+#	print("Setting output")
+#	executeUserCode(true)

@@ -33,8 +33,19 @@ func _on_ContinueButton_pressed():
 func _on_DeleteButton_pressed():
 	# Open confirmation menu and connect result
 	var confirmation = confirm_menu.instance()
-	add_child(confirmation)
 	confirmation.connect("yes_result", self, "delete_save")
+	add_child(confirmation)
+	
+	# Disable the rest of the menu until a selection is made
+	$VBoxContainer/StartButton.disabled = true
+	$VBoxContainer/ContinueButton.disabled = true
+	$VBoxContainer/DeleteButton.disabled = true
+	$VBoxContainer/QuitButton.disabled = true
+	yield(confirmation, "tree_exited")
+	$VBoxContainer/StartButton.disabled = false
+	$VBoxContainer/ContinueButton.disabled = false
+	$VBoxContainer/DeleteButton.disabled = false
+	$VBoxContainer/QuitButton.disabled = false
 
 # Called on confirmation of quitting the game
 func delete_save():

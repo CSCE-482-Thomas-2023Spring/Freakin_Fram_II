@@ -4,6 +4,10 @@ extends Control
 signal start_game
 signal load_game
 signal quit_game
+signal delete_game
+
+# Path for confirmation menu
+var confirm_menu = preload("res://Menus/ConfirmMenu.tscn")
 
 # Global path to user folder
 var user_path = ProjectSettings.globalize_path("user://")
@@ -12,10 +16,11 @@ func _ready():
 	# Set focus on buttons to enable keyboard/controller input
 	$VBoxContainer/StartButton.grab_focus()
 	
-	# Delete continue button if no save file is detected
+	# Delete continue & delete save buttons if no save file is detected
 	var f = File.new()
 	if (not f.file_exists(user_path + "SaveFiles/GlobalData/GlobalData-Saved.json")):
 		$VBoxContainer/ContinueButton.queue_free()
+		$VBoxContainer/DeleteButton.queue_free()
 
 func _on_StartButton_pressed():
 	# Notify Main to start the game anew
@@ -25,12 +30,21 @@ func _on_ContinueButton_pressed():
 	# Notify Main to start the game loading from saved data
 	emit_signal("load_game")
 
-func _on_OptionsButton_pressed():
-	pass # Replace with function body.
+func _on_DeleteButton_pressed():
+	# Open confirmation menu and connect result
+	var confirmation = confirm_menu.instance()
+	add_child(confirmation)
+	confirmation.connect("yes_result", self, "delete_save")
+
+# Called on confirmation of quitting the game
+func delete_save():
+	# Signal Main to delete existing save data from the user folder
+	emit_signal("delete_game")
+	
+	# Delete continue & delete save buttons once save data is deleted
+	$VBoxContainer/ContinueButton.queue_free()
+	$VBoxContainer/DeleteButton.queue_free()
 
 func _on_QuitButton_pressed():
 	# Notify Main to quit the game and delete temporary data
 	emit_signal("quit_game")
-	
-
-

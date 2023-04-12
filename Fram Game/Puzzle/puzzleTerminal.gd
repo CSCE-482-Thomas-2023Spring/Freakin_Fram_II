@@ -49,6 +49,8 @@ func create_box(json_path):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if OS.get_name() == "X11" or OS.get_name() == "OSX":
+		python_dir = "python3"
 	# Hide pause button
 	if (get_tree().get_root().has_node("Main")):
 		get_tree().get_root().get_node("Main").get_node("MenuButton").hide()

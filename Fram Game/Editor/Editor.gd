@@ -186,6 +186,8 @@ func executeUserCode():
 	
 	# Change output box to the result of Python code
 	output.text = code_output
-
-func _on_Button_pressed():
-	executeUserCode()
+	return code_output
+# Old button code, reenable if testing editor alone
+#func _on_Button_pressed():
+#	print("Setting output")
+#	executeUserCode(true)

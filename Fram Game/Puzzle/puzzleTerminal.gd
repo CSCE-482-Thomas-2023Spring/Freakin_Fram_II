@@ -160,9 +160,10 @@ func process_test_results_stdout(cases):
 func on_button_pressed():
 	
 	# Prevent execution of editor if disabled
-	if ($Editor/VBoxContainer/Input.disabled):
+	var editor = $Editor/VBoxContainer/Input
+	if (editor.disabled):
 		return
-	$Editor/VBoxContainer/Input.executeUserCode()
+	var editor_result = editor.executeUserCode()
 	
 	# Parse information from 
 	var jsonTestFile = File.new()
@@ -179,9 +180,9 @@ func on_button_pressed():
 	
 	
 	# EXAMPLE FOR EMILY (use later to print suggestions based on error types)
+	var successCountString = ""
+	var failureString = ""
 	if not results.has('error'):
-		var successCountString = ""
-		var failureString = ""
 		if testData.data.useFunction:
 			var data = process_test_results_function(results.testResults)
 			successCountString = data[0]
@@ -203,6 +204,11 @@ func on_button_pressed():
 		
 		# Delete self
 		queue_free()
+		
+	# If test cases were not satifised, add verbal feedback to the output of the terminal
+	else:
+		var output = $"Editor/VBoxContainer/Output/Output Text"
+		output.text = editor_result + "\n------ Feedback ------\n" + successCountString + "\nThis doesn't look right...\n" + failureString
 		
 	#else: # Path: n/a, but will display in-editor dialogue in the future
 	#	var dialog = dialogueBox.instance()

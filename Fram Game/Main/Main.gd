@@ -23,6 +23,8 @@ var global_path = "res://SourceFiles/GlobalData/"
 var pause_scene
 # Global path to user folder
 var user_path = ProjectSettings.globalize_path("user://")
+# Global variable indicating this is a new game for save data purposes
+var new_game = true
 
 # Preload necessary scene types
 var mainMenu = preload("res://Menus/MainMenu.tscn")
@@ -153,6 +155,9 @@ func init_user():
 
 # Initiate gameplay with saved data; Load Game
 func load_data():
+	# Set global variable to indicate this is not a new game
+	new_game = false
+	
 	# Open global variables' json file location
 	var f = File.new()
 	var full_path = user_path + "SaveFiles/GlobalData/GlobalData-Saved.json"
@@ -233,6 +238,10 @@ func load_data():
 
 # Save user progress so far into the user folder
 func save_data():
+	# If this is a new game, delete all save data before saving new data
+	if (new_game):
+		delete_save()
+	
 	# Erase existing saved data file
 	var f = File.new()
 	var save_path = user_path + "SaveFiles/GlobalData/GlobalData-Saved.json"
@@ -425,6 +434,7 @@ func game_title():
 	# Restart game
 	current_level = 0
 	starting_location = Vector2(384, 304)
+	new_game = true
 	_ready()
 
 # Quit the game - called by main menu

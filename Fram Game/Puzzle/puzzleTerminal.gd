@@ -51,6 +51,7 @@ func create_box(json_path):
 func _ready():
 	if OS.get_name() == "X11" or OS.get_name() == "OSX":
 		python_dir = "python3"
+		test_task_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "TaskData-Unix.json")
 	# Hide pause button
 	if (get_tree().get_root().has_node("Main")):
 		get_tree().get_root().get_node("Main").get_node("MenuButton").hide()

@@ -4,7 +4,7 @@ extends Node
 # Source Path: "res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/"
 export var source_path = "DefaultMessages/TaskTemplate/" setget _set_path
 export var puzzle_success: bool = false setget ,get_status
-var python_dir = "./python_files/python.exe" # python executable
+var python_dir = ProjectSettings.globalize_path("res://python_files/python.exe") # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
 var function_code_file = "user://functions.py"
@@ -49,6 +49,9 @@ func create_box(json_path):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if OS.get_name() == "X11" or OS.get_name() == "OSX":
+		python_dir = "python3"
+		test_task_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "TaskData-Unix.json")
 	# Hide pause button
 	if (get_tree().get_root().has_node("Main")):
 		get_tree().get_root().get_node("Main").get_node("MenuButton").hide()
@@ -67,6 +70,7 @@ func _ready():
 	sourceData.open("res://SourceFiles/" + source_path + "TaskData-Initial.json", File.READ)
 	var readOnlyLines = JSON.parse(sourceData.get_as_text()).result["readOnly"]
 	$Editor.get_node("VBoxContainer").get_node("Input").readonly_set(readOnlyLines)
+	sourceData.close()
 	
 	# fetch prompt and set the text
 	var promptText = File.new()
@@ -110,6 +114,18 @@ func _ready():
 	funcCodeCopy.open(function_code_file, File.WRITE)
 	funcCodeCopy.store_string(functionCode)
 	funcCodeCopy.close()
+	
+	# Copy TaskData to user:// (necessary for exported game to work)
+	var test_task_user = File.new()
+	test_task_user.open(test_task_path, File.READ)
+	var test_json = test_task_user.get_as_text()
+	test_task_user.close()
+	
+	test_task_user = File.new()
+	test_task_user.open("user://TaskData.json", File.WRITE)
+	test_task_user.store_string(test_json)
+	test_task_user.close()
+	
 	
 	# Display initial task-introduction dialogue
 	yield(create_box("Introduction.json"), "completed")
@@ -160,9 +176,19 @@ func process_test_results_stdout(cases):
 func on_button_pressed():
 	
 	# Prevent execution of editor if disabled
-	if ($Editor/VBoxContainer/Input.disabled):
+	var editor = $Editor/VBoxContainer/Input
+	var output = $"Editor/VBoxContainer/Output/Output Text"
+	if (editor.disabled):
 		return
-	$Editor/VBoxContainer/Input.executeUserCode()
+	
+	editor.moveTextToCodePath("user://userCode.py")
+	
+	var parse_imports = ParseImport.new("user://userCode.py")
+	if not parse_imports.validateWithWhitelist():
+		output.text = "Illegal import! Please remove import for " + parse_imports.invalid_import
+		return
+		
+	var editor_result = editor.executeUserCode()
 	
 	# Parse information from 
 	var jsonTestFile = File.new()
@@ -170,7 +196,8 @@ func on_button_pressed():
 	var testData = JSON.parse(jsonTestFile.get_as_text()).result # this is the parsed test json
 	jsonTestFile.close()
 	var stdout = []
-	var exit_code = OS.execute(python_dir, [test_code_file_g, test_task_path, python_dir, godot_user_path_g], true, stdout, true)	
+	print(python_dir, [test_code_file_g, ProjectSettings.globalize_path("user://TaskData.json"), python_dir, godot_user_path_g])
+	var exit_code = OS.execute(python_dir, [test_code_file_g, ProjectSettings.globalize_path("user://TaskData.json"), python_dir, godot_user_path_g], true, stdout, true)	
 	print(stdout)
 	var file = File.new()
 	file.open("user://results.json", File.READ)
@@ -179,9 +206,9 @@ func on_button_pressed():
 	
 	
 	# EXAMPLE FOR EMILY (use later to print suggestions based on error types)
+	var successCountString = ""
+	var failureString = ""
 	if not results.has('error'):
-		var successCountString = ""
-		var failureString = ""
 		if testData.data.useFunction:
 			var data = process_test_results_function(results.testResults)
 			successCountString = data[0]
@@ -203,6 +230,10 @@ func on_button_pressed():
 		
 		# Delete self
 		queue_free()
+		
+	# If test cases were not satifised, add verbal feedback to the output of the terminal
+	else:
+		output.text = editor_result + "\n------ Feedback ------\n" + successCountString + "\nThis doesn't look right...\n" + failureString
 		
 	#else: # Path: n/a, but will display in-editor dialogue in the future
 	#	var dialog = dialogueBox.instance()

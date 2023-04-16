@@ -23,6 +23,8 @@ var global_path = "res://SourceFiles/GlobalData/"
 var pause_scene
 # Global path to user folder
 var user_path = ProjectSettings.globalize_path("user://")
+# Global variable indicating this is a new game for save data purposes
+var new_game = true
 
 # Preload necessary scene types
 var mainMenu = preload("res://Menus/MainMenu.tscn")
@@ -74,6 +76,7 @@ func _ready():
 	add_child(title_screen)
 	title_screen.connect("start_game", self, "load_room", ["PodRoom", ""])
 	title_screen.connect("load_game", self, "load_data")
+	title_screen.connect("delete_game", self, "delete_save")
 	title_screen.connect("quit_game", self, "quit_game")
 	
 	# Fix weird VBoxContainer position bug that is very weird and sets the position to the margin instead
@@ -105,6 +108,7 @@ func init_globals():
 	
 	# Access initial global data from json
 	var json = f.get_as_text()
+	f.close()
 	var global_data = parse_json(json)
 	
 	# Store initial global data as global variables
@@ -122,6 +126,7 @@ func init_locations():
 	
 	# Store locations to global variable
 	var json = f.get_as_text()
+	f.close()
 	entry_locations = parse_json(json)
 
 # Initialize user path directories if not already existing
@@ -152,6 +157,9 @@ func init_user():
 
 # Initiate gameplay with saved data; Load Game
 func load_data():
+	# Set global variable to indicate this is not a new game
+	new_game = false
+	
 	# Open global variables' json file location
 	var f = File.new()
 	var full_path = user_path + "SaveFiles/GlobalData/GlobalData-Saved.json"
@@ -160,6 +168,7 @@ func load_data():
 	
 	# Access saved global data from json
 	var json = f.get_as_text()
+	f.close()
 	var global_data = parse_json(json)
 	
 	# Store saved global data as global variables
@@ -223,14 +232,21 @@ func load_data():
 				
 				# Load next task folder
 				task_name = level_dir.get_next()
-		
+			#level_dir.close()
+			
 		# Load next level folder
 		level_name = source_dir.get_next()
 	
+	#source_dir.close()
 	# Initiate gameplay
 	load_room(room_type.keys()[current_level], "")
 
+# Save user progress so far into the user folder
 func save_data():
+	# If this is a new game, delete all save data before saving new data
+	if (new_game):
+		delete_save()
+	
 	# Erase existing saved data file
 	var f = File.new()
 	var save_path = user_path + "SaveFiles/GlobalData/GlobalData-Saved.json"
@@ -311,9 +327,79 @@ func save_data():
 				
 				# Load next task folder
 				task_name = level_dir.get_next()
+			#level_dir.close()
 		
 		# Load next level folder
 		level_name = source_dir.get_next()
+	#source_dir.close()
+
+# Delete all user save data from the user folder
+func delete_save():
+	# Delete global data
+	var source_dir = Directory.new()
+	if (source_dir.file_exists(user_path + "SaveFiles/GlobalData/GlobalData-Saved.json")):
+		source_dir.remove(user_path + "SaveFiles/GlobalData/GlobalData-Saved.json")
+		if (source_dir.file_exists(user_path + "SaveFiles/GlobalData/GlobalData-Saved.json")):
+			print("ERROR: Global variable file not deleted!")
+	
+	# Begin iteration through each directory in the user folder
+	source_dir.open(user_path + "SaveFiles")
+	source_dir.list_dir_begin()
+	var level_name = source_dir.get_next()
+	while (level_name != ""):
+		
+		# Don't check this folder or its parent folder
+		if (level_name == "." or level_name == ".."):
+			level_name = source_dir.get_next()
+			continue
+		
+		# Iterate through each level folder
+		if (source_dir.current_is_dir()):
+			var level_dir = Directory.new()
+			level_dir.open(user_path + "SaveFiles/" + level_name)
+			level_dir.list_dir_begin()
+			var task_name = level_dir.get_next()
+			while (task_name != ""):
+				
+				# Don't check this folder or its parent folder
+				if (task_name == "." or task_name == ".."):
+					task_name = level_dir.get_next()
+					continue
+				
+				# Iterate through each task folder
+				if (level_dir.current_is_dir()):
+					var task_dir = Directory.new()
+					task_dir.open(user_path + "SaveFiles/" + level_name + "/" + task_name)
+					task_dir.list_dir_begin()
+					var file_name = task_dir.get_next()
+					while (file_name != ""):
+						
+						# Don't check this folder or its parent folder
+						if (file_name == "." or file_name == ".."):
+							file_name = task_dir.get_next()
+							continue
+						
+						# Delete each file found
+						if (not task_dir.current_is_dir()):
+							var this_path = user_path + "SaveFiles/" + level_name + "/" + task_name + "/"
+							source_dir.remove(this_path + file_name)
+							if (source_dir.file_exists(this_path + file_name)):
+								print("ERROR: File SaveFiles/" + level_name + "/" + task_name + "/" + file_name + " was not deleted!")
+						
+						file_name = task_dir.get_next()
+					
+					#task_dir.close()
+					
+				task_name = level_dir.get_next()
+			
+			#level_dir.close()
+		
+		level_name = source_dir.get_next()
+	
+	#source_dir.close()
+	
+	# Reinitialize user data
+	init_user()
 
 # Return to the title screen of the game - called by pause menu
 func game_title():
@@ -350,9 +436,13 @@ func game_title():
 				
 				# Load next task folder
 				task_name = level_dir.get_next()
+			
+			#level_dir.close()
 		
 		# Load next level folder
 		level_name = source_dir.get_next()
+	
+	#source_dir.close()
 	
 	# Close current level and reset global variables
 	close_pause()
@@ -361,6 +451,7 @@ func game_title():
 	# Restart game
 	current_level = 0
 	starting_location = Vector2(384, 304)
+	new_game = true
 	_ready()
 
 # Quit the game - called by main menu

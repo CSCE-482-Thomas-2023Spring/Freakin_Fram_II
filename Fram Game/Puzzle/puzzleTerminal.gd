@@ -165,6 +165,11 @@ func on_button_pressed():
 	var editor = $Editor/VBoxContainer/Input
 	if (editor.disabled):
 		return
+	
+	var parse_imports = ParseImport.new("user://userCode.py")
+	if not parse_imports.validateWithWhitelist():
+		print("there was an invalid import: " + parse_imports.invalid_import)
+		
 	var editor_result = editor.executeUserCode()
 	
 	# Parse information from 

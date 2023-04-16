@@ -1,11 +1,18 @@
-extends Node
-
+extends Reference
+class_name ParseImport
 
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-var import_whitelist = []
-var import_blacklist = []
+var import_whitelist = ["math", "functions"]
+var import_blacklist = ["sys"]
+var imports = []
+var invalid_import = ""
+var file = ""
+
+func _init(file):
+	self.file = file
+	getAllImports()
 
 func removeCommas(line):
 	var regex = RegEx.new()
@@ -31,7 +38,7 @@ func determineImport(line):
 	return imports
 		
 
-func getAllImports(file):
+func getAllImports():
 	var my_file = File.new()
 	my_file.open(file, File.READ)
 	var all_imports = []
@@ -39,13 +46,28 @@ func getAllImports(file):
 		var curr_imports = determineImport(my_file.get_line())
 		all_imports.append_array(curr_imports)
 	my_file.close()
-	return all_imports
+	imports = all_imports
+	return imports
+	
+func validateWithWhitelist():
+	for module in imports:
+		if not (module in import_whitelist):
+			invalid_import = module
+			return false
+	return true
+	
+func validateWithBlacklist():
+	for module in imports:
+		if module in import_blacklist:
+			invalid_import = module
+			return false
+	return true
 	
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

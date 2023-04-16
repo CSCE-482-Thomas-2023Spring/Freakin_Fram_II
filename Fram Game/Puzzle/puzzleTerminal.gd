@@ -114,6 +114,18 @@ func _ready():
 	funcCodeCopy.store_string(functionCode)
 	funcCodeCopy.close()
 	
+	# Copy TaskData to user:// (necessary for exported game to work)
+	var test_task_user = File.new()
+	test_task_user.open(test_task_path, File.READ)
+	var test_json = test_task_user.get_as_text()
+	test_task_user.close()
+	
+	test_task_user = File.new()
+	test_task_user.open("user://TaskData.json", File.WRITE)
+	test_task_user.store_string(test_json)
+	test_task_user.close()
+	
+	
 	# Display initial task-introduction dialogue
 	yield(create_box("Introduction.json"), "completed")
 
@@ -183,7 +195,8 @@ func on_button_pressed():
 	var testData = JSON.parse(jsonTestFile.get_as_text()).result # this is the parsed test json
 	jsonTestFile.close()
 	var stdout = []
-	var exit_code = OS.execute(python_dir, [test_code_file_g, test_task_path, python_dir, godot_user_path_g], true, stdout, true)	
+	print(python_dir, [test_code_file_g, ProjectSettings.globalize_path("user://TaskData.json"), python_dir, godot_user_path_g])
+	var exit_code = OS.execute(python_dir, [test_code_file_g, ProjectSettings.globalize_path("user://TaskData.json"), python_dir, godot_user_path_g], true, stdout, true)	
 	print(stdout)
 	var file = File.new()
 	file.open("user://results.json", File.READ)

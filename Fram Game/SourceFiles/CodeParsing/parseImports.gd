@@ -13,6 +13,7 @@ var file = ""
 func _init(file):
 	self.file = file
 	getAllImports()
+	print(imports)
 
 func removeCommas(line):
 	var regex = RegEx.new()
@@ -21,7 +22,7 @@ func removeCommas(line):
 
 func determineImport(line):
 	var words = removeCommas(line).lstrip(" ").lstrip("	").split(" ")
-	var imports = []
+	var line_imports = []
 	
 	if len(words) <= 1:
 		return []
@@ -30,12 +31,12 @@ func determineImport(line):
 	if words[0] == "import":
 		for i in range(1, len(words)):
 			if words[i] == "as": break
-			imports.append(words[i])
+			line_imports.append(words[i])
 	#from <module> import <functions> case
 	elif words[0] == "from":
-		imports.append(words[1])
+		line_imports.append(words[1])
 		
-	return imports
+	return line_imports
 		
 
 func getAllImports():

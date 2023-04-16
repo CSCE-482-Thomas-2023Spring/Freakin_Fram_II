@@ -163,12 +163,16 @@ func on_button_pressed():
 	
 	# Prevent execution of editor if disabled
 	var editor = $Editor/VBoxContainer/Input
+	var output = $"Editor/VBoxContainer/Output/Output Text"
 	if (editor.disabled):
 		return
 	
+	editor.moveTextToCodePath("user://userCode.py")
+	
 	var parse_imports = ParseImport.new("user://userCode.py")
 	if not parse_imports.validateWithWhitelist():
-		print("there was an invalid import: " + parse_imports.invalid_import)
+		output.text = "Illegal import! Please remove import for " + parse_imports.invalid_import
+		return
 		
 	var editor_result = editor.executeUserCode()
 	
@@ -214,7 +218,6 @@ func on_button_pressed():
 		
 	# If test cases were not satifised, add verbal feedback to the output of the terminal
 	else:
-		var output = $"Editor/VBoxContainer/Output/Output Text"
 		output.text = editor_result + "\n------ Feedback ------\n" + successCountString + "\nThis doesn't look right...\n" + failureString
 		
 	#else: # Path: n/a, but will display in-editor dialogue in the future

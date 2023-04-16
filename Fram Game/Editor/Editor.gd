@@ -159,6 +159,12 @@ func is_error(code_message):
 		
 	return [errored, type]
 
+func moveTextToCodePath(code_path):
+	var file = File.new()
+	file.open(code_path, File.WRITE)
+	file.store_string(get_text())
+	file.close()
+
 func executeUserCode():
 	if (disabled):
 		return
@@ -171,10 +177,7 @@ func executeUserCode():
 	var stdout = []
 	
 	# Open and write to code.py to pass to python.exe
-	var file = File.new()
-	file.open(code_path, File.WRITE)
-	file.store_string(code_text)
-	file.close()
+	moveTextToCodePath(code_path)
 	
 	# Pass code.py to python and put returns into stdout array
 	var exit_code = OS.execute(python_dir, [code_path], true, stdout, true)

@@ -185,7 +185,7 @@ func executeUserCode():
 	
 	var code_output = stdout[0]
 	
-	print("is_error: ", is_error(code_output))
+#	print("is_error: ", is_error(code_output))
 	
 	# Change output box to the result of Python code
 	output.text = code_output

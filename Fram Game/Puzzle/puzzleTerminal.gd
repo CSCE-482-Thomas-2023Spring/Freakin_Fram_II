@@ -4,7 +4,7 @@ extends Node
 # Source Path: "res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/"
 export var source_path = "DefaultMessages/TaskTemplate/" setget _set_path
 export var puzzle_success: bool = false setget ,get_status
-var python_dir = "./python_files/python.exe" # python executable
+var python_dir = ProjectSettings.globalize_path("res://python_files/python.exe") # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
 var function_code_file = "user://functions.py"
@@ -70,6 +70,7 @@ func _ready():
 	sourceData.open("res://SourceFiles/" + source_path + "TaskData-Initial.json", File.READ)
 	var readOnlyLines = JSON.parse(sourceData.get_as_text()).result["readOnly"]
 	$Editor.get_node("VBoxContainer").get_node("Input").readonly_set(readOnlyLines)
+	sourceData.close()
 	
 	# fetch prompt and set the text
 	var promptText = File.new()

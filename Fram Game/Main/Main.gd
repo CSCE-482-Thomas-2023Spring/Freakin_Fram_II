@@ -108,6 +108,7 @@ func init_globals():
 	
 	# Access initial global data from json
 	var json = f.get_as_text()
+	f.close()
 	var global_data = parse_json(json)
 	
 	# Store initial global data as global variables
@@ -125,6 +126,7 @@ func init_locations():
 	
 	# Store locations to global variable
 	var json = f.get_as_text()
+	f.close()
 	entry_locations = parse_json(json)
 
 # Initialize user path directories if not already existing
@@ -166,6 +168,7 @@ func load_data():
 	
 	# Access saved global data from json
 	var json = f.get_as_text()
+	f.close()
 	var global_data = parse_json(json)
 	
 	# Store saved global data as global variables
@@ -229,10 +232,12 @@ func load_data():
 				
 				# Load next task folder
 				task_name = level_dir.get_next()
-		
+			#level_dir.close()
+			
 		# Load next level folder
 		level_name = source_dir.get_next()
 	
+	#source_dir.close()
 	# Initiate gameplay
 	load_room(room_type.keys()[current_level], "")
 
@@ -322,9 +327,11 @@ func save_data():
 				
 				# Load next task folder
 				task_name = level_dir.get_next()
+			#level_dir.close()
 		
 		# Load next level folder
 		level_name = source_dir.get_next()
+	#source_dir.close()
 
 # Delete all user save data from the user folder
 func delete_save():
@@ -380,10 +387,16 @@ func delete_save():
 								print("ERROR: File SaveFiles/" + level_name + "/" + task_name + "/" + file_name + " was not deleted!")
 						
 						file_name = task_dir.get_next()
-				
+					
+					#task_dir.close()
+					
 				task_name = level_dir.get_next()
+			
+			#level_dir.close()
 		
 		level_name = source_dir.get_next()
+	
+	#source_dir.close()
 	
 	# Reinitialize user data
 	init_user()
@@ -423,9 +436,13 @@ func game_title():
 				
 				# Load next task folder
 				task_name = level_dir.get_next()
+			
+			#level_dir.close()
 		
 		# Load next level folder
 		level_name = source_dir.get_next()
+	
+	#source_dir.close()
 	
 	# Close current level and reset global variables
 	close_pause()

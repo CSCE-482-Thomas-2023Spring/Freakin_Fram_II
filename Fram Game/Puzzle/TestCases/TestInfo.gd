@@ -9,8 +9,9 @@ export(String) var dropdown_text
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Button/VBoxContainer/Label.text = text
-	$dropdown/RichTextLabel.text = dropdown_text
+	pass
+	#$Button/VBoxContainer/Label.text = text
+	#$dropdown/RichTextLabel.text = dropdown_text
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

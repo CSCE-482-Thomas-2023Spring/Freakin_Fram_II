@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Puzzle/TestCases/TestInfo.gd" type="Script" id=1]
+[ext_resource path="res://green_dot.png" type="Texture" id=2]
+[ext_resource path="res://red_dot.png" type="Texture" id=3]
+[ext_resource path="res://Puzzle/TestCases/dropdown.tscn" type="PackedScene" id=4]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -14,26 +17,53 @@ margin_bottom = 30.0
 [node name="result" type="RichTextLabel" parent="Button"]
 margin_right = 20.0
 margin_bottom = 30.0
+bbcode_enabled = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Button"]
-margin_left = 20.0
+margin_left = 39.0
 margin_right = 225.0
 margin_bottom = 30.0
 alignment = 1
 
 [node name="Label" type="Label" parent="Button/VBoxContainer"]
 margin_top = 3.0
-margin_right = 205.0
+margin_right = 186.0
 margin_bottom = 27.0
+text = "Test Case #1"
 
-[node name="dropdown" type="ColorRect" parent="."]
+[node name="pass" type="TextureRect" parent="Button"]
+anchor_right = 0.153
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 5.0
+margin_right = -6.425
+margin_bottom = -5.0
+rect_min_size = Vector2( 20, 20 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 2 )
+expand = true
+
+[node name="fail" type="TextureRect" parent="Button"]
 visible = false
-margin_top = 30.0
-margin_right = 225.0
-margin_bottom = 152.0
+anchor_right = 0.153
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 5.0
+margin_right = -6.425
+margin_bottom = -5.0
+rect_min_size = Vector2( 20, 20 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 3 )
+expand = true
 
-[node name="RichTextLabel" type="RichTextLabel" parent="dropdown"]
-margin_right = 225.0
-margin_bottom = 122.0
+[node name="dropdown" parent="." instance=ExtResource( 4 )]
+visible = false
+
+[node name="RichTextLabel" parent="dropdown" index="0"]
+text = "asdf"
 
 [connection signal="pressed" from="Button" to="." method="button_pressed"]
+
+[editable path="dropdown"]

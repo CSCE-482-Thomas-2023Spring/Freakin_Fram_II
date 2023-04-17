@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Puzzle/puzzleTerminal.gd" type="Script" id=1]
 [ext_resource path="res://Editor/Editor.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Puzzle/TestCases.gd" type="Script" id=3]
+[ext_resource path="res://Puzzle/TestCases/TestInfo.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Puzzle/TestCases/dropdown.tscn" type="PackedScene" id=5]
 
 [node name="PuzzleTerminal" type="Node"]
 script = ExtResource( 1 )
@@ -13,22 +15,6 @@ anchor_bottom = 1.0
 margin_left = 27.0
 margin_right = -36.0
 color = Color( 0.376471, 0.376471, 0.376471, 0.937255 )
-
-[node name="TestCases" type="ColorRect" parent="ColorRect"]
-anchor_left = 0.76
-anchor_top = 0.058
-anchor_right = 0.982
-anchor_bottom = 0.414
-margin_left = -0.360046
-margin_top = -0.120003
-margin_right = 0.297974
-margin_bottom = 0.039978
-color = Color( 0.164706, 0.160784, 0.160784, 1 )
-script = ExtResource( 3 )
-
-[node name="ItemList" type="ItemList" parent="ColorRect/TestCases"]
-anchor_right = 1.0
-anchor_bottom = 1.0
 
 [node name="ReferenceRect" type="ReferenceRect" parent="."]
 anchor_left = 0.5
@@ -63,7 +49,6 @@ def foo(a,b,c):
 margin_top = 353.0
 margin_right = 690.0
 margin_bottom = 566.0
-color = Color( 0.164706, 0.160784, 0.160784, 1 )
 
 [node name="TutorialButton" type="Button" parent="."]
 anchor_left = 0.773
@@ -126,6 +111,69 @@ margin_right = 0.149994
 margin_bottom = -0.0500488
 text = "Current"
 
+[node name="TestCases" type="ColorRect" parent="."]
+anchor_left = 0.732
+anchor_top = 0.058
+anchor_right = 0.955
+anchor_bottom = 0.414
+margin_left = 0.431885
+margin_top = -0.119999
+margin_right = 0.065918
+margin_bottom = 0.039978
+mouse_filter = 2
+color = Color( 0.164706, 0.160784, 0.160784, 1 )
+script = ExtResource( 3 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TestCases"]
+margin_right = 214.0
+margin_bottom = 228.0
+mouse_filter = 2
+custom_constants/separation = 30
+
+[node name="testCase" parent="TestCases/VBoxContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 214.0
+size_flags_horizontal = 3
+
+[node name="Button" parent="TestCases/VBoxContainer/testCase" index="0"]
+margin_right = 228.0
+
+[node name="dropdown" parent="TestCases/VBoxContainer" instance=ExtResource( 5 )]
+margin_right = 214.0
+margin_bottom = 30.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="RichTextLabel" parent="TestCases/VBoxContainer/dropdown" index="0"]
+text = "asdfasdfasdf"
+
+[node name="testCase2" parent="TestCases/VBoxContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 60.0
+margin_right = 214.0
+margin_bottom = 60.0
+size_flags_horizontal = 3
+
+[node name="Button" parent="TestCases/VBoxContainer/testCase2" index="0"]
+margin_right = 228.0
+
+[node name="VScrollBar2" type="VScrollBar" parent="TestCases/VBoxContainer/testCase2/Button/result" index="0"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 25.0
+step = 1.0
+page = 30.0
+
+[node name="VScrollBar3" type="VScrollBar" parent="TestCases/VBoxContainer/testCase2/Button/result" index="1"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+step = 1.0
+
 [connection signal="pressed" from="Editor/VBoxContainer/Output/Button" to="." method="on_button_pressed"]
 [connection signal="pressed" from="TutorialButton" to="." method="tutorial_button_pressed"]
 [connection signal="pressed" from="Tutorial/left" to="." method="tutorial_left_pressed"]
@@ -133,3 +181,8 @@ text = "Current"
 [connection signal="pressed" from="Tutorial/main" to="." method="tutorial_main_pressed"]
 
 [editable path="Editor"]
+[editable path="TestCases/VBoxContainer/testCase"]
+[editable path="TestCases/VBoxContainer/testCase/dropdown"]
+[editable path="TestCases/VBoxContainer/dropdown"]
+[editable path="TestCases/VBoxContainer/testCase2"]
+[editable path="TestCases/VBoxContainer/testCase2/dropdown"]

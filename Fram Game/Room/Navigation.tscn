@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Room/Level.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Art/table_long.png" type="Texture" id=9]
 [ext_resource path="res://Art/paper.png" type="Texture" id=10]
 [ext_resource path="res://Art/computer.png" type="Texture" id=11]
+[ext_resource path="res://Objects/NPC.tscn" type="PackedScene" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 resource_local_to_scene = true
@@ -160,6 +161,8 @@ visible = false
 [node name="CollisionShape" parent="Task1/StaticBody2D" index="0"]
 position = Vector2( 0, 8 )
 shape = SubResource( 4 )
+
+[node name="NPC" parent="." instance=ExtResource( 12 )]
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 513, 65 )

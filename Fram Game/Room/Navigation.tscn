@@ -162,7 +162,7 @@ visible = false
 position = Vector2( 0, 8 )
 shape = SubResource( 4 )
 
-[node name="NPC" parent="." instance=ExtResource( 12 )]
+[node name="Molfi" parent="." instance=ExtResource( 12 )]
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 513, 65 )

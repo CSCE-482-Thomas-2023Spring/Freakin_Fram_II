@@ -6,7 +6,7 @@ extends Area2D
 # Task's global variables
 # --------------------------
 # Task path variable ("res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/")
-export var dialogue_path: String = "SourceFiles/Level3/Molfi/"
+export var dialogue_path: String = "Level3/Molfi/"
 # Current task status (0 = locked, 1 = unstarted, 2 = started, 3 = finished)
 export var status: int = 0 setget set_status, get_status
 # Custom overlap (false = automatically scales overlap area, true = keeps manual overlap changes)
@@ -125,7 +125,7 @@ func interact():
 		yield(dialogue("Interact-Blocked.json"), "completed")
 	elif (status == 1):
 		# If task is unstarted, start for the first time & update status to started
-		update_status(2)	# Update the status of the task related to this NPC!
+		update_status(1)	# Update the status of the task related to this NPC!
 		yield(dialogue("Interact-TaskStart.json"), "completed")
 	elif (status == 2):
 		# If task is started, continue from before

@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Room/Level.gd" type="Script" id=2]
@@ -16,6 +16,8 @@
 [ext_resource path="res://Art/petri_dish.png" type="Texture" id=14]
 [ext_resource path="res://Art/paper_sideways.png" type="Texture" id=15]
 [ext_resource path="res://Objects/Trim.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Objects/Sove.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Objects/Sove.gd" type="Script" id=18]
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -404,18 +406,6 @@ resource_local_to_scene = true
 23/shapes = [  ]
 23/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=30]
-resource_local_to_scene = true
-extents = Vector2( 12, 16 )
-
-[sub_resource type="RectangleShape2D" id=31]
-resource_local_to_scene = true
-extents = Vector2( 24, 40 )
-
-[sub_resource type="RectangleShape2D" id=32]
-resource_local_to_scene = true
-extents = Vector2( 14.5, 11.5 )
-
 [sub_resource type="RectangleShape2D" id=20]
 resource_local_to_scene = true
 extents = Vector2( 32, 28 )
@@ -478,25 +468,6 @@ tile_data = PoolIntArray( 13, 1610612744, 0, 14, 1, 0, 15, 1, 0, 16, 1, 0, 17, 1
 
 [node name="TileMap" parent="Trim" index="1"]
 tile_data = PoolIntArray( 14, 3, 0, 17, 4, 0, 65550, 3, 0, 65553, 4, 0, 131086, 3, 0, 131089, 4, 0, 196611, 1, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 196621, 0, 0, 196622, 8, 0, 196625, 7, 0, 196626, 0, 0, 196627, 0, 0, 196628, 0, 0, 196629, 0, 0, 196630, 0, 0, 196631, 0, 0, 196632, 0, 0, 196633, 0, 0, 196634, 0, 0, 196635, 0, 0, 196636, 2, 0, 262147, 3, 0, 262172, 4, 0, 327683, 3, 0, 327708, 4, 0, 393219, 3, 0, 393244, 4, 0, 458755, 3, 0, 458780, 4, 0, 524291, 3, 0, 524316, 4, 0, 589827, 3, 0, 589852, 4, 0, 655363, 3, 0, 655388, 4, 0, 720899, 3, 0, 720924, 4, 0, 786435, 3, 0, 786460, 4, 0, 851971, 3, 0, 851996, 4, 0, 917507, 3, 0, 917532, 4, 0, 983043, 3, 0, 983068, 4, 0, 1048579, 3, 0, 1048604, 4, 0 )
-
-[node name="Scientist" parent="." instance=ExtResource( 8 )]
-position = Vector2( 881, 328 )
-
-[node name="Sprite" parent="Scientist" index="0"]
-position = Vector2( 0, -11 )
-texture = ExtResource( 9 )
-
-[node name="HorizontalOverlap" parent="Scientist" index="1"]
-visible = false
-shape = SubResource( 30 )
-
-[node name="VerticalOverlap" parent="Scientist" index="2"]
-visible = false
-shape = SubResource( 31 )
-
-[node name="CollisionShape" parent="Scientist/StaticBody2D" index="0"]
-position = Vector2( 0.5, 9.5 )
-shape = SubResource( 32 )
 
 [node name="LabTable6" parent="." instance=ExtResource( 7 )]
 position = Vector2( 141, 202 )
@@ -667,12 +638,23 @@ position = Vector2( 513, 65 )
 position = Vector2( 141, 232 )
 texture = ExtResource( 15 )
 
+[node name="Sove" parent="." instance=ExtResource( 17 )]
+position = Vector2( 762, 290 )
+script = ExtResource( 18 )
+custom_overlap = true
+
+[node name="Sprite" parent="Sove" index="0"]
+texture = ExtResource( 9 )
+
+[connection signal="body_entered" from="Sove" to="Sove" method="_on_Sove_body_entered"]
+[connection signal="body_exited" from="Sove" to="Sove" method="_on_Sove_body_exited"]
+
 [editable path="Tiles"]
 [editable path="Trim"]
-[editable path="Scientist"]
 [editable path="Task5"]
 [editable path="Task4"]
 [editable path="Task3"]
 [editable path="Task2"]
 [editable path="Task1"]
 [editable path="HallwayEast"]
+[editable path="Sove"]

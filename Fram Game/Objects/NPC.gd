@@ -6,7 +6,7 @@ extends Area2D
 # Task's global variables
 # --------------------------
 # Task path variable ("res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/")
-export var task_path: String = "DefaultMessages/TaskTemplate/"
+export var dialogue_path: String = "SourceFiles/Level3/Molfi/"
 # Current task status (0 = locked, 1 = unstarted, 2 = started, 3 = finished)
 export var status: int = 0 setget set_status, get_status
 # Custom overlap (false = automatically scales overlap area, true = keeps manual overlap changes)
@@ -88,7 +88,8 @@ func get_status() -> int:
 # Reusable dialogue-calling function
 func dialogue(json_path):
 	# Use default task template dialogue if this task is missing unique interaction dialogue
-	var this_path = task_path + json_path
+	var this_path = dialogue_path + json_path
+	print("PATH: ", this_path)
 	var f = File.new()
 	if (not f.file_exists("res://SourceFiles/" + this_path)):
 		this_path = "DefaultMessages/TaskTemplate/" + json_path

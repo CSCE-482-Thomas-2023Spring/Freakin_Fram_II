@@ -11,7 +11,7 @@
 [ext_resource path="res://Art/table_long.png" type="Texture" id=9]
 [ext_resource path="res://Art/paper.png" type="Texture" id=10]
 [ext_resource path="res://Art/computer.png" type="Texture" id=11]
-[ext_resource path="res://Objects/NPC.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Objects/Molfi.tscn" type="PackedScene" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 resource_local_to_scene = true
@@ -163,6 +163,7 @@ position = Vector2( 0, 8 )
 shape = SubResource( 4 )
 
 [node name="Molfi" parent="." instance=ExtResource( 12 )]
+position = Vector2( 643, 184 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 513, 65 )
@@ -174,3 +175,4 @@ position = Vector2( 513, 65 )
 [editable path="BigTable"]
 [editable path="Table1"]
 [editable path="Task1"]
+[editable path="Molfi"]

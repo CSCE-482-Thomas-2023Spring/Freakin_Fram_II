@@ -1,4 +1,4 @@
-class_name NPC
+#class_name NPC
 extends Area2D
 
 #-------------------MODIFIED FROM TASKINSTANCE--------------------#
@@ -15,6 +15,10 @@ export var custom_overlap: bool = true
 export var hide_on_complete: bool = false
 # Object collision status (true = task posesses collision, false = task can be moved through)
 export var collision_enabled: bool = true
+# Associated task's room path
+export var room_path: String = "Navigation";
+# Associated task's room path
+export var task_num: int = 1;
 
 # Emit a signal when this task's status is updated
 signal status_update
@@ -27,12 +31,13 @@ onready var task_node = null
 onready var navigation_node = null
 
 func _on_navigation_ready():
-	task_node = navigation_node.get_node("Task1")
+	task_node = navigation_node.get_node("Task" + str(task_num))
 
 # Set specific capabilities on task spawn
 func _ready():
 	
 	# CHATGPT
+	get_parent().connect("ready", self, "_on_child_ready") 		# for intance setup
 	navigation_node = get_node("../")
 	navigation_node.connect("ready", self, "_on_navigation_ready")
 	
@@ -93,6 +98,7 @@ func dialogue(json_path):
 	var f = File.new()
 	if (not f.file_exists("res://SourceFiles/" + this_path)):
 		this_path = "DefaultMessages/TaskTemplate/" + json_path
+	print("PATH: ", this_path)
 	
 	# Call dialogue box
 	var root = get_tree().get_root()

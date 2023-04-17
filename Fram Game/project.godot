@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "NPC",
 "language": "GDScript",
-"path": "res://Objects/NPC.gd"
+"path": "res://Objects/Sove.gd"
 }, {
 "base": "Reference",
 "class": "ParseImport",

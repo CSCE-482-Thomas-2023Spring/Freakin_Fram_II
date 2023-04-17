@@ -16,15 +16,39 @@ export var hide_on_complete: bool = false
 # Object collision status (true = task posesses collision, false = task can be moved through)
 export var collision_enabled: bool = true
 
-# get associated task's node
-onready var task = get_tree().get_root().get_node("/Room/Navigation.tscn/Task1")
-
 # Emit a signal when this task's status is updated
 signal status_update
 
 # Preloaded scene types
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 
+# get associated task's node
+onready var task_node = null
+onready var navigation_node = null
+
+func _on_navigation_ready():
+	task_node = navigation_node.get_node("Task1")
+
+# Set specific capabilities on task spawn
+func _ready():
+	
+	# CHATGPT
+	navigation_node = get_node("../")
+	navigation_node.connect("ready", self, "_on_navigation_ready")
+	
+	# Scale interaction overlap areas to match size of collision area if applicable
+	if (!custom_overlap):
+		var pos = $StaticBody2D/CollisionShape.position
+		var x_size = $StaticBody2D/CollisionShape.shape.extents.x
+		var y_size = $StaticBody2D/CollisionShape.shape.extents.y
+		$HorizontalOverlap.position = pos
+		$HorizontalOverlap.shape.extents = Vector2(x_size + 10, y_size)
+		$VerticalOverlap.position = pos
+		$VerticalOverlap.shape.extents = Vector2(x_size, y_size + 10)
+	
+	# If collision is disabled, delete static body
+	if (not collision_enabled):
+		$StaticBody2D.queue_free()
 
 # Setter function for task's completion status - called in task initialization
 func set_status(new_status: int):
@@ -48,11 +72,11 @@ func set_status(new_status: int):
 func update_status(new_status: int = -1):
 	# Set new status according to assoc. task, if no arg. provided
 	if new_status == -1:
-		new_status = task.get_status()  # replace with assoc. task
+		new_status = task_node.get_status()  # replace with assoc. task
 		set_status(new_status)
 	# Else, set the assoc. task's status to whatever was given (should only be for 1 -> 2)
 	else:
-		task.set_status(new_status) # path to assoc. task
+		task_node.set_status(new_status) # path to assoc. task
 		set_status(new_status)
 	# Emit signal for updated status
 	emit_signal("status_update")
@@ -76,34 +100,6 @@ func dialogue(json_path):
 	root.add_child(box)
 	yield(box, "tree_exited")
 
-## Reusable task-calling function
-#func launch_task(json_path):
-#	# Create task & set task variables
-#	var parent = get_parent()
-#	var task = get_node("../../Room/Navigation.tscn/Task1")    # replace with assoc. task
-#
-#	# Connect signal to task success
-#	task.connect("task_success", self, "update_status", [3])
-#
-#	# Launch task and wait until task is exited
-#	parent.add_child(task)
-#	yield(task, "tree_exited")	# pause code and run task, then return here once "tree_exited"
-
-# Set specific capabilities on task spawn
-func _ready():
-	# Scale interaction overlap areas to match size of collision area if applicable
-	if (!custom_overlap):
-		var pos = $StaticBody2D/CollisionShape.position
-		var x_size = $StaticBody2D/CollisionShape.shape.extents.x
-		var y_size = $StaticBody2D/CollisionShape.shape.extents.y
-		$HorizontalOverlap.position = pos
-		$HorizontalOverlap.shape.extents = Vector2(x_size + 10, y_size)
-		$VerticalOverlap.position = pos
-		$VerticalOverlap.shape.extents = Vector2(x_size, y_size + 10)
-	
-	# If collision is disabled, delete static body
-	if (not collision_enabled):
-		$StaticBody2D.queue_free()
 
 # Add self to list of interactive objects if in range
 func _on_NPC_body_entered(body):

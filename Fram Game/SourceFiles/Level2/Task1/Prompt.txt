@@ -1,9 +1,9 @@
-Measure the beakers!
+Fill the beakers!
 
-You have to set the value of different data types
-Each beaker is measured in milliliters (mL)
-This is known as a float since there is a decimal attached to it.
+You have to set the value of these variables.
+Each beaker is measured in milliliters (mL).
+This variable type is called a float since it contains a decimal number.
 
-Give beaker 1 14.7 mL of Phosphate Oxide
-Give beaker 2 6.2 mL of Nitrous Sulfur
-Give beaker 3 70.0 mL of Polonium Monoxide
+Fill beaker 1 with 14.7 mL of Phosphate Oxide.
+Fill beaker 2 with 6.2 mL of Nitrous Sulfur.
+Fill beaker 3 with 70.0 mL of Polonium Monoxide.

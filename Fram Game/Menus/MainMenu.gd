@@ -43,8 +43,10 @@ func _on_DeleteButton_pressed():
 	$VBoxContainer/QuitButton.disabled = true
 	yield(confirmation, "tree_exited")
 	$VBoxContainer/StartButton.disabled = false
-	$VBoxContainer/ContinueButton.disabled = false
-	$VBoxContainer/DeleteButton.disabled = false
+	if has_node("VBoxContainer/ContinueButton"):
+		$VBoxContainer/ContinueButton.disabled = false
+	if has_node("VBoxContainer/DeleteButton"):
+		$VBoxContainer/DeleteButton.disabled = false
 	$VBoxContainer/QuitButton.disabled = false
 
 # Called on confirmation of quitting the game

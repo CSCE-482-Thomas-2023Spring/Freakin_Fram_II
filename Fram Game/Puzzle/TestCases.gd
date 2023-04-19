@@ -4,20 +4,12 @@ var TestInfo = load("res://Puzzle/TestCases/TestInfo.tscn")
 var Dropdown = load("res://Puzzle/TestCases/dropdown.tscn")
 
 # Called when the node enters the scene tree for the first time.
-var cases = {}
+onready var vbox = $ScrollContainer/VBoxContainer
 
 func case_pressed(case):
-	if case in cases:
-		$VBoxContainer.remove_child(cases[case])
-		cases.erase(case)
-		return
 	var ind = case.get_index()
-	var dropdown = Dropdown.instance()
-	dropdown.get_node("RichTextLabel").text = case.dropdown_text
-	$VBoxContainer.add_child(dropdown)
-	$VBoxContainer.move_child(dropdown, ind+1)
-	dropdown.visible = true
-	cases[case] = dropdown
+	var dropdown = vbox.get_child(ind+1)
+	dropdown.visible = not dropdown.visible
 
 func add_case(case_name, passed, input, expected, user_output):
 	var new_case = TestInfo.instance()
@@ -35,13 +27,18 @@ func add_case(case_name, passed, input, expected, user_output):
 	var dropdown_text = input_text + "\n" + user_out_text + "\n" + expected_output_text + "\n"
 	new_case.dropdown_text = dropdown_text
 	
+	var dropdown = Dropdown.instance()
+	dropdown.get_node("RichTextLabel").text = new_case.dropdown_text
+	dropdown.visible = false
+	
 	new_case.get_node("Button").connect("pressed", self, "case_pressed", [new_case])
 	
-	$VBoxContainer.add_child(new_case)
+	vbox.add_child(new_case)
+	vbox.add_child(dropdown)
 	
 
 func _ready():
-	for i in range(10):
+	for i in range(20):
 		add_case("test case " + str(i), true, "1, 2, 3", "howdy", "bruh")
 		
 

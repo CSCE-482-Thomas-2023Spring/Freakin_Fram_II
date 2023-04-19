@@ -18,7 +18,7 @@ export var collision_enabled: bool = true
 # Associated task's room path
 export var room_path: String = "Laboratory";
 # Associated task's room path
-export var task_num: int = 1;
+export var task_num: int = 5;
 
 # Emit a signal when this task's status is updated
 signal status_update
@@ -132,6 +132,7 @@ func interact():
 		# If task is unstarted, start for the first time & update status to started
 		update_status(1)	# Update the status of the task related to this NPC!
 		yield(dialogue("Interact-TaskStart.json"), "completed")
+		set_status(2)
 	elif (status == 2):
 		# If task is started, continue from before
 		yield(dialogue("Interact-Return.json"), "completed")

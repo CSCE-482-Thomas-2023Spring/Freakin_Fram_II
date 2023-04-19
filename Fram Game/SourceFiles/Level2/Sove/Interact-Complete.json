@@ -1,4 +1,6 @@
 [
-	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]Thank you for the help! Do you want to help me clean the lizard tank next?"},
-	{"Name":"[color=black]Player", "Text":"[color=black]No thanks!"}
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]Thank you for the help! Want to help me clean the lizard tank next?"},
+	{"Name":"[color=black]Player", "Text":"[color=black]No thanks!"},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]Fair enough. Thanks again!"},
+	{"Name":"[color=red]M.O.M.", "Text":"[color=black]Let's head up to the bridge next, I bet the captain has some work for us."}
 ]

@@ -30,6 +30,7 @@ var new_game = true
 var mainMenu = preload("res://Menus/MainMenu.tscn")
 var pauseMenu = preload("res://Menus/PauseMenu.tscn")
 var roomScenes = {}
+var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 
 # Function called from level to update new task status values
 func update_statuses(new_statuses: Array):
@@ -508,6 +509,14 @@ func room_pos(level_name: String, source_name: String = "") -> Vector2:
 
 # Overhead story progress-checking function: triggers story events and unlocks tasks in order
 func check_story():
+	# Disable player interaction & hide menu during event
+	var player = current_scene.get_node("Player")
+	player.disable()
+	$MenuButton.hide()
+	
+	# Determine if an event has been triggered
+	var event_triggered = false
+	
 	# Wait a moment before triggering events
 	yield(get_tree().create_timer(0.1), "timeout")
 	
@@ -519,7 +528,8 @@ func check_story():
 		# When Level 0 Task 1 is completed, unblock Level 1 Task 1
 		level_tasks[1][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 1 (Maintenance Closet) task triggers
 	level_status = level_tasks[1]
@@ -527,7 +537,8 @@ func check_story():
 		# When Level 1 Task 1 is completed, unblock Level 1 Task 2
 		level_tasks[1][1] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	if (level_status[1] == 3 and level_tasks[2][0] == 0):
 		# When Level 1 Task 2 is completed, unblock Level 2 Task 1
 		level_tasks[2][0] = 1
@@ -537,7 +548,8 @@ func check_story():
 		level_tasks[2][4] = 1
 		level_tasks[2][5] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 2 (Laboratory) task triggers - TODO: update as necessary
 	level_status = level_tasks[2]
@@ -546,12 +558,14 @@ func check_story():
 		level_tasks[2][4] = 1
 		level_tasks[3][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	if (level_status[5] == 3 and level_tasks[3][0] == 0):
 		# When Level 2 Task 7 is completed, unblock Level 3 Task 1
 		level_tasks[3][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 3 (Navigation) task triggers
 	level_status = level_tasks[3]
@@ -559,7 +573,8 @@ func check_story():
 		# When Level 3 Task 1 is completed, unblock Level 4 Task 1
 		level_tasks[4][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 4 (Security) task triggers
 	level_status = level_tasks[4]
@@ -567,12 +582,14 @@ func check_story():
 		# When Level 4 Task 1 is completed, unblock Level 4 Task 2
 		level_tasks[4][1] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	if (level_status[0] == 3 and level_tasks[5][0] == 0):
 		# When Level 4 Task 2 is completed, unblock Level 5 Task 1
 		level_tasks[5][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 5 (Crew Quarters) task triggers
 	level_status = level_tasks[5]
@@ -580,12 +597,14 @@ func check_story():
 		# When Level 5 Task 1 is completed, unblock Level 5 Task 2
 		level_tasks[5][1] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	if (level_status[0] == 3 and level_tasks[6][0] == 0):
 		# When Level 5 Task 2 is completed, unblock Level 6 Task 1
 		level_tasks[6][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 6 (Communications) task triggers
 	level_status = level_tasks[6]
@@ -593,12 +612,14 @@ func check_story():
 		# When Level 6 Task 1 is completed, unblock Level 6 Task 2
 		level_tasks[6][1] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	if (level_status[0] == 3 and level_tasks[7][0] == 0):
 		# When Level 6 Task 2 is completed, unblock Level 7 Task 1
 		level_tasks[7][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 7 (Reactor Room) task triggers
 	level_status = level_tasks[7]
@@ -609,10 +630,10 @@ func check_story():
 	if (current_level == 0):
 		# Trigger first cutscene: Ingrid wakes Player from cryosleep
 		if (story[0] == 0):
-			# TODO: event
+			yield(dialogue("Level0/Room-Introduction.json"), "completed")
+			# Indicate this event has been triggered
 			story[0] = 1
-			check_story()
-			return
+			event_triggered = true
 	
 	# Maintenance Closet events
 	if (current_level == 1):
@@ -657,6 +678,14 @@ func check_story():
 	# East Hallway events
 	if (current_level == 11):
 		pass
+	
+	# Re-enable player interaction & unhide menu after event
+	player.enable()
+	$MenuButton.show()
+	
+	# If at least one event was triggered, check for story updates again
+	if (event_triggered):
+		check_story()
 
 # When menu is pressed, open menu scene over current scene
 func _on_MenuButton_pressed():
@@ -682,4 +711,12 @@ func close_pause():
 	
 	# Unpause current level scene
 	add_child(current_scene)
-	
+
+# Reusable dialogue-calling function
+func dialogue(json_path):
+	# Call dialgoue box
+	var root = get_tree().get_root()
+	var box = dialogueBox.instance()
+	box.get_node("DialogueBox")._set_path(json_path)
+	root.add_child(box)
+	yield(box, "tree_exited")

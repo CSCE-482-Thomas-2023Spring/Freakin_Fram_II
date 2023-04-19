@@ -6,6 +6,7 @@ var can_move = true
 var screen_size
 var player_size
 var interactables
+var times_disabled = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -69,10 +70,17 @@ func get_interactable():
 		
 func disable():
 	# Disable _process
+	times_disabled += 1
 	set_physics_process(false)
+	print("disabled")
 	can_move = false
-	
+
 func enable():
 	# Enable _process
-	set_physics_process(true)
-	can_move = true
+	times_disabled -= 1
+	if (times_disabled == 0):
+		set_physics_process(true)
+		print("enabled")
+		can_move = true
+	elif (times_disabled < 0):
+		print("ERROR: times_disabled = " + str(times_disabled))

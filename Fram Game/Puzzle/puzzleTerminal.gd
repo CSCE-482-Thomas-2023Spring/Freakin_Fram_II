@@ -212,10 +212,8 @@ func on_button_pressed():
 	var successCountString = ""
 	var failureString = ""
 	if not results.has('error'):
-		var successCountString = ""
-		var failureString = ""
 		var inp = "N/A"
-		var output = ""
+		var user_output = ""
 		var expected_out = ""
 		if testData.data.useFunction:
 			var data = process_test_results_function(results.testResults)
@@ -232,13 +230,13 @@ func on_button_pressed():
 			if testData.data.useFunction:
 				inp = case.input
 				if case.returns != null and case.returns != "":
-					output = case.userReturned
+					user_output = case.userReturned
 					expected_out = case.returns
 				else:
-					output = case.userstdout
+					user_output = case.userstdout
 					expected_out = case.stdout
 			
-			$TestCases.add_case("Test Case " + str(i+1), case.passed, inp, expected_out, output)
+			$TestCases.add_case("Test Case " + str(i+1), case.passed, inp, expected_out, user_output)
 	
 	# Set dialogue for end-of-task success & close terminal as needed
 	if (successes == caseCount):

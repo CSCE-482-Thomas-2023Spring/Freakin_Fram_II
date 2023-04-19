@@ -10,8 +10,8 @@ var imports = []
 var invalid_import = ""
 var file = ""
 
-func _init(file):
-	self.file = file
+func _init(in_file):
+	self.file = in_file
 	getAllImports()
 	print(imports)
 

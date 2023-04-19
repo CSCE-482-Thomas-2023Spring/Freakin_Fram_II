@@ -35,11 +35,15 @@ func add_case(case_name, passed, input, expected, user_output):
 	
 	vbox.add_child(new_case)
 	vbox.add_child(dropdown)
-	
+
+func clear_cases():
+	for case in vbox.get_children():
+		case.erase()
 
 func _ready():
-	for i in range(20):
-		add_case("test case " + str(i), true, "1, 2, 3", "howdy", "bruh")
+	pass
+	#for i in range(20):
+	#	add_case("test case " + str(i), true, "1, 2, 3", "howdy", "bruh")
 		
 
 

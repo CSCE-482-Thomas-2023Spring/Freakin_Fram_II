@@ -31,6 +31,7 @@ var mainMenu = preload("res://Menus/MainMenu.tscn")
 var pauseMenu = preload("res://Menus/PauseMenu.tscn")
 var roomScenes = {}
 var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
+var darkness = preload("res://Objects/Darkness.tscn")
 
 # Function called from level to update new task status values
 func update_statuses(new_statuses: Array):
@@ -486,6 +487,29 @@ func load_room(room_name: String, source_room: String):
 		current_scene.queue_free()
 		current_scene = new_room
 		
+		# Maintain darkness if present
+		if (story[0] == 1 and story[1] == 0):
+			# Remove existing darkess
+			if (has_node("Darkness")):
+				print("Reinstating darkness")
+				var dark_box = get_node("Darkness")
+				remove_child(dark_box)
+				dark_box.queue_free()
+			
+			# Place new darkness
+			var new_dark = darkness.instance()
+			add_child(new_dark)
+			
+			# Keep room label and menu button visible over darkness
+			if (has_node("RoomLabel")):
+				var room_label = get_node("RoomLabel")
+				remove_child(room_label)
+				add_child(room_label)
+			if (has_node("MenuButton")):
+				var menu_button = get_node("MenuButton")
+				remove_child(menu_button)
+				add_child(menu_button)
+		
 		# Update value of current room number & label display
 		current_level = room_type.get(room_name)
 		$RoomLabel.text = room_type.keys()[current_level]
@@ -630,14 +654,39 @@ func check_story():
 	if (current_level == 0):
 		# Trigger first cutscene: Ingrid wakes Player from cryosleep
 		if (story[0] == 0):
+			# Add layer of darkness
+			var dark_box = darkness.instance()
+			add_child(dark_box)
+			
+			# Keep room label and menu button above darkness
+			if (has_node("RoomLabel")):
+				var room_label = get_node("RoomLabel")
+				remove_child(room_label)
+				add_child(room_label)
+			if (has_node("MenuButton")):
+				var menu_button = get_node("MenuButton")
+				remove_child(menu_button)
+				add_child(menu_button)
+				
+			# Call story introduction dialogue
 			yield(dialogue("Level0/Room-Introduction.json"), "completed")
+			
 			# Indicate this event has been triggered
 			story[0] = 1
 			event_triggered = true
 	
 	# Maintenance Closet events
 	if (current_level == 1):
-		pass
+		# Remove darkness box on second task completion
+		if (story[1] == 0 and level_tasks[1][1] == 3):
+			# Disable darkness
+			if (has_node("Darkness")):
+				var dark_box = get_node("Darkness")
+				dark_box.queue_free()
+			
+			# Indicate this event has been triggered
+			story[1] = 1
+			event_triggered = true
 	
 	# Laboratory events
 	if (current_level == 2):

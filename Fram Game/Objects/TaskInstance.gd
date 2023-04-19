@@ -69,7 +69,7 @@ func dialogue(json_path):
 # Reusable task-calling function
 func launch_task(json_path):
 	# Create task & set task variables
-	var parent = get_parent()
+	var root = get_tree().get_root()
 	var task = terminal.instance()
 	task._set_path(json_path)
 	
@@ -79,7 +79,7 @@ func launch_task(json_path):
 	task.connect("task_success", self, "update_status", [3])
 	
 	# Launch task and wait until task is exited
-	parent.add_child(task)
+	root.add_child(task)
 	yield(task, "tree_exited")
 
 # Set specific capabilities on task spawn

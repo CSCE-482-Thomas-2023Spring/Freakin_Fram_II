@@ -72,7 +72,6 @@ func disable():
 	# Disable _process
 	times_disabled += 1
 	set_physics_process(false)
-	print("disabled")
 	can_move = false
 
 func enable():
@@ -80,7 +79,6 @@ func enable():
 	times_disabled -= 1
 	if (times_disabled == 0):
 		set_physics_process(true)
-		print("enabled")
 		can_move = true
 	elif (times_disabled < 0):
 		print("ERROR: times_disabled = " + str(times_disabled))

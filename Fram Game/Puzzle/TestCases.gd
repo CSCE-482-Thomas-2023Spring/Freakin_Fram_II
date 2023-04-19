@@ -38,7 +38,7 @@ func add_case(case_name, passed, input, expected, user_output):
 
 func clear_cases():
 	for case in vbox.get_children():
-		case.erase()
+		case.queue_free()
 
 func _ready():
 	pass

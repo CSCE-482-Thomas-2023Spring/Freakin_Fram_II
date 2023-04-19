@@ -229,14 +229,18 @@ func on_button_pressed():
 			var case = results.testResults[i]
 			if testData.data.useFunction:
 				inp = case.input
-				if case.returns != null and case.returns != "":
-					user_output = case.userReturned
-					expected_out = case.returns
-				else:
-					user_output = case.userstdout
-					expected_out = case.stdout
+			if case.returns != null and case.returns != "":
+				user_output = case.userReturned
+				expected_out = case.returns
+			else:
+				user_output = str(case.userstdout)
+				expected_out = str(case.stdout)
+				var regex_carriage = RegEx.new()
+				regex_carriage.compile("\\r")
+				user_output = regex_carriage.sub(user_output, "", true)
+				expected_out = regex_carriage.sub(expected_out, "", true)
 			
-			$TestCases.add_case("Test Case " + str(i+1), case.passed, inp, expected_out, user_output)
+			$TestCases.add_case("Test Case " + str(i+1), case.passed, str(inp), expected_out, user_output)
 	
 	# Set dialogue for end-of-task success & close terminal as needed
 	if (successes == caseCount):

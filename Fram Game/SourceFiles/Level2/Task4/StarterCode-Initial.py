@@ -6,4 +6,4 @@ bacteria_size = bacteria_size * 2
 # Record your final answer here
 final_size = 
 
-print(final_size)
+print(int(final_size))

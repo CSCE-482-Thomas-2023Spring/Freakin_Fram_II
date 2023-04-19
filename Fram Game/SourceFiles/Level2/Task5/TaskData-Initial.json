@@ -1,36 +1,35 @@
 {
-    "readOnly": [0,1,2,3,7],
+    "readOnly": [0,3],
     "data": {
-        "usestdout": false,
+        "usestdout": true,
         "useFunction": true,
-        "functionName": "swap",
-		"listInput": true
+        "functionName": "swap"
     },
     "cases" : [
         {
             "input": [200, 100],
-            "returns": [100, 200],
-            "stdout": ""
+            "returns": null,
+            "stdout": "100 200\r\n"
         },
 		{
             "input": [23, 53],
-            "returns": [53, 23],
-            "stdout": ""
+            "returns": null,
+            "stdout": "53 23\r\n"
         },
 		{
             "input": [56, 3],
-            "returns": [3, 56],
-            "stdout": ""
+            "returns": null,
+            "stdout": "3 56\r\n"
         },
 		{
             "input": [-12, 123],
-            "returns": [123, -12],
-            "stdout": ""
+            "returns": null,
+            "stdout": "123 -12\r\n"
         },
 		{
             "input": [0, 0],
-            "returns": [0, 0],
-            "stdout": ""
+            "returns": null,
+            "stdout": "0 0\r\n"
         }
     ]
 }

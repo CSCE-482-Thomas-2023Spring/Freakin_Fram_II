@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Puzzle/TestCases/TestInfo.gd" type="Script" id=1]
+[ext_resource path="res://green_dot.png" type="Texture" id=2]
+[ext_resource path="res://red_dot.png" type="Texture" id=3]
+
+[node name="Control" type="Control"]
+anchor_right = 0.22
+anchor_bottom = 0.047
+margin_right = -0.280014
+margin_bottom = -0.0800018
+rect_min_size = Vector2( 225, 30 )
+script = ExtResource( 1 )
+
+[node name="Button" type="Button" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 0
+enabled_focus_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 39.0
+alignment = 1
+
+[node name="Label" type="Label" parent="Button/VBoxContainer"]
+margin_top = 3.0
+margin_right = 186.0
+margin_bottom = 27.0
+text = "Test Case #1"
+
+[node name="pass" type="TextureRect" parent="Button"]
+anchor_right = 0.153
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 5.0
+margin_right = -6.425
+margin_bottom = -5.0
+rect_min_size = Vector2( 20, 20 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 2 )
+expand = true
+
+[node name="fail" type="TextureRect" parent="Button"]
+visible = false
+anchor_right = 0.153
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 5.0
+margin_right = -6.425
+margin_bottom = -5.0
+rect_min_size = Vector2( 20, 20 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 3 )
+expand = true

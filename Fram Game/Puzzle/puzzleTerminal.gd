@@ -175,6 +175,9 @@ func process_test_results_stdout(cases):
 
 func on_button_pressed():
 	
+	# clear all previous tests
+	$TestCases.clear_cases()
+	
 	# Prevent execution of editor if disabled
 	var editor = $Editor/VBoxContainer/Input
 	var output = $"Editor/VBoxContainer/Output/Output Text"
@@ -209,6 +212,10 @@ func on_button_pressed():
 	var successCountString = ""
 	var failureString = ""
 	if not results.has('error'):
+		var inp = "N/A"
+		var user_output = ""
+		var expected_out = ""
+		var regex_carriage = RegEx.new()
 		if testData.data.useFunction:
 			var data = process_test_results_function(results.testResults)
 			successCountString = data[0]
@@ -218,6 +225,24 @@ func on_button_pressed():
 		elif testData.data.usestdout:
 			successCountString = process_test_results_stdout(results.testResults)
 			print(successCountString)
+		
+		for i in range(results.testResults.size()):
+			var case = results.testResults[i]
+			if testData.data.useFunction:
+				inp = case.input
+			if case.returns != null and case.returns != "":
+				user_output = case.userReturned
+				expected_out = case.returns
+			else:
+				user_output = str(case.userstdout)
+				expected_out = str(case.stdout)
+				regex_carriage.compile("\\r")
+				var temp = regex_carriage.sub(user_output, "", true)
+				user_output = temp
+				temp = regex_carriage.sub(expected_out, "", true)
+				expected_out = temp
+			
+			$TestCases.add_case("Test Case " + str(i+1), case.passed, str(inp), expected_out, user_output)
 	
 	# Set dialogue for end-of-task success & close terminal as needed
 	if (successes == caseCount):

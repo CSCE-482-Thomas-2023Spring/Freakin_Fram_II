@@ -1,0 +1,15 @@
+{
+    "readOnly": [0,4,6,10],
+    "data": {
+        "usestdout": true,
+        "useFunction": false,
+        "functionName": "foo"
+    },
+    "cases" : [
+        {
+            "input": "",
+            "returns": "",
+            "stdout": "Fred Ash Kyle\r\n4 12 2\r\n"
+        }
+    ]
+}

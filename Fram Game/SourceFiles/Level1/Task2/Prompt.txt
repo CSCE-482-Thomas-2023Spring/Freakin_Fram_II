@@ -1,0 +1,7 @@
+Fix the breaker box!
+Valid values are True or False
+
+1 or 3 can be on to power Room A, but not both
+2 must be off because there's a bad wire in room B
+4 and 5 must be on for the reactor to be safe
+6 and 7 can be on or off

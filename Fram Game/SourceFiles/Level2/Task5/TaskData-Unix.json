@@ -1,0 +1,36 @@
+{
+    "readOnly": [0,1,2,3,7],
+    "data": {
+        "usestdout": false,
+        "useFunction": true,
+        "functionName": "swap",
+		"listInput": true
+    },
+    "cases" : [
+        {
+            "input": [200, 100],
+            "returns": [100, 200],
+            "stdout": ""
+        },
+		{
+            "input": [23, 53],
+            "returns": [53, 23],
+            "stdout": ""
+        },
+		{
+            "input": [56, 3],
+            "returns": [3, 56],
+            "stdout": ""
+        },
+		{
+            "input": [-12, 123],
+            "returns": [123, -12],
+            "stdout": ""
+        },
+		{
+            "input": [0, 0],
+            "returns": [0, 0],
+            "stdout": ""
+        }
+    ]
+}

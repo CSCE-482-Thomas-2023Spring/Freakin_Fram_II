@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Puzzle/puzzleTerminal.gd" type="Script" id=1]
 [ext_resource path="res://Editor/Editor.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Puzzle/TestCases.gd" type="Script" id=3]
+[ext_resource path="res://Art/M.O.M.png" type="Texture" id=3]
 
 [node name="PuzzleTerminal" type="Node"]
 script = ExtResource( 1 )
@@ -25,6 +25,15 @@ margin_bottom = -6.0
 border_color = Color( 0.290196, 0.290196, 0.290196, 0.352941 )
 border_width = 7.5
 editor_only = false
+
+[node name="Prompt" type="TextEdit" parent="."]
+margin_left = 752.0
+margin_top = 37.0
+margin_right = 976.0
+margin_bottom = 506.0
+text = "placeholder"
+readonly = true
+wrap_enabled = true
 
 [node name="Editor" parent="." instance=ExtResource( 2 )]
 anchor_left = 0.046
@@ -49,30 +58,48 @@ margin_right = 690.0
 margin_bottom = 566.0
 
 [node name="TutorialButton" type="Button" parent="."]
-anchor_left = 0.773
-anchor_top = 0.832
-anchor_right = 0.868
-anchor_bottom = 0.908
-margin_left = 0.447937
-margin_top = -0.200012
-margin_right = 0.167847
-margin_bottom = 0.159912
+anchor_left = 0.732422
+anchor_top = 0.817187
+anchor_right = 0.858398
+anchor_bottom = 0.89375
+margin_left = 7.0
+margin_top = 3.0
+margin_right = 7.0
+margin_bottom = 3.0
 text = "Tutorials"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Sprite" type="Sprite" parent="TutorialButton"]
+position = Vector2( 23, 24 )
+texture = ExtResource( 3 )
+
+[node name="ExitButton" type="Button" parent="."]
+anchor_left = 0.884766
+anchor_top = 0.821875
+anchor_right = 0.948242
+anchor_bottom = 0.898438
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Tutorial" type="ColorRect" parent="."]
 visible = false
-margin_left = 91.0
-margin_top = 14.0
-margin_right = 761.0
-margin_bottom = 509.0
+margin_left = 74.0
+margin_top = 24.0
+margin_right = 934.0
+margin_bottom = 613.0
 color = Color( 0.780392, 0.780392, 0.780392, 1 )
 
 [node name="TutorialText" type="RichTextLabel" parent="Tutorial"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 47.0
-margin_top = 10.0
-margin_right = -51.0
+margin_left = 29.0
+margin_top = 24.0
+margin_right = -28.0
 margin_bottom = -50.0
 bbcode_enabled = true
 
@@ -109,6 +136,7 @@ margin_right = 0.149994
 margin_bottom = -0.0500488
 text = "Current"
 
+<<<<<<< HEAD
 [node name="TestCases" type="ColorRect" parent="."]
 anchor_left = 0.732
 anchor_top = 0.058
@@ -130,11 +158,25 @@ margin_bottom = 3.05176e-05
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TestCases/ScrollContainer"]
 mouse_filter = 2
+=======
+[node name="back" type="Button" parent="Tutorial"]
+anchor_left = 0.842
+anchor_top = 0.924
+anchor_right = 0.964
+anchor_bottom = 0.984
+margin_left = -0.120056
+margin_top = -0.235962
+margin_right = 0.140015
+margin_bottom = 0.15802
+text = "Back"
+>>>>>>> dev
 
 [connection signal="pressed" from="Editor/VBoxContainer/Output/Button" to="." method="on_button_pressed"]
 [connection signal="pressed" from="TutorialButton" to="." method="tutorial_button_pressed"]
+[connection signal="pressed" from="ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="pressed" from="Tutorial/left" to="." method="tutorial_left_pressed"]
 [connection signal="pressed" from="Tutorial/right" to="." method="tutorial_right_pressed"]
 [connection signal="pressed" from="Tutorial/main" to="." method="tutorial_main_pressed"]
+[connection signal="pressed" from="Tutorial/back" to="." method="tutorial_back_pressed"]
 
 [editable path="Editor"]

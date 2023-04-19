@@ -97,5 +97,3 @@ virtual_keyboard_enabled = false
 middle_mouse_paste_enabled = false
 drag_and_drop_selection_enabled = false
 wrap_enabled = true
-
-[connection signal="pressed" from="VBoxContainer/Output/Button" to="VBoxContainer/Input" method="_on_Button_pressed"]

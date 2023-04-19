@@ -10,11 +10,27 @@ export(Array, int) var read_only_lines = [] setget readonly_set, readonly_get
 
 export var disabled = false setget disable_set
 
-# Setter & getter for read only lines
+# Setter for read only lines
 func readonly_set(var new_lines):
 	read_only_lines = new_lines
 	set_read_only_lines()
+
+# Update and return the read only line array
 func readonly_get():
+	# Create a new array for readonly lines
+	var new_rdonly = []
+	
+	# Iterate through each line of code in the TextEdit
+	var index = 0
+	while (index < get_line_count()):
+		# Check if this line is marked as readonly
+		if (is_line_set_as_bookmark(index)):
+			# Add this line to the readonly array if marked as such
+			new_rdonly.append(index)
+		index += 1
+	
+	# Replace & return resulting array
+	read_only_lines = new_rdonly
 	return read_only_lines
 
 func disable_set(new_value):
@@ -43,7 +59,7 @@ func _input(event):
 	# Prevent action if selection contains a read only line
 	if self.is_selection_active():
 		var start_line = self.get_selection_from_line()
-		var end_line = self.get_selection_to_line()		
+		var end_line = self.get_selection_to_line()
 		for line in range(start_line, end_line + 1):
 			if self.is_line_set_as_bookmark(line):
 				# Void the event
@@ -143,6 +159,12 @@ func is_error(code_message):
 		
 	return [errored, type]
 
+func moveTextToCodePath(code_path):
+	var file = File.new()
+	file.open(code_path, File.WRITE)
+	file.store_string(get_text())
+	file.close()
+
 func executeUserCode():
 	if (disabled):
 		return
@@ -155,10 +177,7 @@ func executeUserCode():
 	var stdout = []
 	
 	# Open and write to code.py to pass to python.exe
-	var file = File.new()
-	file.open(code_path, File.WRITE)
-	file.store_string(code_text)
-	file.close()
+	moveTextToCodePath(code_path)
 	
 	# Pass code.py to python and put returns into stdout array
 	var exit_code = OS.execute(python_dir, [code_path], true, stdout, true)
@@ -166,10 +185,12 @@ func executeUserCode():
 	
 	var code_output = stdout[0]
 	
-	print("is_error: ", is_error(code_output))
+#	print("is_error: ", is_error(code_output))
 	
 	# Change output box to the result of Python code
 	output.text = code_output
-
-func _on_Button_pressed():
-	executeUserCode()
+	return code_output
+# Old button code, reenable if testing editor alone
+#func _on_Button_pressed():
+#	print("Setting output")
+#	executeUserCode(true)

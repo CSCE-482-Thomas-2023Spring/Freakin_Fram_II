@@ -4,16 +4,17 @@ extends Node
 # Source Path: "res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/"
 export var source_path = "DefaultMessages/TaskTemplate/" setget _set_path
 export var puzzle_success: bool = false setget ,get_status
-var python_dir = "./python_files/python.exe" # python executable
+var python_dir = ProjectSettings.globalize_path("res://python_files/python.exe") # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
+var function_code_file = "user://functions.py"
 var godot_user_path_g = ProjectSettings.globalize_path("user://")
-onready var test_task_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "TaskData.json")
+onready var test_task_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "TaskData-Initial.json")
 signal task_success
 
 var tutorials = ["level0.png", "level1.png", "level3.png", "level4.png", "level5.png"]
-var curr_tutorial = 2
-var main_tutorial = 2 # this is the tutorial relevant to the current level
+export var main_tutorial: int # this is the tutorial relevant to the current level
+onready var curr_tutorial = main_tutorial
 
 # Setter for task path
 func _set_path(new_val: String) -> void:
@@ -30,7 +31,7 @@ var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var pause = false
 
 func update_tutorial(ind):
-	$Tutorial/TutorialText.bbcode_text = "[img=500]res://Puzzle/Tutorials/" + tutorials[ind] + "[/img]"
+	$Tutorial/TutorialText.bbcode_text = "[img=750]res://Puzzle/Tutorials/" + tutorials[ind] + "[/img]"
 
 # Call a dialogue tree from input file location
 func create_box(json_path):
@@ -48,20 +49,50 @@ func create_box(json_path):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if OS.get_name() == "X11" or OS.get_name() == "OSX":
+		python_dir = "python3"
+		test_task_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "TaskData-Unix.json")
+	# Hide pause button
+	if (get_tree().get_root().has_node("Main")):
+		get_tree().get_root().get_node("Main").get_node("MenuButton").hide()
+	
 	# load the current tutorial
 	update_tutorial(curr_tutorial)
 	
 	# display initial source code as read from corresponding file in path
 	var sourceCode = File.new()
-	sourceCode.open("res://SourceFiles/" + source_path + "StarterCode.py", File.READ)
+	sourceCode.open("res://SourceFiles/" + source_path + "StarterCode-Initial.py", File.READ)
 	$Editor.get_node("VBoxContainer").get_node("Input").text = sourceCode.get_as_text()
 	sourceCode.close()
 	
 	# insert readonly lines as read from source data json
 	var sourceData = File.new()
-	sourceData.open("res://SourceFiles/" + source_path + "TaskData.json", File.READ)
+	sourceData.open("res://SourceFiles/" + source_path + "TaskData-Initial.json", File.READ)
 	var readOnlyLines = JSON.parse(sourceData.get_as_text()).result["readOnly"]
 	$Editor.get_node("VBoxContainer").get_node("Input").readonly_set(readOnlyLines)
+	sourceData.close()
+	
+	# fetch prompt and set the text
+	var promptText = File.new()
+	promptText.open("res://SourceFiles/" + source_path + "Prompt.txt", File.READ)
+	$Prompt.text = promptText.get_as_text()
+	promptText.close()
+  
+	# Check if temporary save data exists
+	var temp_code = File.new()
+	if (temp_code.file_exists(godot_user_path_g + "SaveFiles/" + source_path + "/StarterCode-Temp.py")):
+		
+		# Update displayed code to match temporary code
+		temp_code.open(godot_user_path_g + "SaveFiles/" + source_path + "StarterCode-Temp.py", File.READ)
+		$Editor.get_node("VBoxContainer").get_node("Input").text = temp_code.get_as_text()
+		temp_code.close()
+		
+		# Update readonly lines to match temporary lines
+		var temp_data = File.new()
+		temp_data.open(godot_user_path_g + "SaveFiles/" + source_path + "TaskData-Temp.json", File.READ)
+		readOnlyLines = JSON.parse(temp_data.get_as_text()).result["readOnly"]
+		$Editor.get_node("VBoxContainer").get_node("Input").readonly_set(readOnlyLines)
+		temp_data.close()
 	
 	# _ready copies the test script from PythonScripts to user://
 	var file = File.new()
@@ -69,10 +100,32 @@ func _ready():
 	var testCode = file.get_as_text()
 	file.close()
 	
+	var funcFile = File.new()
+	funcFile.open("res://PythonScripts/functions.py", File.READ)
+	var functionCode = funcFile.get_as_text()
+	funcFile.close()
+	
 	var userTestCode = File.new()
-	userTestCode.open(test_code_file, File.WRITE)
+	userTestCode.open(test_code_file, File.WRITE) # opens user://testCode.py
 	userTestCode.store_string(testCode)
 	userTestCode.close()
+	
+	var funcCodeCopy = File.new()
+	funcCodeCopy.open(function_code_file, File.WRITE)
+	funcCodeCopy.store_string(functionCode)
+	funcCodeCopy.close()
+	
+	# Copy TaskData to user:// (necessary for exported game to work)
+	var test_task_user = File.new()
+	test_task_user.open(test_task_path, File.READ)
+	var test_json = test_task_user.get_as_text()
+	test_task_user.close()
+	
+	test_task_user = File.new()
+	test_task_user.open("user://TaskData.json", File.WRITE)
+	test_task_user.store_string(test_json)
+	test_task_user.close()
+	
 	
 	# Display initial task-introduction dialogue
 	yield(create_box("Introduction.json"), "completed")
@@ -126,17 +179,28 @@ func on_button_pressed():
 	$TestCases.clear_cases()
 	
 	# Prevent execution of editor if disabled
-	if ($Editor/VBoxContainer/Input.disabled):
+	var editor = $Editor/VBoxContainer/Input
+	var output = $"Editor/VBoxContainer/Output/Output Text"
+	if (editor.disabled):
 		return
-	$Editor/VBoxContainer/Input.executeUserCode()
+	
+	editor.moveTextToCodePath("user://userCode.py")
+	
+	var parse_imports = ParseImport.new("user://userCode.py")
+	if not parse_imports.validateWithWhitelist():
+		output.text = "Illegal import! Please remove import for " + parse_imports.invalid_import
+		return
+		
+	var editor_result = editor.executeUserCode()
 	
 	# Parse information from 
 	var jsonTestFile = File.new()
-	jsonTestFile.open("res://SourceFiles/" + source_path + "TaskData.json", File.READ)
+	jsonTestFile.open("res://SourceFiles/" + source_path + "TaskData-Initial.json", File.READ)
 	var testData = JSON.parse(jsonTestFile.get_as_text()).result # this is the parsed test json
 	jsonTestFile.close()
 	var stdout = []
-	var exit_code = OS.execute(python_dir, [test_code_file_g, test_task_path, python_dir, godot_user_path_g], true, stdout, true)	
+	print(python_dir, [test_code_file_g, ProjectSettings.globalize_path("user://TaskData.json"), python_dir, godot_user_path_g])
+	var exit_code = OS.execute(python_dir, [test_code_file_g, ProjectSettings.globalize_path("user://TaskData.json"), python_dir, godot_user_path_g], true, stdout, true)	
 	print(stdout)
 	var file = File.new()
 	file.open("user://results.json", File.READ)
@@ -145,6 +209,8 @@ func on_button_pressed():
 	
 	
 	# EXAMPLE FOR EMILY (use later to print suggestions based on error types)
+	var successCountString = ""
+	var failureString = ""
 	if not results.has('error'):
 		var successCountString = ""
 		var failureString = ""
@@ -179,8 +245,16 @@ func on_button_pressed():
 		yield(create_box("Success.json"), "completed")
 		emit_signal("task_success")
 		
+		# Display pause button once again
+		if (get_tree().get_root().has_node("Main")):
+			get_tree().get_root().get_node("Main").get_node("MenuButton").show()
+		
 		# Delete self
 		queue_free()
+		
+	# If test cases were not satifised, add verbal feedback to the output of the terminal
+	else:
+		output.text = editor_result + "\n------ Feedback ------\n" + successCountString + "\nThis doesn't look right...\n" + failureString
 		
 	#else: # Path: n/a, but will display in-editor dialogue in the future
 	#	var dialog = dialogueBox.instance()
@@ -195,21 +269,82 @@ func on_button_pressed():
 
 
 
-
+# Call tutorial menu
 func tutorial_button_pressed():
 	$Tutorial.visible = not $Tutorial.visible
+	
+func tutorial_back_pressed():
+	$Tutorial.visible = not $Tutorial.visible
 
-
+# Index displayed tutorial to the right
 func tutorial_right_pressed():
 	curr_tutorial = (curr_tutorial + 1) % len(tutorials)
 	update_tutorial(curr_tutorial)
 
-
+# Index displayed tutorial to the left
 func tutorial_left_pressed():
 	curr_tutorial = (curr_tutorial - 1) % len(tutorials)
 	update_tutorial(curr_tutorial)
 
-
+# Index displayed tutorial to the most relevant one to this puzzle
 func tutorial_main_pressed():
 	curr_tutorial = main_tutorial
 	update_tutorial(curr_tutorial)
+
+# Save current task progress to temporary file and exit terminal
+func _on_ExitButton_pressed():
+	# Delete this task's existing temporary py file
+	var f_py = File.new()
+	var temp_py = godot_user_path_g + "SaveFiles/" + source_path + "/StarterCode-Temp.py"
+	if (f_py.file_exists(temp_py)):
+		var dir = Directory.new()
+		dir.remove(temp_py)
+	
+	# Create a new temporary py file to write to
+	if (f_py.open(temp_py, File.WRITE) != 0):
+		# Error opening file
+		print("ERROR: Could not save to temporary py file " + temp_py)
+		return
+	
+	# Store new python data
+	f_py.store_string($Editor/VBoxContainer/Input.get_text())
+	f_py.close()
+	
+	# Delete this task's existing temporary readonly line file
+	var f_rdonly = File.new()
+	var temp_rdonly = godot_user_path_g + "SaveFiles/" + source_path + "/TaskData-Temp.json"
+	if (f_rdonly.file_exists(temp_rdonly)):
+		var dir = Directory.new()
+		dir.remove(temp_rdonly)
+	
+	# Create a new temporary readonly line file to write to
+	if (f_rdonly.open(temp_rdonly, File.WRITE) != 0):
+		# Error opening file
+		print("ERROR: Could not save to temporary readonly file " + temp_rdonly)
+		return
+	
+	# Access initial source data for certain elements of the new task data
+	var sourceData = File.new()
+	sourceData.open("res://SourceFiles/" + source_path + "TaskData-Initial.json", File.READ)
+	var old_data = JSON.parse(sourceData.get_as_text()).result["data"]
+	var old_cases = JSON.parse(sourceData.get_as_text()).result["cases"]
+	sourceData.close()
+	
+	# Set up new readonly line data
+	var new_rdonly = {
+		"readOnly": $Editor/VBoxContainer/Input.readonly_get(),
+		"data": old_data,
+		"cases" : old_cases
+	}
+	
+	# Store new readonly line data
+	f_rdonly.store_line(to_json(new_rdonly))
+	f_rdonly.close()
+	
+	# Display pause button once again
+	if (get_tree().get_root().has_node("Main")):
+		get_tree().get_root().get_node("Main").get_node("MenuButton").show()
+	
+	# Close terminal
+	queue_free()
+	

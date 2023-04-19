@@ -6,7 +6,7 @@ extends Area2D
 # Task's global variables
 # --------------------------
 # Task path variable ("res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/")
-export var dialogue_path: String = "Level2/Sove/"
+export var dialogue_path: String = "Level3/Molfi/"
 # Current task status (0 = locked, 1 = unstarted, 2 = started, 3 = finished)
 export var status: int = 0 setget set_status, get_status
 # Custom overlap (false = automatically scales overlap area, true = keeps manual overlap changes)
@@ -16,7 +16,7 @@ export var hide_on_complete: bool = false
 # Object collision status (true = task posesses collision, false = task can be moved through)
 export var collision_enabled: bool = true
 # Associated task's room path
-export var room_path: String = "Laboratory";
+export var room_path: String = "Navigation";
 # Associated task's room path
 export var task_num: int = 1;
 
@@ -109,7 +109,7 @@ func dialogue(json_path):
 
 
 # Add self to list of interactive objects if in range
-func _on_NPC_body_entered(body):
+func _on_Molfi_body_entered(body):
 	# Do not allow interaction if hiding on completion
 	if (status == 3 and hide_on_complete):
 		return
@@ -117,7 +117,7 @@ func _on_NPC_body_entered(body):
 		body.interactables.append(self)
 
 # Remove self from list of interactive objects if out of range
-func _on_NPC_body_exited(body):
+func _on_Molfi_body_exited(body):
 	if body is Player:
 		body.interactables.erase(self)
 

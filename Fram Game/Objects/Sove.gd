@@ -28,18 +28,18 @@ var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 
 # get associated task's node
 onready var task_node = null
-onready var navigation_node = null
+onready var lab_node = null
 
-func _on_navigation_ready():
-	task_node = navigation_node.get_node("Task" + str(task_num))
+func _on_lab_ready():
+	task_node = lab_node.get_node("Task" + str(task_num))
 
 # Set specific capabilities on task spawn
 func _ready():
 	
 	
 	#get_parent().connect("ready", self, "_on_child_ready") 		# for intance setup
-	navigation_node = get_node("../")
-	navigation_node.connect("ready", self, "_on_navigation_ready")
+	lab_node = get_node("../")
+	lab_node.connect("ready", self, "_on_lab_ready")
 	
 	# Scale interaction overlap areas to match size of collision area if applicable
 	if (!custom_overlap):

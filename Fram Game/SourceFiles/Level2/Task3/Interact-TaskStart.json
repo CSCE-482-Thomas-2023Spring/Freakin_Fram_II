@@ -1,3 +1,11 @@
 [
-	{"Name":"[color=black]Player", "Text":"[color=black]Let's see if I can figure this out."}
+	{"Name":"[color=green]Molfi", "Text":"[color=black]Hello! You must be the new mechanic, I'm so glad to meet you!"},
+	{"Name":"[color=green]Molfi", "Text":"[color=black]My name is Molfi. I'm the chief navigation officer for the Fram."},
+	{"Name":"[color=black]Player", "Text":"[color=black]Nice to meet you!"},
+	{"Name":"[color=green]Molfi", "Text":"[color=black]We've been having a lot of trouble with our collision avoidance system recently, and I was hoping you could take a look?"},
+	{"Name":"[color=green]Molfi", "Text":"[color=black]The collision avoidance system includes the guidance computer and the ship's lasers..."},
+	{"Name":"[color=green]Molfi", "Text":"[color=black]The computer tags the asteroids, and if they are large or close enough, the lasers zap them before they damage our hull."},
+	{"Name":"[color=green]Molfi", "Text":"[color=black]With the guidance computer on the fritz, we're at risk of a collision. Can you help us?"},
+	{"Name":"[color=black]Player", "Text":"[color=black]I can certainly try!"},
+	{"Name":"[color=green]Molfi", "Text":"[color=black]That's the spirit! The computer is over in that corner. Good luck!"}
 ]

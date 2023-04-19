@@ -1,6 +1,7 @@
 Change the lizard color!
 
-We are doing a study on space lizards.
+We are doing a study on space chameleons.
 This lizard has been grumpy.
-Maybe it has to do with its color.
-Change its color from yellow to green
+Maybe it has to do with its color...
+
+Change its habitat color from yellow to green.

@@ -1,0 +1,12 @@
+[
+	{"Name":"[color=black]Player", "Text":"[color=black]...hello?"},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]Et oyeblikk! One second, I am calculating something..."},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]Okay, all done. Hello, who are you?"},
+	{"Name":"[color=black]Player", "Text":"[color=black]Ah, I'm the new mechanic. I took over for-"},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]Perfect! My poor experiments are all out of whack from the power outage.  Could you sort them out for me?"},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]I'd do it myself, but I am busy calculating the terraforming parameters for our landing on Antioch IV."},
+	{"Name":"[color=black]Player", "Text":"[color=black]That does sound important..."},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]My lab assistant has left notes on each table, so you should have some idea what to do."},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]Thanks! Now then, if lambda is the square root of z..."},
+	{"Name":"[color=black]Player", "Text":"[color=black]Well, no one ever accused scientists of being tactful.  Let's get to work!"}
+]

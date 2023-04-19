@@ -1,8 +1,4 @@
-def swap(my_list):
-
-	A = my_list[0]
-	B = my_list[1]
+def swap(A,B):
+	# swap the values of A and B
 	
-	# write code here
-
-	return [A, B]
+	print(A,B)

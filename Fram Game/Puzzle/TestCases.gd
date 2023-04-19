@@ -24,7 +24,7 @@ func add_case(case_name, passed, input, expected, user_output):
 	var input_text = "Input: " + input
 	var user_out_text = "Your output: " + user_output
 	var expected_output_text = "Expected: " + expected
-	var dropdown_text = input_text + "\n" + user_out_text + "\n" + expected_output_text + "\n"
+	var dropdown_text = input_text + "\n" + user_out_text + "\n" + expected_output_text
 	new_case.dropdown_text = dropdown_text
 	
 	var dropdown = Dropdown.instance()

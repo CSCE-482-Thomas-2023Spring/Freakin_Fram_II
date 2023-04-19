@@ -31,7 +31,7 @@ editor_only = false
 margin_left = 752.0
 margin_top = 37.0
 margin_right = 976.0
-margin_bottom = 506.0
+margin_bottom = 353.0
 text = "placeholder"
 readonly = true
 wrap_enabled = true
@@ -59,14 +59,14 @@ margin_right = 690.0
 margin_bottom = 566.0
 
 [node name="TutorialButton" type="Button" parent="."]
-anchor_left = 0.732422
-anchor_top = 0.817187
+anchor_left = 0.734
+anchor_top = 0.864
 anchor_right = 0.858398
-anchor_bottom = 0.89375
-margin_left = 7.0
-margin_top = 3.0
-margin_right = 7.0
-margin_bottom = 3.0
+anchor_bottom = 0.941
+margin_left = 0.383972
+margin_top = 0.0400391
+margin_right = 1.99988
+margin_bottom = -0.239685
 text = "Tutorials"
 align = 2
 __meta__ = {
@@ -78,10 +78,14 @@ position = Vector2( 23, 24 )
 texture = ExtResource( 3 )
 
 [node name="ExitButton" type="Button" parent="."]
-anchor_left = 0.884766
-anchor_top = 0.821875
+anchor_left = 0.888
+anchor_top = 0.864
 anchor_right = 0.948242
-anchor_bottom = 0.898438
+anchor_bottom = 0.941
+margin_left = -3.31207
+margin_top = 0.039978
+margin_right = -0.000366211
+margin_bottom = -0.239746
 text = "Back"
 __meta__ = {
 "_edit_use_anchors_": true
@@ -153,13 +157,16 @@ anchor_left = 0.732
 anchor_top = 0.058
 anchor_right = 0.955
 anchor_bottom = 0.414
-margin_left = 0.432007
-margin_top = -0.119999
+margin_left = 2.43201
+margin_top = 328.88
 margin_right = -1.91998
-margin_bottom = 175.04
+margin_bottom = 260.04
 mouse_filter = 2
 color = Color( 0.164706, 0.160784, 0.160784, 1 )
 script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="ScrollContainer" type="ScrollContainer" parent="TestCases"]
 anchor_right = 1.0

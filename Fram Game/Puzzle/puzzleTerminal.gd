@@ -215,6 +215,7 @@ func on_button_pressed():
 		var inp = "N/A"
 		var user_output = ""
 		var expected_out = ""
+		var regex_carriage = RegEx.new()
 		if testData.data.useFunction:
 			var data = process_test_results_function(results.testResults)
 			successCountString = data[0]
@@ -235,10 +236,11 @@ func on_button_pressed():
 			else:
 				user_output = str(case.userstdout)
 				expected_out = str(case.stdout)
-				var regex_carriage = RegEx.new()
 				regex_carriage.compile("\\r")
-				user_output = regex_carriage.sub(user_output, "", true)
-				expected_out = regex_carriage.sub(expected_out, "", true)
+				var temp = regex_carriage.sub(user_output, "", true)
+				user_output = temp
+				temp = regex_carriage.sub(expected_out, "", true)
+				expected_out = temp
 			
 			$TestCases.add_case("Test Case " + str(i+1), case.passed, str(inp), expected_out, user_output)
 	

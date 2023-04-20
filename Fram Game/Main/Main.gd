@@ -30,6 +30,8 @@ var new_game = true
 var mainMenu = preload("res://Menus/MainMenu.tscn")
 var pauseMenu = preload("res://Menus/PauseMenu.tscn")
 var roomScenes = {}
+var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
+var darkness = preload("res://Objects/Darkness.tscn")
 
 # Function called from level to update new task status values
 func update_statuses(new_statuses: Array):
@@ -485,6 +487,29 @@ func load_room(room_name: String, source_room: String):
 		current_scene.queue_free()
 		current_scene = new_room
 		
+		# Maintain darkness if present
+		if (story[0] == 1 and story[1] == 0):
+			# Remove existing darkess
+			if (has_node("Darkness")):
+				print("Reinstating darkness")
+				var dark_box = get_node("Darkness")
+				remove_child(dark_box)
+				dark_box.queue_free()
+			
+			# Place new darkness
+			var new_dark = darkness.instance()
+			add_child(new_dark)
+			
+			# Keep room label and menu button visible over darkness
+			if (has_node("RoomLabel")):
+				var room_label = get_node("RoomLabel")
+				remove_child(room_label)
+				add_child(room_label)
+			if (has_node("MenuButton")):
+				var menu_button = get_node("MenuButton")
+				remove_child(menu_button)
+				add_child(menu_button)
+		
 		# Update value of current room number & label display
 		current_level = room_type.get(room_name)
 		$RoomLabel.text = room_type.keys()[current_level]
@@ -508,6 +533,14 @@ func room_pos(level_name: String, source_name: String = "") -> Vector2:
 
 # Overhead story progress-checking function: triggers story events and unlocks tasks in order
 func check_story():
+	# Disable player interaction & hide menu during event
+	var player = current_scene.get_node("Player")
+	player.disable()
+	$MenuButton.hide()
+	
+	# Determine if an event has been triggered
+	var event_triggered = false
+	
 	# Wait a moment before triggering events
 	yield(get_tree().create_timer(0.1), "timeout")
 	
@@ -519,7 +552,8 @@ func check_story():
 		# When Level 0 Task 1 is completed, unblock Level 1 Task 1
 		level_tasks[1][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 1 (Maintenance Closet) task triggers
 	level_status = level_tasks[1]
@@ -527,7 +561,8 @@ func check_story():
 		# When Level 1 Task 1 is completed, unblock Level 1 Task 2
 		level_tasks[1][1] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	if (level_status[1] == 3 and level_tasks[2][0] == 0):
 		# When Level 1 Task 2 is completed, unblock Level 2 Task 1
 		level_tasks[2][0] = 1
@@ -537,7 +572,8 @@ func check_story():
 		level_tasks[2][4] = 1
 		level_tasks[2][5] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 2 (Laboratory) task triggers - TODO: update as necessary
 	level_status = level_tasks[2]
@@ -546,12 +582,14 @@ func check_story():
 		level_tasks[2][4] = 1
 		level_tasks[3][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	if (level_status[5] == 3 and level_tasks[3][0] == 0):
 		# When Level 2 Task 7 is completed, unblock Level 3 Task 1
 		level_tasks[3][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 3 (Navigation) task triggers
 	level_status = level_tasks[3]
@@ -559,7 +597,8 @@ func check_story():
 		# When Level 3 Task 1 is completed, unblock Level 4 Task 1
 		level_tasks[4][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 4 (Security) task triggers
 	level_status = level_tasks[4]
@@ -567,12 +606,14 @@ func check_story():
 		# When Level 4 Task 1 is completed, unblock Level 4 Task 2
 		level_tasks[4][1] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	if (level_status[0] == 3 and level_tasks[5][0] == 0):
 		# When Level 4 Task 2 is completed, unblock Level 5 Task 1
 		level_tasks[5][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 5 (Crew Quarters) task triggers
 	level_status = level_tasks[5]
@@ -580,12 +621,14 @@ func check_story():
 		# When Level 5 Task 1 is completed, unblock Level 5 Task 2
 		level_tasks[5][1] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	if (level_status[0] == 3 and level_tasks[6][0] == 0):
 		# When Level 5 Task 2 is completed, unblock Level 6 Task 1
 		level_tasks[6][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 6 (Communications) task triggers
 	level_status = level_tasks[6]
@@ -593,12 +636,14 @@ func check_story():
 		# When Level 6 Task 1 is completed, unblock Level 6 Task 2
 		level_tasks[6][1] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	if (level_status[0] == 3 and level_tasks[7][0] == 0):
 		# When Level 6 Task 2 is completed, unblock Level 7 Task 1
 		level_tasks[7][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 7 (Reactor Room) task triggers
 	level_status = level_tasks[7]
@@ -609,14 +654,39 @@ func check_story():
 	if (current_level == 0):
 		# Trigger first cutscene: Ingrid wakes Player from cryosleep
 		if (story[0] == 0):
-			# TODO: event
+			# Add layer of darkness
+			var dark_box = darkness.instance()
+			add_child(dark_box)
+			
+			# Keep room label and menu button above darkness
+			if (has_node("RoomLabel")):
+				var room_label = get_node("RoomLabel")
+				remove_child(room_label)
+				add_child(room_label)
+			if (has_node("MenuButton")):
+				var menu_button = get_node("MenuButton")
+				remove_child(menu_button)
+				add_child(menu_button)
+				
+			# Call story introduction dialogue
+			yield(dialogue("Level0/Room-Introduction.json"), "completed")
+			
+			# Indicate this event has been triggered
 			story[0] = 1
-			check_story()
-			return
+			event_triggered = true
 	
 	# Maintenance Closet events
 	if (current_level == 1):
-		pass
+		# Remove darkness box on second task completion
+		if (story[1] == 0 and level_tasks[1][1] == 3):
+			# Disable darkness
+			if (has_node("Darkness")):
+				var dark_box = get_node("Darkness")
+				dark_box.queue_free()
+			
+			# Indicate this event has been triggered
+			story[1] = 1
+			event_triggered = true
 	
 	# Laboratory events
 	if (current_level == 2):
@@ -657,6 +727,14 @@ func check_story():
 	# East Hallway events
 	if (current_level == 11):
 		pass
+	
+	# Re-enable player interaction & unhide menu after event
+	player.enable()
+	$MenuButton.show()
+	
+	# If at least one event was triggered, check for story updates again
+	if (event_triggered):
+		check_story()
 
 # When menu is pressed, open menu scene over current scene
 func _on_MenuButton_pressed():
@@ -682,4 +760,12 @@ func close_pause():
 	
 	# Unpause current level scene
 	add_child(current_scene)
-	
+
+# Reusable dialogue-calling function
+func dialogue(json_path):
+	# Call dialgoue box
+	var root = get_tree().get_root()
+	var box = dialogueBox.instance()
+	box.get_node("DialogueBox")._set_path(json_path)
+	root.add_child(box)
+	yield(box, "tree_exited")

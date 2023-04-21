@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Puzzle/TestCases/TestInfo.gd" type="Script" id=1]
-[ext_resource path="res://green_dot.png" type="Texture" id=2]
-[ext_resource path="res://red_dot.png" type="Texture" id=3]
+[ext_resource path="res://Art/green_dot.png" type="Texture" id=2]
+[ext_resource path="res://Art/red_dot.png" type="Texture" id=3]
 
 [node name="Control" type="Control"]
 anchor_right = 0.22

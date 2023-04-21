@@ -9,27 +9,27 @@
         {
             "input": [200, 100],
             "returns": null,
-            "stdout": "100 200\r\n"
+            "stdout": "100 200\n"
         },
 		{
             "input": [23, 53],
             "returns": null,
-            "stdout": "53 23\r\n"
+            "stdout": "53 23\n"
         },
 		{
             "input": [56, 3],
             "returns": null,
-            "stdout": "3 56\r\n"
+            "stdout": "3 56\n"
         },
 		{
             "input": [-12, 123],
             "returns": null,
-            "stdout": "123 -12\r\n"
+            "stdout": "123 -12\n"
         },
 		{
             "input": [0, 0],
             "returns": null,
-            "stdout": "0 0\r\n"
+            "stdout": "0 0\n"
         }
     ]
 }

@@ -50,7 +50,7 @@ func _physics_process(delta):
 	velocity = velocity.normalized() * speed
 
 	# Move player
-	move_and_collide(velocity * delta)
+	move_and_slide(velocity)
 	
 	# Interaction
 	var interactable = get_interactable()

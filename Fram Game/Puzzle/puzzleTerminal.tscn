@@ -91,6 +91,31 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="TestCases" type="ColorRect" parent="."]
+anchor_left = 0.732
+anchor_top = 0.058
+anchor_right = 0.955
+anchor_bottom = 0.414
+margin_left = 2.43201
+margin_top = 328.88
+margin_right = -1.91998
+margin_bottom = 260.04
+mouse_filter = 2
+color = Color( 0.164706, 0.160784, 0.160784, 1 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TestCases"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 0.0139771
+margin_bottom = 3.05176e-05
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TestCases/ScrollContainer"]
+mouse_filter = 2
+
 [node name="Tutorial" type="ColorRect" parent="."]
 visible = false
 margin_left = 74.0
@@ -151,31 +176,6 @@ margin_top = -0.235962
 margin_right = 0.140015
 margin_bottom = 0.15802
 text = "Back"
-
-[node name="TestCases" type="ColorRect" parent="."]
-anchor_left = 0.732
-anchor_top = 0.058
-anchor_right = 0.955
-anchor_bottom = 0.414
-margin_left = 2.43201
-margin_top = 328.88
-margin_right = -1.91998
-margin_bottom = 260.04
-mouse_filter = 2
-color = Color( 0.164706, 0.160784, 0.160784, 1 )
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="ScrollContainer" type="ScrollContainer" parent="TestCases"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = 0.0139771
-margin_bottom = 3.05176e-05
-
-[node name="VBoxContainer" type="VBoxContainer" parent="TestCases/ScrollContainer"]
-mouse_filter = 2
 
 [connection signal="pressed" from="Editor/VBoxContainer/Output/Button" to="." method="on_button_pressed"]
 [connection signal="pressed" from="TutorialButton" to="." method="tutorial_button_pressed"]

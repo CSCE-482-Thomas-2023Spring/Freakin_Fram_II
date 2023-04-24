@@ -1,7 +1,7 @@
 class_name Player
 extends KinematicBody2D
 
-export var speed = 400
+export var speed = 300
 var can_move = true
 var screen_size
 var player_size

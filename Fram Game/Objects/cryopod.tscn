@@ -3,10 +3,9 @@
 [ext_resource path="res://Art/cryo_full.png" type="Texture" id=1]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
-points = PoolVector2Array( 53.9562, 86.7483, 10.0008, 86.7483, 10, 44, 51, 46 )
+points = PoolVector2Array( 11.6288, 57.9098, 51.8631, 58.375, 52.0956, 77.6781, 38.3741, 85.5854, 26.5132, 85.1203, 12.3265, 76.2827, 11.1637, 72.7942 )
 
 [sub_resource type="TileSet" id=1]
-resource_local_to_scene = true
 0/name = "cryo_full.png 0"
 0/texture = ExtResource( 1 )
 0/tex_offset = Vector2( 0, 0 )

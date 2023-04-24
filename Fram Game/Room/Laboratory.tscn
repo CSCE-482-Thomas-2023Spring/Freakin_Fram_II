@@ -468,7 +468,11 @@ tile_data = PoolIntArray( 13, 1610612744, 0, 14, 1, 0, 15, 1, 0, 16, 1, 0, 17, 1
 tile_data = PoolIntArray( 14, 3, 0, 17, 4, 0, 65550, 3, 0, 65553, 4, 0, 131086, 3, 0, 131089, 4, 0, 196611, 1, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 196621, 0, 0, 196622, 8, 0, 196625, 7, 0, 196626, 0, 0, 196627, 0, 0, 196628, 0, 0, 196629, 0, 0, 196630, 0, 0, 196631, 0, 0, 196632, 0, 0, 196633, 0, 0, 196634, 0, 0, 196635, 0, 0, 196636, 2, 0, 262147, 3, 0, 262172, 4, 0, 327683, 3, 0, 327708, 4, 0, 393219, 3, 0, 393244, 4, 0, 458755, 3, 0, 458780, 4, 0, 524291, 3, 0, 524316, 4, 0, 589827, 3, 0, 589852, 4, 0, 655363, 3, 0, 655388, 4, 0, 720899, 3, 0, 720924, 4, 0, 786435, 3, 0, 786460, 4, 0, 851971, 3, 0, 851996, 4, 0, 917507, 3, 0, 917532, 4, 0, 983043, 3, 0, 983068, 4, 0, 1048579, 3, 0, 1048604, 4, 0 )
 
 [node name="LabTable6" parent="." instance=ExtResource( 7 )]
-position = Vector2( 141, 202 )
+position = Vector2( 888, 232 )
+
+[node name="Paper" type="Sprite" parent="LabTable6"]
+position = Vector2( -8, 32 )
+texture = ExtResource( 15 )
 
 [node name="LabTable5" parent="." instance=ExtResource( 7 )]
 position = Vector2( 192, 428 )
@@ -629,12 +633,8 @@ this_room = 2
 position = Vector2( 64, 16 )
 shape = SubResource( 16 )
 
-[node name="Paper" type="Sprite" parent="."]
-position = Vector2( 141, 232 )
-texture = ExtResource( 15 )
-
 [node name="Sove" parent="." instance=ExtResource( 17 )]
-position = Vector2( 753, 256 )
+position = Vector2( 837, 283 )
 
 [node name="Player" parent="." instance=ExtResource( 6 )]
 position = Vector2( 513, 65 )

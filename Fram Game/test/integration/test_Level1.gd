@@ -1,6 +1,4 @@
 extends GutTest
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+# idea for an integration test to somehow run through level 1?

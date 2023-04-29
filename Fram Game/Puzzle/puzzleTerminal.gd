@@ -286,12 +286,14 @@ func tutorial_button_pressed():
 		
 	# Set terminal to readonly
 	$"Editor/VBoxContainer/Input".readonly = true
+	pause = true
 		
 	$Tutorial.visible = not $Tutorial.visible
 	
 func tutorial_back_pressed():
 	# Allow the editor to resume editing
 	$"Editor/VBoxContainer/Input".readonly = false
+	pause = false
 	$Tutorial.visible = not $Tutorial.visible
 	
 

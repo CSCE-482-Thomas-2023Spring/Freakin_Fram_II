@@ -15,7 +15,7 @@
 [ext_resource path="res://Art/petri_dish.png" type="Texture" id=14]
 [ext_resource path="res://Art/paper_sideways.png" type="Texture" id=15]
 [ext_resource path="res://Objects/Trim.tscn" type="PackedScene" id=16]
-[ext_resource path="res://Objects/Sove.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Objects/NPC.tscn" type="PackedScene" id=17]
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -633,8 +633,14 @@ this_room = 2
 position = Vector2( 64, 16 )
 shape = SubResource( 16 )
 
-[node name="Sove" parent="." instance=ExtResource( 17 )]
+[node name="CharSove" parent="." instance=ExtResource( 17 )]
 position = Vector2( 837, 283 )
+unblock_level = 1
+unblock_task = 2
+completed_level = 2
+completed_task = 5
+open_task_on_unblock = true
+open_level = 2
 
 [node name="Player" parent="." instance=ExtResource( 6 )]
 position = Vector2( 513, 65 )

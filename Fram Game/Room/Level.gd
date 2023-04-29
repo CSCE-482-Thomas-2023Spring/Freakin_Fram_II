@@ -45,11 +45,13 @@ func update_task_status(task_num: int, child_ref):
 	# Update children's tasks
 	task_update()
 
-# Update at least one task status - called on character interaction - TODO: test!
-func update_char_status(char_ref):
-	# Update all status values
-	var char_status = char_ref.get_status()
-	task_statuses = char_status
+# Open target task status - called on main character dialogue
+func char_open_task(char_ref):
+	# Update corresponding level task
+	var open_level = char_ref.get_level()
+	var open_task = char_ref.get_task() - 1
+	task_statuses[open_level][open_task] = 1
+	
 	# Update Main's task list
 	emit_signal("level_update")
 	# Update children's tasks
@@ -89,13 +91,28 @@ func task_update():
 				child.connect("status_update", self, "update_task_status", [task_num, child])
 		
 		# If child is a character
-		elif (child_name.substr(0, 9) == "Character"):
-			# Update character's status values - TODO: test & remove print (after testing)
-			print("Found character " + child_name.substr(9, 1))
-			child.set_status(task_statuses)
-			# Initialize character's connction - TODO: test
+		elif (child_name.substr(0, 4) == "Char"):
+			
+			# Unblock character if applicable
+			if (child.get_status() == 0):
+				var unblock_level = child.unblock_level
+				var unblock_task = child.unblock_task - 1
+				var unblock_status = child.unblock_status
+				if (task_statuses[unblock_level][unblock_task] == unblock_status):
+					child.set_status(1)
+			
+			# Set character as completed if applicable
+			var completed_level = child.completed_level
+			var completed_task = child.completed_task - 1
+			var completed_status = child.completed_status
+			if (task_statuses[completed_level][completed_task] == completed_status):
+				child.set_status(3)
+			
+			# Initialize character's connections
 			if (not init_connections):
-				child.connect("status_update", self, "update_char_status", [child])
+				child.connect("open_task", self, "char_open_task", [child])
+				
+				# TODO: add connection to update character's interaction status if spoken to once
 		
 		# If child is a hideable object
 		elif (child_name.substr(0, 8) == "Hideable"):

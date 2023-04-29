@@ -568,26 +568,34 @@ func check_story():
 	if (level_status[1] == 3 and level_tasks[2][0] == 0):
 		# When Level 1 Task 2 is completed, unblock Level 2 Task 1
 		level_tasks[2][0] = 1
-		level_tasks[2][1] = 1
-		level_tasks[2][2] = 1
-		level_tasks[2][3] = 1
-		level_tasks[2][4] = 1
-		level_tasks[2][5] = 1
 		current_scene.set_status(level_tasks)
 		# Indicate an event has been triggered
 		event_triggered = true
 	
-	# Level 2 (Laboratory) task triggers - TODO: update as necessary
+	# Level 2 (Laboratory) task triggers
 	level_status = level_tasks[2]
-	if (level_status[0] == 3 and level_status[1] == 3 and level_status[2] == 3 and level_status[3] == 3 and level_status[4] == 3 and level_tasks[2][6] == 0):
-		# When Level 2 Tasks 6 are completed, unblock Level 2 Task 7
-		level_tasks[2][4] = 1
-		level_tasks[3][0] = 1
+	if (level_status[0] == 3 and level_status[1] == 0):
+		level_tasks[2][1] = 1
 		current_scene.set_status(level_tasks)
 		# Indicate an event has been triggered
 		event_triggered = true
-	if (level_status[5] == 3 and level_tasks[3][0] == 0):
-		# When Level 2 Task 7 is completed, unblock Level 3 Task 1
+	if (level_status[1] == 3 and level_status[2] == 0):
+		level_tasks[2][2] = 1
+		current_scene.set_status(level_tasks)
+		# Indicate an event has been triggered
+		event_triggered = true
+	if (level_status[2] == 3 and level_status[3] == 0):
+		level_tasks[2][3] = 1
+		current_scene.set_status(level_tasks)
+		# Indicate an event has been triggered
+		event_triggered = true
+	if (level_status[3] == 3 and level_status[4] == 0):
+		level_tasks[2][4] = 1
+		current_scene.set_status(level_tasks)
+		# Indicate an event has been triggered
+		event_triggered = true
+	if (level_status[4] == 3 and level_tasks[3][0] == 0):
+		# When Level 2 Tasks 6 are completed, unblock Level 3 Task 1
 		level_tasks[3][0] = 1
 		current_scene.set_status(level_tasks)
 		# Indicate an event has been triggered

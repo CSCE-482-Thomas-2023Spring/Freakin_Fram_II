@@ -15,15 +15,12 @@ var dialog
 var dialogPathFull
 var phraseNum = 0
 var finished = false
-var menu_visible = false
 
 # Initializes variables & begins display w/ first phrase
 func _ready():
 	# Hide pause button
 	if (get_tree().get_root().has_node("Main")):
-		if (get_tree().get_root().get_node("Main").get_node("MenuButton").is_visible()):
-			menu_visible = true
-			get_tree().get_root().get_node("Main").get_node("MenuButton").hide()
+		get_tree().get_root().get_node("Main").menu_disable()
 	
 	# Initialize dialogue box
 	dialogPathFull = "res://SourceFiles/" + dialogPath
@@ -70,9 +67,9 @@ func displayLine() -> void:
 func nextPhrase() -> void:
 	# Ends scene if dialogue is complete
 	if phraseNum >= len(dialog):
-		# Display pause button once again if it was already visible
-		if (menu_visible):
-			get_tree().get_root().get_node("Main").get_node("MenuButton").show()
+		# Display pause button once again
+		if (get_tree().get_root().has_node("Main")):
+			get_tree().get_root().get_node("Main").menu_enable()
 		# Close dialogue box
 		get_parent().queue_free()
 		return

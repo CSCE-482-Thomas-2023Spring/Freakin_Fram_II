@@ -25,6 +25,8 @@ var pause_scene
 var user_path = ProjectSettings.globalize_path("user://")
 # Global variable indicating this is a new game for save data purposes
 var new_game = true
+# Counter for how hidden the pause menu is
+var menu_disabled = 0
 
 # Preload necessary scene types
 var mainMenu = preload("res://Menus/MainMenu.tscn")
@@ -64,13 +66,16 @@ func update_conversation(new_conversations: Array):
 
 # Load tasks & start menu on game start
 func _ready():
+	# Delete temp files in case of incorrect game closing
+	delete_temp()
+	
 	# Initialize global variables & level starting locations to default values, preload scenes
 	init_scenes()
 	init_globals()
 	init_locations()
 	init_user()
 	
-	# Hide pause menu button
+	# Hide pause menu button (directly)
 	$MenuButton.hide()
 	
 	# Call title screen for Start / Continue options; initiate game based on signal
@@ -335,7 +340,7 @@ func save_data():
 		level_name = source_dir.get_next()
 	#source_dir.close()
 
-# Delete all user save data from the user folder
+# Delete all permanent user save data from the user folder
 func delete_save():
 	# Delete global data
 	var source_dir = Directory.new()
@@ -381,12 +386,15 @@ func delete_save():
 							file_name = task_dir.get_next()
 							continue
 						
-						# Delete each file found
+						# Delete each non-temp file found
 						if (not task_dir.current_is_dir()):
 							var this_path = user_path + "SaveFiles/" + level_name + "/" + task_name + "/"
-							source_dir.remove(this_path + file_name)
-							if (source_dir.file_exists(this_path + file_name)):
-								print("ERROR: File SaveFiles/" + level_name + "/" + task_name + "/" + file_name + " was not deleted!")
+							if (file_name != "StarterCode-Temp.py" and file_name != "TaskData-Temp.json"):
+								source_dir.remove(this_path + file_name)
+								
+								# Verify deletion
+								if (source_dir.file_exists(this_path + file_name)):
+									print("ERROR: File SaveFiles/" + level_name + "/" + task_name + "/" + file_name + " was not deleted!")
 						
 						file_name = task_dir.get_next()
 					
@@ -403,10 +411,8 @@ func delete_save():
 	# Reinitialize user data
 	init_user()
 
-# Return to the title screen of the game - called by pause menu
-func game_title():
-	# Delete any existing temporary task data
-	# ----------------------------------------------------------------------
+# Delete temporary task data
+func delete_temp():
 	# Open SourceFiles directory to iterate through tasks
 	var source_dir = Directory.new()
 	source_dir.open(user_path + "SaveFiles")
@@ -443,8 +449,11 @@ func game_title():
 		
 		# Load next level folder
 		level_name = source_dir.get_next()
-	
-	#source_dir.close()
+
+# Return to the title screen of the game - called by pause menu
+func game_title():
+	# Delete any existing temporary task data
+	delete_temp()
 	
 	# Close current level and reset global variables
 	close_pause()
@@ -466,7 +475,7 @@ func load_room(room_name: String, source_room: String):
 	# Ensure room transition is valid (there exists connection between source and dest rooms)
 	if ((entry_locations.has(room_name)) and ((source_room == "") or entry_locations[room_name].has(source_room))):
 		
-		# Unhide pause menu button
+		# Unhide pause menu button (directly because of game start)
 		$MenuButton.show()
 		
 		# Load room scene
@@ -536,13 +545,10 @@ func check_story():
 	# Disable player interaction & hide menu during event
 	var player = current_scene.get_node("Player")
 	player.disable()
-	$MenuButton.hide()
+	menu_disable()
 	
 	# Determine if an event has been triggered
 	var event_triggered = false
-	
-	# Wait a moment before triggering events
-	yield(get_tree().create_timer(0.1), "timeout")
 	
 	# Immediate task-solving triggers & updates:
 	# -----------------------------------------------
@@ -563,30 +569,26 @@ func check_story():
 		current_scene.set_status(level_tasks)
 		# Indicate an event has been triggered
 		event_triggered = true
-	if (level_status[1] == 3 and level_tasks[2][0] == 0):
-		# When Level 1 Task 2 is completed, unblock Level 2 Task 1
-		level_tasks[2][0] = 1
-		level_tasks[2][1] = 1
-		level_tasks[2][2] = 1
-		level_tasks[2][3] = 1
-		level_tasks[2][4] = 1
-		level_tasks[2][5] = 1
-		current_scene.set_status(level_tasks)
-		# Indicate an event has been triggered
-		event_triggered = true
 	
-	# Level 2 (Laboratory) task triggers - TODO: update as necessary
+	# Level 2 (Laboratory) task triggers
 	level_status = level_tasks[2]
-	if (level_status[0] == 3 and level_status[1] == 3 and level_status[2] == 3 and level_status[3] == 3 and level_status[4] == 3 and level_tasks[2][6] == 0):
-		# When Level 2 Tasks 6 are completed, unblock Level 2 Task 7
-		level_tasks[2][4] = 1
-		level_tasks[3][0] = 1
+	if (level_status[0] == 3 and level_status[1] == 0):
+		level_tasks[2][1] = 1
 		current_scene.set_status(level_tasks)
 		# Indicate an event has been triggered
 		event_triggered = true
-	if (level_status[5] == 3 and level_tasks[3][0] == 0):
-		# When Level 2 Task 7 is completed, unblock Level 3 Task 1
-		level_tasks[3][0] = 1
+	if (level_status[1] == 3 and level_status[2] == 0):
+		level_tasks[2][2] = 1
+		current_scene.set_status(level_tasks)
+		# Indicate an event has been triggered
+		event_triggered = true
+	if (level_status[2] == 3 and level_status[3] == 0):
+		level_tasks[2][3] = 1
+		current_scene.set_status(level_tasks)
+		# Indicate an event has been triggered
+		event_triggered = true
+	if (level_status[3] == 3 and level_status[4] == 0):
+		level_tasks[2][4] = 1
 		current_scene.set_status(level_tasks)
 		# Indicate an event has been triggered
 		event_triggered = true
@@ -730,7 +732,7 @@ func check_story():
 	
 	# Re-enable player interaction & unhide menu after event
 	player.enable()
-	$MenuButton.show()
+	menu_enable()
 	
 	# If at least one event was triggered, check for story updates again
 	if (event_triggered):
@@ -739,7 +741,7 @@ func check_story():
 # When menu is pressed, open menu scene over current scene
 func _on_MenuButton_pressed():
 	# Open pause menu and set focus
-	$MenuButton.hide()
+	menu_disable()
 	pause_scene = pauseMenu.instance()
 	add_child(pause_scene)
 	pause_scene.get_node("VBoxContainer").get_node("SaveButton").grab_focus()
@@ -752,11 +754,24 @@ func _on_MenuButton_pressed():
 	pause_scene.connect("quit_game", self, "game_title")
 	pause_scene.connect("close_menu", self, "close_pause")
 
+# Disable pause menu
+func menu_disable():
+	menu_disabled += 1
+	$MenuButton.hide()
+
+# Enable pause menu if not still disabled
+func menu_enable():
+	menu_disabled -= 1
+	if (menu_disabled == 0):
+		$MenuButton.show()
+	elif (menu_disabled < 0):
+		print("ERROR: menu_disabled = " + str(menu_disabled))
+
 # Close pause menu - called from pause menu
 func close_pause():
 	# Close pause menu and redisplay button
 	pause_scene.queue_free()
-	$MenuButton.show()
+	menu_enable()
 	
 	# Unpause current level scene
 	add_child(current_scene)

@@ -58,6 +58,9 @@ margin_top = 353.0
 margin_right = 690.0
 margin_bottom = 566.0
 
+[node name="Button" parent="Editor/VBoxContainer/Output" index="0"]
+focus_mode = 0
+
 [node name="TutorialButton" type="Button" parent="."]
 anchor_left = 0.734
 anchor_top = 0.864
@@ -67,6 +70,7 @@ margin_left = 0.383972
 margin_top = 0.0400391
 margin_right = 1.99988
 margin_bottom = -0.239685
+focus_mode = 0
 text = "Tutorials"
 align = 2
 __meta__ = {
@@ -86,6 +90,8 @@ margin_left = -3.31207
 margin_top = 0.039978
 margin_right = -0.000366211
 margin_bottom = -0.239746
+focus_mode = 0
+enabled_focus_mode = 0
 text = "Back"
 __meta__ = {
 "_edit_use_anchors_": true

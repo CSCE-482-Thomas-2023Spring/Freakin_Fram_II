@@ -5,7 +5,7 @@ class_name ParseImport
 # var a = 2
 # var b = "text"
 var import_whitelist = ["math", "functions"]
-var import_blacklist = ["sys"]
+var import_blacklist = ["sys", "os"]
 var imports = []
 var invalid_import = ""
 var file = ""

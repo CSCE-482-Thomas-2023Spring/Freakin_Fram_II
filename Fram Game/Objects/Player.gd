@@ -20,11 +20,7 @@ func _ready():
 	enable()
 	#$AnimationPlayer.player("idle")
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
-func _physics_process(delta):
+func _physics_process(_delta):
 	
 	# Prevent movement if player movement is disabled
 	if !can_move:

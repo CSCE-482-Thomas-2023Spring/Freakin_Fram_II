@@ -66,6 +66,9 @@ func update_conversation(new_conversations: Array):
 
 # Load tasks & start menu on game start
 func _ready():
+	# Delete temp files in case of incorrect game closing
+	delete_temp()
+	
 	# Initialize global variables & level starting locations to default values, preload scenes
 	init_scenes()
 	init_globals()
@@ -337,7 +340,7 @@ func save_data():
 		level_name = source_dir.get_next()
 	#source_dir.close()
 
-# Delete all user save data from the user folder
+# Delete all permanent user save data from the user folder
 func delete_save():
 	# Delete global data
 	var source_dir = Directory.new()
@@ -383,12 +386,15 @@ func delete_save():
 							file_name = task_dir.get_next()
 							continue
 						
-						# Delete each file found
+						# Delete each non-temp file found
 						if (not task_dir.current_is_dir()):
 							var this_path = user_path + "SaveFiles/" + level_name + "/" + task_name + "/"
-							source_dir.remove(this_path + file_name)
-							if (source_dir.file_exists(this_path + file_name)):
-								print("ERROR: File SaveFiles/" + level_name + "/" + task_name + "/" + file_name + " was not deleted!")
+							if (file_name != "StarterCode-Temp.py" and file_name != "TaskData-Temp.json"):
+								source_dir.remove(this_path + file_name)
+								
+								# Verify deletion
+								if (source_dir.file_exists(this_path + file_name)):
+									print("ERROR: File SaveFiles/" + level_name + "/" + task_name + "/" + file_name + " was not deleted!")
 						
 						file_name = task_dir.get_next()
 					
@@ -405,10 +411,8 @@ func delete_save():
 	# Reinitialize user data
 	init_user()
 
-# Return to the title screen of the game - called by pause menu
-func game_title():
-	# Delete any existing temporary task data
-	# ----------------------------------------------------------------------
+# Delete temporary task data
+func delete_temp():
 	# Open SourceFiles directory to iterate through tasks
 	var source_dir = Directory.new()
 	source_dir.open(user_path + "SaveFiles")
@@ -445,8 +449,11 @@ func game_title():
 		
 		# Load next level folder
 		level_name = source_dir.get_next()
-	
-	#source_dir.close()
+
+# Return to the title screen of the game - called by pause menu
+func game_title():
+	# Delete any existing temporary task data
+	delete_temp()
 	
 	# Close current level and reset global variables
 	close_pause()

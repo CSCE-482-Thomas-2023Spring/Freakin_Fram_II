@@ -31,6 +31,7 @@ var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var pause = false
 
 func update_tutorial(ind):
+	$"Tutorial/TutorialText".scroll_to_line(0)
 	$Tutorial/TutorialText.bbcode_text = "[img=750]res://Puzzle/Tutorials/" + tutorials[ind] + "[/img]"
 
 # Call a dialogue tree from input file location
@@ -132,9 +133,11 @@ func _ready():
 
 # Pause all editor functionality while dialogue is present	
 func pause_editor(instance):
+	pause = true
 	$Editor/VBoxContainer/Input.disabled = true
 	yield(instance, "tree_exited")
 	$Editor/VBoxContainer/Input.disabled = false
+	pause = false
 
 func process_test_results_function(cases):
 	successes = 0
@@ -192,14 +195,16 @@ func on_button_pressed():
 		return
 		
 	var editor_result = editor.executeUserCode()
-	
+	if (editor_result == "-1"):
+		return
+		
 	# Parse information from 
 	var jsonTestFile = File.new()
 	jsonTestFile.open("res://SourceFiles/" + source_path + "TaskData-Initial.json", File.READ)
 	var testData = JSON.parse(jsonTestFile.get_as_text()).result # this is the parsed test json
 	jsonTestFile.close()
 	var stdout = []
-	print(python_dir, [test_code_file_g, ProjectSettings.globalize_path("user://TaskData.json"), python_dir, godot_user_path_g])
+#	print(python_dir, [test_code_file_g, ProjectSettings.globalize_path("user://TaskData.json"), python_dir, godot_user_path_g])
 	var exit_code = OS.execute(python_dir, [test_code_file_g, ProjectSettings.globalize_path("user://TaskData.json"), python_dir, godot_user_path_g], true, stdout, true)	
 	print(stdout)
 	var file = File.new()
@@ -275,10 +280,20 @@ func on_button_pressed():
 
 # Call tutorial menu
 func tutorial_button_pressed():
+	# Do nothing if paused
+	if (pause):
+		return
+		
+	# Set terminal to readonly
+	$"Editor/VBoxContainer/Input".readonly = true
+		
 	$Tutorial.visible = not $Tutorial.visible
 	
 func tutorial_back_pressed():
+	# Allow the editor to resume editing
+	$"Editor/VBoxContainer/Input".readonly = false
 	$Tutorial.visible = not $Tutorial.visible
+	
 
 # Index displayed tutorial to the right
 func tutorial_right_pressed():
@@ -297,6 +312,11 @@ func tutorial_main_pressed():
 
 # Save current task progress to temporary file and exit terminal
 func _on_ExitButton_pressed():
+	
+	# Do nothing if paused
+	if (pause):
+		return
+	
 	# Delete this task's existing temporary py file
 	var f_py = File.new()
 	var temp_py = godot_user_path_g + "SaveFiles/" + source_path + "/StarterCode-Temp.py"

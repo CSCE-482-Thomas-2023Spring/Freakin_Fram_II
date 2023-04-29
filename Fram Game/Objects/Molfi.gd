@@ -94,11 +94,11 @@ func get_status() -> int:
 func dialogue(json_path):
 	# Use default task template dialogue if this task is missing unique interaction dialogue
 	var this_path = dialogue_path + json_path
-	print("PATH: ", this_path)
+#	print("PATH: ", this_path)
 	var f = File.new()
 	if (not f.file_exists("res://SourceFiles/" + this_path)):
 		this_path = "DefaultMessages/TaskTemplate/" + json_path
-	print("PATH: ", this_path)
+#	print("PATH: ", this_path)
 	
 	# Call dialogue box
 	var root = get_tree().get_root()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Room/Level.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Objects/LabTable.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Objects/TaskInstance.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Objects/Trim.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Objects/NPC.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Art/table_long.png" type="Texture" id=9]
 [ext_resource path="res://Art/paper.png" type="Texture" id=10]
 [ext_resource path="res://Art/computer.png" type="Texture" id=11]
@@ -35,6 +36,11 @@ extents = Vector2( 24, 16 )
 [sub_resource type="RectangleShape2D" id=4]
 resource_local_to_scene = true
 extents = Vector2( 16, 16 )
+
+[sub_resource type="StreamTexture" id=10]
+resource_local_to_scene = true
+flags = 4
+load_path = "res://.import/navigator.png-56683469eb764dd5f328e20ebfe5f7cb.stex"
 
 [node name="Navigation" type="YSort"]
 script = ExtResource( 2 )
@@ -128,7 +134,20 @@ position = Vector2( 0, 8 )
 shape = SubResource( 4 )
 
 [node name="Molfi" parent="." instance=ExtResource( 12 )]
+visible = false
 position = Vector2( 491, 218 )
+
+[node name="CharMolfi" parent="." instance=ExtResource( 8 )]
+position = Vector2( 488, 216 )
+unblock_level = 2
+unblock_task = 5
+completed_level = 3
+open_task_on_unblock = true
+open_level = 3
+dialogue_path = "Level3/Molfi/"
+
+[node name="Sprite" parent="CharMolfi" index="0"]
+texture = SubResource( 10 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 513, 65 )
@@ -140,3 +159,4 @@ position = Vector2( 513, 65 )
 [editable path="Table1"]
 [editable path="Task1"]
 [editable path="Molfi"]
+[editable path="CharMolfi"]

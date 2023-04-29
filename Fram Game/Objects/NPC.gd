@@ -36,7 +36,6 @@ var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 
 # Setter function for task's completion status - called in task initialization
 func set_status(new_status: int):
-	print("New status: " + str(new_status))
 	status = new_status
 
 # Getter function for task's completion status
@@ -72,7 +71,6 @@ func dialogue(json_path):
 	
 	# Use default task template dialogue if this task is missing unique interaction dialogue
 	var this_path = dialogue_path + json_path
-	print("PATH: ", this_path)
 	var f = File.new()
 	if (not f.file_exists("res://SourceFiles/" + this_path)):
 		this_path = "DefaultMessages/TaskTemplate/" + json_path
@@ -104,28 +102,23 @@ func interact():
 	# If NPC is blocked, give corresponding dialogue
 	if (status == 0):
 		yield(dialogue("Interact-Blocked.json"), "completed")
-		print("Blocked")
 	
 	# If NPC has not been talked to since unblocking, give main dialogue
 	elif (status == 1):
 		yield(dialogue("Interact-TaskStart.json"), "completed")
 		set_status(2)
-		print("Start")
 		
 		# If NPC unblocks a task, do so - TODO: connect signal & implement
 		if (open_task_on_unblock):
 			emit_signal("open_task")
-			print("Opening task")
 	
 	# If task is started, continue from before
 	elif (status == 2):
 		yield(dialogue("Interact-Return.json"), "completed")
-		print("Returning")
 	
 	# If task is completed, prevent access
 	elif (status == 3):
 		yield(dialogue("Interact-Complete.json"), "completed")
-		print("Completed")
 	
 	# Reenable player movement
 	player.enable()

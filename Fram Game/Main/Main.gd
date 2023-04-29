@@ -543,9 +543,6 @@ func check_story():
 	# Determine if an event has been triggered
 	var event_triggered = false
 	
-	# Wait a moment before triggering events
-	yield(get_tree().create_timer(0.1), "timeout")
-	
 	# Immediate task-solving triggers & updates:
 	# -----------------------------------------------
 	# Level 0 (Pod Room) task triggers
@@ -562,12 +559,6 @@ func check_story():
 	if (level_status[0] == 3 and level_tasks[1][1] == 0):
 		# When Level 1 Task 1 is completed, unblock Level 1 Task 2
 		level_tasks[1][1] = 1
-		current_scene.set_status(level_tasks)
-		# Indicate an event has been triggered
-		event_triggered = true
-	if (level_status[1] == 3 and level_tasks[2][0] == 0):
-		# When Level 1 Task 2 is completed, unblock Level 2 Task 1
-		level_tasks[2][0] = 1
 		current_scene.set_status(level_tasks)
 		# Indicate an event has been triggered
 		event_triggered = true
@@ -591,12 +582,6 @@ func check_story():
 		event_triggered = true
 	if (level_status[3] == 3 and level_status[4] == 0):
 		level_tasks[2][4] = 1
-		current_scene.set_status(level_tasks)
-		# Indicate an event has been triggered
-		event_triggered = true
-	if (level_status[4] == 3 and level_tasks[3][0] == 0):
-		# When Level 2 Tasks 6 are completed, unblock Level 3 Task 1
-		level_tasks[3][0] = 1
 		current_scene.set_status(level_tasks)
 		# Indicate an event has been triggered
 		event_triggered = true

@@ -38,6 +38,7 @@ func set_status(new_status: int):
 		# Get player and dequeue this task from interactables -> TODO: given time, rework to avoid accessing parent
 		if (get_parent().has_node("Player")):
 			if (get_parent().get_node("Player").get("interactables")):
+				yield(get_tree(), "idle_frame")
 				get_parent().get_node("Player").interactables.erase(self)
 
 # Setter function for task's completion status - called at task completion
@@ -68,6 +69,10 @@ func dialogue(json_path):
 
 # Reusable task-calling function
 func launch_task(json_path):
+	# Hide pause button
+	if (get_tree().get_root().has_node("Main")):
+		get_tree().get_root().get_node("Main").menu_disable()
+	
 	# Create task & set task variables
 	var root = get_tree().get_root()
 	var task = terminal.instance()
@@ -81,6 +86,10 @@ func launch_task(json_path):
 	# Launch task and wait until task is exited
 	root.add_child(task)
 	yield(task, "tree_exited")
+	
+	# Display pause button and resume player movement
+	if (get_tree().get_root().has_node("Main")):
+		get_tree().get_root().get_node("Main").menu_enable()
 
 # Set specific capabilities on task spawn
 func _ready():

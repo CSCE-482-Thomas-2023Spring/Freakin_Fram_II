@@ -716,7 +716,15 @@ func check_story():
 	
 	# Bridge events
 	if (current_level == 8):
-		pass
+		# End the game if the final puzzle is completed
+		if (story[2] == 0 and level_tasks[3][0] == 3):
+			
+			# Indicate this event has been triggered - won't happen bc change_scene
+			story[2] = 1
+			event_triggered = true
+			
+			# Jump to credits
+			get_tree().change_scene("res://Menus/Credits.tscn")
 	
 	# Cargo Bay events
 	if (current_level == 9):

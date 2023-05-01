@@ -35,7 +35,7 @@ extents = Vector2( 63.5, 38.5 )
 
 [sub_resource type="RectangleShape2D" id=22]
 resource_local_to_scene = true
-extents = Vector2( 7.5, 64.5 )
+extents = Vector2( 8, 64 )
 
 [node name="HallwayEast" type="YSort"]
 script = ExtResource( 2 )
@@ -114,7 +114,7 @@ position = Vector2( 781, 316 )
 condition_level = 7
 
 [node name="Collision" parent="HideableObject2/RigidBody2D" index="0"]
-position = Vector2( -4.5, 3.5 )
+position = Vector2( -5, 4 )
 shape = SubResource( 22 )
 
 [node name="Sprite" parent="HideableObject2" index="1"]

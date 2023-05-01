@@ -148,7 +148,7 @@ margin_left = -1.52588e-05
 margin_top = 0.144989
 margin_right = 0.329987
 margin_bottom = -0.0500488
-text = "Left"
+text = "Prev"
 
 [node name="right" type="Button" parent="Tutorial"]
 anchor_left = 0.585
@@ -159,7 +159,7 @@ margin_left = 0.0499878
 margin_top = 0.144989
 margin_right = -0.290039
 margin_bottom = -0.0500488
-text = "Right"
+text = "Next"
 
 [node name="main" type="Button" parent="Tutorial"]
 anchor_left = 0.433

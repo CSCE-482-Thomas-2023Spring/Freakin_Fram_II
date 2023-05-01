@@ -78,9 +78,9 @@ color = Color( 0.792157, 0.776471, 0.776471, 1 )
 
 [node name="CreditsTitle" type="RichTextLabel" parent="ArtCredits"]
 margin_left = 8.0
-margin_top = 72.0
+margin_top = 128.0
 margin_right = 180.0
-margin_bottom = 104.0
+margin_bottom = 160.0
 rect_scale = Vector2( 2, 2 )
 bbcode_enabled = true
 bbcode_text = "[color=black]Art Assets"
@@ -88,9 +88,9 @@ text = "Art Assets"
 
 [node name="CreditsContents" type="RichTextLabel" parent="ArtCredits"]
 margin_left = 8.0
-margin_top = 128.0
+margin_top = 184.0
 margin_right = 1016.0
-margin_bottom = 632.0
+margin_bottom = 624.0
 bbcode_enabled = true
 bbcode_text = "[color=black]Skorpio's SciFi Sprite Pack by Skorpio, CC-BY-SA 3.0: https://opengameart.org/content/lpc-skorpios-scifi-sprite-pack
 
@@ -107,10 +107,7 @@ Tech Dungeon Roguelite Asset Pack by Pupkin:
 https://trevor-pupkin.itch.io/tech-dungeon-roguelite
 
 Petri Dish by JoyPixels:
-https://emojipedia.org/joypixels/7.0/petri-dish/
-
-????:
-???"
+https://emojipedia.org/joypixels/7.0/petri-dish/"
 text = "Skorpio's SciFi Sprite Pack by Skorpio, CC-BY-SA 3.0: https://opengameart.org/content/lpc-skorpios-scifi-sprite-pack
 
 Sci-Fi Tileset by Viktor Hahn, CC-BY 4.0:
@@ -126,10 +123,7 @@ Tech Dungeon Roguelite Asset Pack by Pupkin:
 https://trevor-pupkin.itch.io/tech-dungeon-roguelite
 
 Petri Dish by JoyPixels:
-https://emojipedia.org/joypixels/7.0/petri-dish/
-
-????:
-???"
+https://emojipedia.org/joypixels/7.0/petri-dish/"
 
 [node name="ThanksForPlaying" type="ColorRect" parent="."]
 visible = false

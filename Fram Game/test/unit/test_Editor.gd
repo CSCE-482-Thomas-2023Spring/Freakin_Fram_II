@@ -6,8 +6,6 @@ var editor
 var read_only_lines = [[1, 2, 3], [4, 5, 6]]
 var code
 
-
-	
 func before_each():
 	editor = autofree(_editor.instance()).get_node("VBoxContainer/Input")
 	editor._ready()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Objects/Transition.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Room/Level.gd" type="Script" id=2]
@@ -7,10 +7,11 @@
 [ext_resource path="res://Objects/LabTable.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Objects/TaskInstance.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Objects/Trim.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Objects/NPC.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Art/table_long.png" type="Texture" id=9]
 [ext_resource path="res://Art/paper.png" type="Texture" id=10]
-[ext_resource path="res://Art/computer.png" type="Texture" id=11]
-[ext_resource path="res://Objects/Molfi.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Art/scifi_tiles.png" type="Texture" id=11]
+[ext_resource path="res://Objects/ControlPanels.tscn" type="PackedScene" id=13]
 
 [sub_resource type="RectangleShape2D" id=1]
 resource_local_to_scene = true
@@ -20,21 +21,97 @@ extents = Vector2( 64, 16 )
 resource_local_to_scene = true
 extents = Vector2( 63.5, 39.5 )
 
-[sub_resource type="RectangleShape2D" id=8]
-resource_local_to_scene = true
-extents = Vector2( 32.5, 40 )
+[sub_resource type="ConvexPolygonShape2D" id=11]
+points = PoolVector2Array( 53.4581, 0.884186, 95.5994, 0.326019, 95.5994, 31.8622, 64.6213, 31.5832, 30.5734, 63.3985, 18.0147, 51.1189, 18.0147, 40.5138, 52.3418, 4.51224 )
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="ConvexPolygonShape2D" id=2]
+points = PoolVector2Array( 0, 0, 32, 0, 62.1096, 27.0419, 77.4591, 42.9495, 76.9009, 52.7174, 65.4586, 63.6016, 29.7361, 30.3908, 0, 31.7863 )
+
+[sub_resource type="ConvexPolygonShape2D" id=3]
+points = PoolVector2Array( 0, 0, 67.9703, 0, 95.5994, 27.8935, 95.0413, 63.0577, 61.8305, 31.8006, 0, 32 )
+
+[sub_resource type="TileSet" id=12]
+resource_local_to_scene = true
+0/name = "scifi_tiles.png 0"
+0/texture = ExtResource( 11 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 320, 0, 96, 64 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 11 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 11 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+1/name = "scifi_tiles.png 1"
+1/texture = ExtResource( 11 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 320, 128, 77, 64 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape = SubResource( 2 )
+1/shape_one_way = false
+1/shape_one_way_margin = 1.0
+1/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 2 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+1/z_index = 0
+2/name = "scifi_tiles.png 2"
+2/texture = ExtResource( 11 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 320, 192, 96, 64 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape = SubResource( 3 )
+2/shape_one_way = false
+2/shape_one_way_margin = 1.0
+2/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 3 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+2/z_index = 0
+
+[sub_resource type="RectangleShape2D" id=13]
 resource_local_to_scene = true
 extents = Vector2( 32, 16 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=14]
 resource_local_to_scene = true
 extents = Vector2( 24, 16 )
 
 [sub_resource type="RectangleShape2D" id=4]
 resource_local_to_scene = true
 extents = Vector2( 16, 16 )
+
+[sub_resource type="StreamTexture" id=10]
+resource_local_to_scene = true
+flags = 4
+load_path = "res://.import/navigator.png-56683469eb764dd5f328e20ebfe5f7cb.stex"
 
 [node name="Navigation" type="YSort"]
 script = ExtResource( 2 )
@@ -93,32 +170,32 @@ position = Vector2( 20.0001, 42.5 )
 rotation = 0.336681
 texture = ExtResource( 10 )
 
-[node name="Table1" parent="." instance=ExtResource( 5 )]
-position = Vector2( 335, 104 )
+[node name="Panels" parent="." instance=ExtResource( 13 )]
+position = Vector2( -12, 0 )
 
-[node name="Collision" parent="Table1" index="0"]
-position = Vector2( -0.5, 41 )
-shape = SubResource( 8 )
+[node name="TileMap" parent="Panels" index="1"]
+tile_set = SubResource( 12 )
+tile_data = PoolIntArray( 196617, 0, 0, 196620, 1, 0 )
 
 [node name="Task1" parent="." instance=ExtResource( 6 )]
-position = Vector2( 335, 127 )
+position = Vector2( 372, 74 )
 task_path = "Level3/Task1/"
 custom_overlap = true
 tutorial_page = 2
 
 [node name="Sprite" parent="Task1" index="0"]
+visible = false
 position = Vector2( 0, 4 )
 scale = Vector2( 0.342198, 0.342198 )
-texture = ExtResource( 11 )
 
 [node name="HorizontalOverlap" parent="Task1" index="1"]
 position = Vector2( 0, 53 )
-shape = SubResource( 2 )
+shape = SubResource( 13 )
 
 [node name="VerticalOverlap" parent="Task1" index="2"]
 visible = false
 position = Vector2( 0, 8 )
-shape = SubResource( 3 )
+shape = SubResource( 14 )
 
 [node name="StaticBody2D" parent="Task1" index="3"]
 visible = false
@@ -127,8 +204,17 @@ visible = false
 position = Vector2( 0, 8 )
 shape = SubResource( 4 )
 
-[node name="Molfi" parent="." instance=ExtResource( 12 )]
-position = Vector2( 491, 218 )
+[node name="CharMolfi" parent="." instance=ExtResource( 8 )]
+position = Vector2( 541, 216 )
+unblock_level = 2
+unblock_task = 5
+completed_level = 3
+open_task_on_unblock = true
+open_level = 3
+dialogue_path = "Level3/Molfi/"
+
+[node name="Sprite" parent="CharMolfi" index="0"]
+texture = SubResource( 10 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 513, 65 )
@@ -137,6 +223,6 @@ position = Vector2( 513, 65 )
 [editable path="Trim"]
 [editable path="Bridge"]
 [editable path="BigTable"]
-[editable path="Table1"]
+[editable path="Panels"]
 [editable path="Task1"]
-[editable path="Molfi"]
+[editable path="CharMolfi"]

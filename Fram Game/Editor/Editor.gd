@@ -165,9 +165,25 @@ func moveTextToCodePath(code_path):
 	file.store_string(get_text())
 	file.close()
 
+func isMultilineComment():
+	var ml_regex = RegEx.new()
+	ml_regex.compile("\"\"\"|\'\'\'")
+	print("testing: \n" + self.text)
+	var result = ml_regex.search(self.text)
+	if result:
+		print("found multline: \n" + result.get_string())
+		return true
+	
+	return false
+
 func executeUserCode():
 	if (disabled):
-		return
+		return "-1"
+	
+	if (isMultilineComment()):
+		$"../Output/Output Text".text = "found multiline comment (\"\"\" or \'\'\'), preventing code execution..."
+		return "-1"
+#		return "found multiline comment (\"\"\" or \'\'\'), preventing code execution..."
 	
 	var code_text = get_text()
 	var python_dir = "./python_files/python.exe"
@@ -184,12 +200,11 @@ func executeUserCode():
 	print(stdout, " \nexit_code: ", exit_code)
 	
 	var code_output = stdout[0]
-	
-#	print("is_error: ", is_error(code_output))
-	
+		
 	# Change output box to the result of Python code
 	output.text = code_output
 	return code_output
+	
 # Old button code, reenable if testing editor alone
 #func _on_Button_pressed():
 #	print("Setting output")

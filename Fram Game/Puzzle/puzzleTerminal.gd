@@ -152,14 +152,15 @@ func process_test_results_function(cases):
 			failureInput = result.input
 	
 	successCountString = "{0}/{1} test cases passed".format([successes, len(cases)])
-	if failureInput != null:
-		var paramString = ""
-		# the parameters to a function are stored as a list inside the test json
-		for i in range(len(failureInput)-1):
-			paramString = paramString + str(failureInput[i]) + ", "
-		
-		paramString = paramString + str(failureInput[len(failureInput)-1])
-		failureString = "Suggestion: try testing your function with inputs " + paramString + "."
+	if typeof(failureInput) == TYPE_ARRAY:
+		if len(failureInput) > 0:
+			var paramString = ""
+			# the parameters to a function are stored as a list inside the test json
+			for i in range(len(failureInput)-1):
+				paramString = paramString + str(failureInput[i]) + ", "
+			
+			paramString = paramString + str(failureInput[len(failureInput)-1])
+			failureString = "Suggestion: try testing your function with inputs " + paramString + "."
 	
 	return [successCountString, failureString]
 

@@ -1,0 +1,18 @@
+[
+	{"Name":"[color=black]Player", "Text":"[color=black]Hello? Hellooooooo?"},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]Et oyeblikk! One second, I am calculating something..."},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]Okay, all done. Hello, who are you?"},
+	{"Name":"[color=black]Player", "Text":"[color=black]Ah, I'm the new mechanic. I took over for-"},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]Ah, yes, yes, I have heard of you. Welcome!"},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]I am Professor Sove.  This lab is my home away from home, but it is wrecked!"},
+	{"Name":"[color=red]M.O.M.", "Text":"[color=black]Now, now, Professor, let's not overreact..."},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]*sigh* I suppose you are right, M.O.M."},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]Can you put my lab to rights? The experiments were all upset by the power fluctuations."},	
+	{"Name":"[color=black]Player", "Text":"[color=black]Sure, I don't see why not."},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]Tusen takk!!! I would do it myself, but I am busy calculating the terraforming parameters for our landing on Antioch IV."},
+	{"Name":"[color=black]Player", "Text":"[color=black]That does sound important..."},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]My lab assistant has left notes on each table, so you should have some idea what to do."},
+	{"Name":"[color=purple]Prof. Sove", "Text":"[color=black]Thanks! Now then, if lambda is the square root of z..."},
+	{"Name":"[color=red]M.O.M.", "Text":"[color=black]A quirky character, that guy."},
+	{"Name":"[color=black]Player", "Text":"[color=black]Haha! Suppose so. Let's get to work!"}
+]

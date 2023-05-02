@@ -23,11 +23,17 @@ var global_path = "res://SourceFiles/GlobalData/"
 var pause_scene
 # Global path to user folder
 var user_path = ProjectSettings.globalize_path("user://")
+# Global variable indicating this is a new game for save data purposes
+var new_game = true
+# Counter for how hidden the pause menu is
+var menu_disabled = 0
 
 # Preload necessary scene types
 var mainMenu = preload("res://Menus/MainMenu.tscn")
 var pauseMenu = preload("res://Menus/PauseMenu.tscn")
 var roomScenes = {}
+var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
+var darkness = preload("res://Objects/Darkness.tscn")
 
 # Function called from level to update new task status values
 func update_statuses(new_statuses: Array):
@@ -60,13 +66,16 @@ func update_conversation(new_conversations: Array):
 
 # Load tasks & start menu on game start
 func _ready():
+	# Delete temp files in case of incorrect game closing
+	delete_temp()
+	
 	# Initialize global variables & level starting locations to default values, preload scenes
 	init_scenes()
 	init_globals()
 	init_locations()
 	init_user()
 	
-	# Hide pause menu button
+	# Hide pause menu button (directly)
 	$MenuButton.hide()
 	
 	# Call title screen for Start / Continue options; initiate game based on signal
@@ -74,6 +83,7 @@ func _ready():
 	add_child(title_screen)
 	title_screen.connect("start_game", self, "load_room", ["PodRoom", ""])
 	title_screen.connect("load_game", self, "load_data")
+	title_screen.connect("delete_game", self, "delete_save")
 	title_screen.connect("quit_game", self, "quit_game")
 	
 	# Fix weird VBoxContainer position bug that is very weird and sets the position to the margin instead
@@ -105,6 +115,7 @@ func init_globals():
 	
 	# Access initial global data from json
 	var json = f.get_as_text()
+	f.close()
 	var global_data = parse_json(json)
 	
 	# Store initial global data as global variables
@@ -122,6 +133,7 @@ func init_locations():
 	
 	# Store locations to global variable
 	var json = f.get_as_text()
+	f.close()
 	entry_locations = parse_json(json)
 
 # Initialize user path directories if not already existing
@@ -152,6 +164,9 @@ func init_user():
 
 # Initiate gameplay with saved data; Load Game
 func load_data():
+	# Set global variable to indicate this is not a new game
+	new_game = false
+	
 	# Open global variables' json file location
 	var f = File.new()
 	var full_path = user_path + "SaveFiles/GlobalData/GlobalData-Saved.json"
@@ -160,6 +175,7 @@ func load_data():
 	
 	# Access saved global data from json
 	var json = f.get_as_text()
+	f.close()
 	var global_data = parse_json(json)
 	
 	# Store saved global data as global variables
@@ -223,14 +239,21 @@ func load_data():
 				
 				# Load next task folder
 				task_name = level_dir.get_next()
-		
+			#level_dir.close()
+			
 		# Load next level folder
 		level_name = source_dir.get_next()
 	
+	#source_dir.close()
 	# Initiate gameplay
 	load_room(room_type.keys()[current_level], "")
 
+# Save user progress so far into the user folder
 func save_data():
+	# If this is a new game, delete all save data before saving new data
+	if (new_game):
+		delete_save()
+	
 	# Erase existing saved data file
 	var f = File.new()
 	var save_path = user_path + "SaveFiles/GlobalData/GlobalData-Saved.json"
@@ -311,14 +334,85 @@ func save_data():
 				
 				# Load next task folder
 				task_name = level_dir.get_next()
+			#level_dir.close()
 		
 		# Load next level folder
 		level_name = source_dir.get_next()
+	#source_dir.close()
 
-# Return to the title screen of the game - called by pause menu
-func game_title():
-	# Delete any existing temporary task data
-	# ----------------------------------------------------------------------
+# Delete all permanent user save data from the user folder
+func delete_save():
+	# Delete global data
+	var source_dir = Directory.new()
+	if (source_dir.file_exists(user_path + "SaveFiles/GlobalData/GlobalData-Saved.json")):
+		source_dir.remove(user_path + "SaveFiles/GlobalData/GlobalData-Saved.json")
+		if (source_dir.file_exists(user_path + "SaveFiles/GlobalData/GlobalData-Saved.json")):
+			print("ERROR: Global variable file not deleted!")
+	
+	# Begin iteration through each directory in the user folder
+	source_dir.open(user_path + "SaveFiles")
+	source_dir.list_dir_begin()
+	var level_name = source_dir.get_next()
+	while (level_name != ""):
+		
+		# Don't check this folder or its parent folder
+		if (level_name == "." or level_name == ".."):
+			level_name = source_dir.get_next()
+			continue
+		
+		# Iterate through each level folder
+		if (source_dir.current_is_dir()):
+			var level_dir = Directory.new()
+			level_dir.open(user_path + "SaveFiles/" + level_name)
+			level_dir.list_dir_begin()
+			var task_name = level_dir.get_next()
+			while (task_name != ""):
+				
+				# Don't check this folder or its parent folder
+				if (task_name == "." or task_name == ".."):
+					task_name = level_dir.get_next()
+					continue
+				
+				# Iterate through each task folder
+				if (level_dir.current_is_dir()):
+					var task_dir = Directory.new()
+					task_dir.open(user_path + "SaveFiles/" + level_name + "/" + task_name)
+					task_dir.list_dir_begin()
+					var file_name = task_dir.get_next()
+					while (file_name != ""):
+						
+						# Don't check this folder or its parent folder
+						if (file_name == "." or file_name == ".."):
+							file_name = task_dir.get_next()
+							continue
+						
+						# Delete each non-temp file found
+						if (not task_dir.current_is_dir()):
+							var this_path = user_path + "SaveFiles/" + level_name + "/" + task_name + "/"
+							if (file_name != "StarterCode-Temp.py" and file_name != "TaskData-Temp.json"):
+								source_dir.remove(this_path + file_name)
+								
+								# Verify deletion
+								if (source_dir.file_exists(this_path + file_name)):
+									print("ERROR: File SaveFiles/" + level_name + "/" + task_name + "/" + file_name + " was not deleted!")
+						
+						file_name = task_dir.get_next()
+					
+					#task_dir.close()
+					
+				task_name = level_dir.get_next()
+			
+			#level_dir.close()
+		
+		level_name = source_dir.get_next()
+	
+	#source_dir.close()
+	
+	# Reinitialize user data
+	init_user()
+
+# Delete temporary task data
+func delete_temp():
 	# Open SourceFiles directory to iterate through tasks
 	var source_dir = Directory.new()
 	source_dir.open(user_path + "SaveFiles")
@@ -350,9 +444,16 @@ func game_title():
 				
 				# Load next task folder
 				task_name = level_dir.get_next()
+			
+			#level_dir.close()
 		
 		# Load next level folder
 		level_name = source_dir.get_next()
+
+# Return to the title screen of the game - called by pause menu
+func game_title():
+	# Delete any existing temporary task data
+	delete_temp()
 	
 	# Close current level and reset global variables
 	close_pause()
@@ -361,6 +462,7 @@ func game_title():
 	# Restart game
 	current_level = 0
 	starting_location = Vector2(384, 304)
+	new_game = true
 	_ready()
 
 # Quit the game - called by main menu
@@ -373,7 +475,7 @@ func load_room(room_name: String, source_room: String):
 	# Ensure room transition is valid (there exists connection between source and dest rooms)
 	if ((entry_locations.has(room_name)) and ((source_room == "") or entry_locations[room_name].has(source_room))):
 		
-		# Unhide pause menu button
+		# Unhide pause menu button (directly because of game start)
 		$MenuButton.show()
 		
 		# Load room scene
@@ -394,8 +496,32 @@ func load_room(room_name: String, source_room: String):
 		current_scene.queue_free()
 		current_scene = new_room
 		
-		# Update value of current room number
+		# Maintain darkness if present
+		if (story[0] == 1 and story[1] == 0):
+			# Remove existing darkess
+			if (has_node("Darkness")):
+				print("Reinstating darkness")
+				var dark_box = get_node("Darkness")
+				remove_child(dark_box)
+				dark_box.queue_free()
+			
+			# Place new darkness
+			var new_dark = darkness.instance()
+			add_child(new_dark)
+			
+			# Keep room label and menu button visible over darkness
+			if (has_node("RoomLabel")):
+				var room_label = get_node("RoomLabel")
+				remove_child(room_label)
+				add_child(room_label)
+			if (has_node("MenuButton")):
+				var menu_button = get_node("MenuButton")
+				remove_child(menu_button)
+				add_child(menu_button)
+		
+		# Update value of current room number & label display
 		current_level = room_type.get(room_name)
+		$RoomLabel.text = room_type.keys()[current_level]
 		
 		# Check for untriggered story events
 		check_story()
@@ -416,8 +542,13 @@ func room_pos(level_name: String, source_name: String = "") -> Vector2:
 
 # Overhead story progress-checking function: triggers story events and unlocks tasks in order
 func check_story():
-	# Wait a moment before triggering events
-	yield(get_tree().create_timer(0.1), "timeout")
+	# Disable player interaction & hide menu during event
+	var player = current_scene.get_node("Player")
+	player.disable()
+	menu_disable()
+	
+	# Determine if an event has been triggered
+	var event_triggered = false
 	
 	# Immediate task-solving triggers & updates:
 	# -----------------------------------------------
@@ -427,7 +558,8 @@ func check_story():
 		# When Level 0 Task 1 is completed, unblock Level 1 Task 1
 		level_tasks[1][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 1 (Maintenance Closet) task triggers
 	level_status = level_tasks[1]
@@ -435,30 +567,31 @@ func check_story():
 		# When Level 1 Task 1 is completed, unblock Level 1 Task 2
 		level_tasks[1][1] = 1
 		current_scene.set_status(level_tasks)
-		return
-	if (level_status[1] == 3 and level_tasks[2][0] == 0):
-		# When Level 1 Task 2 is completed, unblock Level 2 Task 1
-		level_tasks[2][0] = 1
-		level_tasks[2][1] = 1
-		level_tasks[2][2] = 1
-		level_tasks[2][3] = 1
-		level_tasks[2][4] = 1
-		level_tasks[2][5] = 1
-		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
-	# Level 2 (Laboratory) task triggers - TODO: update as necessary
+	# Level 2 (Laboratory) task triggers
 	level_status = level_tasks[2]
-	if (level_status[0] == 3 and level_status[1] == 3 and level_status[2] == 3 and level_status[3] == 3 and level_status[4] == 3 and level_status[5] == 3 and level_tasks[2][6] == 0):
-		# When Level 2 Tasks 6 are completed, unblock Level 2 Task 7
-		level_tasks[2][6] = 1
+	if (level_status[0] == 3 and level_status[1] == 0):
+		level_tasks[2][1] = 1
 		current_scene.set_status(level_tasks)
-		return
-	if (level_status[6] == 3 and level_tasks[3][0] == 0):
-		# When Level 2 Task 7 is completed, unblock Level 3 Task 1
-		level_tasks[3][0] = 1
+		# Indicate an event has been triggered
+		event_triggered = true
+	if (level_status[1] == 3 and level_status[2] == 0):
+		level_tasks[2][2] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
+	if (level_status[2] == 3 and level_status[3] == 0):
+		level_tasks[2][3] = 1
+		current_scene.set_status(level_tasks)
+		# Indicate an event has been triggered
+		event_triggered = true
+	if (level_status[3] == 3 and level_status[4] == 0):
+		level_tasks[2][4] = 1
+		current_scene.set_status(level_tasks)
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 3 (Navigation) task triggers
 	level_status = level_tasks[3]
@@ -466,7 +599,8 @@ func check_story():
 		# When Level 3 Task 1 is completed, unblock Level 4 Task 1
 		level_tasks[4][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 4 (Security) task triggers
 	level_status = level_tasks[4]
@@ -474,12 +608,14 @@ func check_story():
 		# When Level 4 Task 1 is completed, unblock Level 4 Task 2
 		level_tasks[4][1] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	if (level_status[0] == 3 and level_tasks[5][0] == 0):
 		# When Level 4 Task 2 is completed, unblock Level 5 Task 1
 		level_tasks[5][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 5 (Crew Quarters) task triggers
 	level_status = level_tasks[5]
@@ -487,12 +623,14 @@ func check_story():
 		# When Level 5 Task 1 is completed, unblock Level 5 Task 2
 		level_tasks[5][1] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	if (level_status[0] == 3 and level_tasks[6][0] == 0):
 		# When Level 5 Task 2 is completed, unblock Level 6 Task 1
 		level_tasks[6][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 6 (Communications) task triggers
 	level_status = level_tasks[6]
@@ -500,12 +638,14 @@ func check_story():
 		# When Level 6 Task 1 is completed, unblock Level 6 Task 2
 		level_tasks[6][1] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	if (level_status[0] == 3 and level_tasks[7][0] == 0):
 		# When Level 6 Task 2 is completed, unblock Level 7 Task 1
 		level_tasks[7][0] = 1
 		current_scene.set_status(level_tasks)
-		return
+		# Indicate an event has been triggered
+		event_triggered = true
 	
 	# Level 7 (Reactor Room) task triggers
 	level_status = level_tasks[7]
@@ -516,14 +656,39 @@ func check_story():
 	if (current_level == 0):
 		# Trigger first cutscene: Ingrid wakes Player from cryosleep
 		if (story[0] == 0):
-			# TODO: event
+			# Add layer of darkness
+			var dark_box = darkness.instance()
+			add_child(dark_box)
+			
+			# Keep room label and menu button above darkness
+			if (has_node("RoomLabel")):
+				var room_label = get_node("RoomLabel")
+				remove_child(room_label)
+				add_child(room_label)
+			if (has_node("MenuButton")):
+				var menu_button = get_node("MenuButton")
+				remove_child(menu_button)
+				add_child(menu_button)
+				
+			# Call story introduction dialogue
+			yield(dialogue("Level0/Room-Introduction.json"), "completed")
+			
+			# Indicate this event has been triggered
 			story[0] = 1
-			check_story()
-			return
+			event_triggered = true
 	
 	# Maintenance Closet events
 	if (current_level == 1):
-		pass
+		# Remove darkness box on second task completion
+		if (story[1] == 0 and level_tasks[1][1] == 3):
+			# Disable darkness
+			if (has_node("Darkness")):
+				var dark_box = get_node("Darkness")
+				dark_box.queue_free()
+			
+			# Indicate this event has been triggered
+			story[1] = 1
+			event_triggered = true
 	
 	# Laboratory events
 	if (current_level == 2):
@@ -551,7 +716,15 @@ func check_story():
 	
 	# Bridge events
 	if (current_level == 8):
-		pass
+		# End the game if the final puzzle is completed
+		if (story[2] == 0 and level_tasks[3][0] == 3):
+			
+			# Indicate this event has been triggered - won't happen bc change_scene
+			story[2] = 1
+			event_triggered = true
+			
+			# Jump to credits
+			get_tree().change_scene("res://Menus/Credits.tscn")
 	
 	# Cargo Bay events
 	if (current_level == 9):
@@ -564,11 +737,19 @@ func check_story():
 	# East Hallway events
 	if (current_level == 11):
 		pass
+	
+	# Re-enable player interaction & unhide menu after event
+	player.enable()
+	menu_enable()
+	
+	# If at least one event was triggered, check for story updates again
+	if (event_triggered):
+		check_story()
 
 # When menu is pressed, open menu scene over current scene
 func _on_MenuButton_pressed():
 	# Open pause menu and set focus
-	$MenuButton.hide()
+	menu_disable()
 	pause_scene = pauseMenu.instance()
 	add_child(pause_scene)
 	pause_scene.get_node("VBoxContainer").get_node("SaveButton").grab_focus()
@@ -581,12 +762,33 @@ func _on_MenuButton_pressed():
 	pause_scene.connect("quit_game", self, "game_title")
 	pause_scene.connect("close_menu", self, "close_pause")
 
+# Disable pause menu
+func menu_disable():
+	menu_disabled += 1
+	$MenuButton.hide()
+
+# Enable pause menu if not still disabled
+func menu_enable():
+	menu_disabled -= 1
+	if (menu_disabled == 0):
+		$MenuButton.show()
+	elif (menu_disabled < 0):
+		print("ERROR: menu_disabled = " + str(menu_disabled))
+
 # Close pause menu - called from pause menu
 func close_pause():
 	# Close pause menu and redisplay button
 	pause_scene.queue_free()
-	$MenuButton.show()
+	menu_enable()
 	
 	# Unpause current level scene
 	add_child(current_scene)
-	
+
+# Reusable dialogue-calling function
+func dialogue(json_path):
+	# Call dialgoue box
+	var root = get_tree().get_root()
+	var box = dialogueBox.instance()
+	box.get_node("DialogueBox")._set_path(json_path)
+	root.add_child(box)
+	yield(box, "tree_exited")

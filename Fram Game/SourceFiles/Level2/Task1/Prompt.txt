@@ -1,1 +1,9 @@
-Measure the beakers!
+Fill the beakers!
+
+You have to set the value of these variables.
+Each beaker is measured in milliliters (mL).
+This variable type is called a float since it contains a decimal number.
+
+Fill beaker 1 with 14.7 mL of Phosphate Oxide.
+Fill beaker 2 with 6.2 mL of Nitrous Sulfur.
+Fill beaker 3 with 70.0 mL of Polonium Monoxide.

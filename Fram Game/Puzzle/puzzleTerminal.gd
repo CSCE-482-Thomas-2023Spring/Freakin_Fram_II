@@ -4,7 +4,7 @@ extends Node
 # Source Path: "res://SourceFiles/Level" + [level #] + "/Task" + [task #] + "/"
 export var source_path = "DefaultMessages/TaskTemplate/" setget _set_path
 export var puzzle_success: bool = false setget ,get_status
-var python_dir = "./python_files/python.exe" # python executable
+var python_dir = ProjectSettings.globalize_path("res://python_files/python.exe") # python executable
 var test_code_file = "user://testCode.py" # the test script
 var test_code_file_g = ProjectSettings.globalize_path(test_code_file)
 var function_code_file = "user://functions.py"
@@ -31,6 +31,7 @@ var dialogueBox = preload("res://DialogueBox/DialogueBox.tscn")
 var pause = false
 
 func update_tutorial(ind):
+	$"Tutorial/TutorialText".scroll_to_line(0)
 	$Tutorial/TutorialText.bbcode_text = "[img=750]res://Puzzle/Tutorials/" + tutorials[ind] + "[/img]"
 
 # Call a dialogue tree from input file location
@@ -49,6 +50,9 @@ func create_box(json_path):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if OS.get_name() == "X11" or OS.get_name() == "OSX":
+		python_dir = "python3"
+		test_task_path = ProjectSettings.globalize_path("res://SourceFiles/" + source_path + "TaskData-Unix.json")
 	# Hide pause button
 	if (get_tree().get_root().has_node("Main")):
 		get_tree().get_root().get_node("Main").get_node("MenuButton").hide()
@@ -67,6 +71,7 @@ func _ready():
 	sourceData.open("res://SourceFiles/" + source_path + "TaskData-Initial.json", File.READ)
 	var readOnlyLines = JSON.parse(sourceData.get_as_text()).result["readOnly"]
 	$Editor.get_node("VBoxContainer").get_node("Input").readonly_set(readOnlyLines)
+	sourceData.close()
 	
 	# fetch prompt and set the text
 	var promptText = File.new()
@@ -111,14 +116,28 @@ func _ready():
 	funcCodeCopy.store_string(functionCode)
 	funcCodeCopy.close()
 	
+	# Copy TaskData to user:// (necessary for exported game to work)
+	var test_task_user = File.new()
+	test_task_user.open(test_task_path, File.READ)
+	var test_json = test_task_user.get_as_text()
+	test_task_user.close()
+	
+	test_task_user = File.new()
+	test_task_user.open("user://TaskData.json", File.WRITE)
+	test_task_user.store_string(test_json)
+	test_task_user.close()
+	
+	
 	# Display initial task-introduction dialogue
 	yield(create_box("Introduction.json"), "completed")
 
 # Pause all editor functionality while dialogue is present	
 func pause_editor(instance):
+	pause = true
 	$Editor/VBoxContainer/Input.disabled = true
 	yield(instance, "tree_exited")
 	$Editor/VBoxContainer/Input.disabled = false
+	pause = false
 
 func process_test_results_function(cases):
 	successes = 0
@@ -133,14 +152,15 @@ func process_test_results_function(cases):
 			failureInput = result.input
 	
 	successCountString = "{0}/{1} test cases passed".format([successes, len(cases)])
-	if failureInput != null:
-		var paramString = ""
-		# the parameters to a function are stored as a list inside the test json
-		for i in range(len(failureInput)-1):
-			paramString = paramString + str(failureInput[i]) + ", "
-		
-		paramString = paramString + str(failureInput[len(failureInput)-1])
-		failureString = "Suggestion: try testing your function with inputs " + paramString + "."
+	if typeof(failureInput) == TYPE_ARRAY:
+		if len(failureInput) > 0:
+			var paramString = ""
+			# the parameters to a function are stored as a list inside the test json
+			for i in range(len(failureInput)-1):
+				paramString = paramString + str(failureInput[i]) + ", "
+			
+			paramString = paramString + str(failureInput[len(failureInput)-1])
+			failureString = "Suggestion: try testing your function with inputs " + paramString + "."
 	
 	return [successCountString, failureString]
 
@@ -159,18 +179,34 @@ func process_test_results_stdout(cases):
 
 func on_button_pressed():
 	
-	# Prevent execution of editor if disabled
-	if ($Editor/VBoxContainer/Input.disabled):
-		return
-	$Editor/VBoxContainer/Input.executeUserCode()
+	# clear all previous tests
+	$TestCases.clear_cases()
 	
+	# Prevent execution of editor if disabled
+	var editor = $Editor/VBoxContainer/Input
+	var output = $"Editor/VBoxContainer/Output/Output Text"
+	if (editor.disabled):
+		return
+	
+	editor.moveTextToCodePath("user://userCode.py")
+	
+	var parse_imports = ParseImport.new("user://userCode.py")
+	if not parse_imports.validateWithWhitelist():
+		output.text = "Illegal import! Please remove import for " + parse_imports.invalid_import
+		return
+		
+	var editor_result = editor.executeUserCode()
+	if (editor_result == "-1"):
+		return
+		
 	# Parse information from 
 	var jsonTestFile = File.new()
 	jsonTestFile.open("res://SourceFiles/" + source_path + "TaskData-Initial.json", File.READ)
 	var testData = JSON.parse(jsonTestFile.get_as_text()).result # this is the parsed test json
 	jsonTestFile.close()
 	var stdout = []
-	var exit_code = OS.execute(python_dir, [test_code_file_g, test_task_path, python_dir, godot_user_path_g], true, stdout, true)	
+#	print(python_dir, [test_code_file_g, ProjectSettings.globalize_path("user://TaskData.json"), python_dir, godot_user_path_g])
+	var exit_code = OS.execute(python_dir, [test_code_file_g, ProjectSettings.globalize_path("user://TaskData.json"), python_dir, godot_user_path_g], true, stdout, true)	
 	print(stdout)
 	var file = File.new()
 	file.open("user://results.json", File.READ)
@@ -179,9 +215,13 @@ func on_button_pressed():
 	
 	
 	# EXAMPLE FOR EMILY (use later to print suggestions based on error types)
+	var successCountString = ""
+	var failureString = ""
 	if not results.has('error'):
-		var successCountString = ""
-		var failureString = ""
+		var inp = "N/A"
+		var user_output = ""
+		var expected_out = ""
+		var regex_carriage = RegEx.new()
 		if testData.data.useFunction:
 			var data = process_test_results_function(results.testResults)
 			successCountString = data[0]
@@ -191,6 +231,24 @@ func on_button_pressed():
 		elif testData.data.usestdout:
 			successCountString = process_test_results_stdout(results.testResults)
 			print(successCountString)
+		
+		for i in range(results.testResults.size()):
+			var case = results.testResults[i]
+			if testData.data.useFunction:
+				inp = case.input
+			if case.returns != null and case.returns != "":
+				user_output = case.userReturned
+				expected_out = case.returns
+			else:
+				user_output = str(case.userstdout)
+				expected_out = str(case.stdout)
+				regex_carriage.compile("\\r")
+				var temp = regex_carriage.sub(user_output, "", true)
+				user_output = temp
+				temp = regex_carriage.sub(expected_out, "", true)
+				expected_out = temp
+			
+			$TestCases.add_case("Test Case " + str(i+1), case.passed, str(inp), expected_out, user_output)
 	
 	# Set dialogue for end-of-task success & close terminal as needed
 	if (successes == caseCount):
@@ -203,6 +261,10 @@ func on_button_pressed():
 		
 		# Delete self
 		queue_free()
+		
+	# If test cases were not satifised, add verbal feedback to the output of the terminal
+	else:
+		output.text = editor_result + "\n------ Feedback ------\n" + successCountString + "\nThis doesn't look right...\n" + failureString
 		
 	#else: # Path: n/a, but will display in-editor dialogue in the future
 	#	var dialog = dialogueBox.instance()
@@ -219,10 +281,22 @@ func on_button_pressed():
 
 # Call tutorial menu
 func tutorial_button_pressed():
+	# Do nothing if paused
+	if (pause):
+		return
+		
+	# Set terminal to readonly
+	$"Editor/VBoxContainer/Input".readonly = true
+	pause = true
+		
 	$Tutorial.visible = not $Tutorial.visible
 	
 func tutorial_back_pressed():
+	# Allow the editor to resume editing
+	$"Editor/VBoxContainer/Input".readonly = false
+	pause = false
 	$Tutorial.visible = not $Tutorial.visible
+	
 
 # Index displayed tutorial to the right
 func tutorial_right_pressed():
@@ -241,6 +315,11 @@ func tutorial_main_pressed():
 
 # Save current task progress to temporary file and exit terminal
 func _on_ExitButton_pressed():
+	
+	# Do nothing if paused
+	if (pause):
+		return
+	
 	# Delete this task's existing temporary py file
 	var f_py = File.new()
 	var temp_py = godot_user_path_g + "SaveFiles/" + source_path + "/StarterCode-Temp.py"

@@ -1,11 +1,12 @@
 class_name Player
 extends KinematicBody2D
 
-export var speed = 400
+export var speed = 300
 var can_move = true
 var screen_size
 var player_size
 var interactables
+var times_disabled = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,11 +20,7 @@ func _ready():
 	enable()
 	#$AnimationPlayer.player("idle")
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
-func _physics_process(delta):
+func _physics_process(_delta):
 	
 	# Prevent movement if player movement is disabled
 	if !can_move:
@@ -33,23 +30,23 @@ func _physics_process(delta):
 	var velocity = Vector2.ZERO # The player's movement vector.
 	if Input.is_action_pressed("move_right"):
 		velocity.x += 1
-		$AnimationPlayer.play("WalkRight")
+		$AnimatedSprite.play("WalkRight")
 	if Input.is_action_pressed("move_left"):
 		velocity.x -= 1
-		$AnimationPlayer.play("WalkLeft")
+		$AnimatedSprite.play("WalkLeft")
 	if Input.is_action_pressed("move_down"):
 		velocity.y += 1
-		$AnimationPlayer.play("WalkDown")
+		$AnimatedSprite.play("WalkDown")
 	if Input.is_action_pressed("move_up"):
 		velocity.y -= 1
-		$AnimationPlayer.play("WalkUp")
+		$AnimatedSprite.play("WalkUp")
 		
 	if velocity == Vector2.ZERO:
-		$AnimationPlayer.play("idle")
+		$AnimatedSprite.play("idle")
 	velocity = velocity.normalized() * speed
 
 	# Move player
-	move_and_collide(velocity * delta)
+	move_and_slide(velocity)
 	
 	# Interaction
 	var interactable = get_interactable()
@@ -69,10 +66,15 @@ func get_interactable():
 		
 func disable():
 	# Disable _process
+	times_disabled += 1
 	set_physics_process(false)
 	can_move = false
-	
+
 func enable():
 	# Enable _process
-	set_physics_process(true)
-	can_move = true
+	times_disabled -= 1
+	if (times_disabled == 0):
+		set_physics_process(true)
+		can_move = true
+	elif (times_disabled < 0):
+		print("ERROR: times_disabled = " + str(times_disabled))

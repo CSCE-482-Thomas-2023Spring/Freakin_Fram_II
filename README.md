@@ -14,12 +14,12 @@ https://hi45427.itch.io/fram
 1. If not installed already, install Python at https://www.python.org/downloads/
 2. Download the fram.tar.gz file from the download link
 3. Launch a terminal window and navigate to the Downloads directory
-4. Extract the tarball using the following commands
-	a. mkdir Fram
-	b. tar -xf fram.tar.gz -C Fram/
+4. Extract the tarball using the following 
+    - mkdir Fram
+	- tar -xf fram.tar.gz -C Fram/
 5. Launch the game
-	a. cd Fram
-	b. ./godot
+	- cd Fram
+	- ./godot
 	
 
 ### Credits

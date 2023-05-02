@@ -2,7 +2,7 @@ extends GutTest
 
 var helper = load("res://test/helper.gd").new()
 var _puzzleTerminal = load("res://Puzzle/puzzleTerminal.tscn")
-var results_file = "res://test/files/examples/results.json"
+var results_file = "res://test/json/results.json"
 var puzzleTerminal
 var results_cases = JSON.parse(helper.get_file_as_text(results_file)).result.testResults
 
